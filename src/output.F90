@@ -71,26 +71,26 @@ subroutine output_all(modeflag)
     filename = trim(adjustl(outdir))//"/p_rad.xg"
     call output_single_mass(p_rad,filename)
 
-    ! filename = trim(adjustl(outdir))//"/Ni_deposit_function.xg"
-    ! call output_single_mass(Ni_deposit_function,filename)
-    
-    ! filename = trim(adjustl(outdir))//"/He_1.xg"
-    ! call output_single_mass(ion_fractions(He_number,1,:),filename)
-    
-    ! filename = trim(adjustl(outdir))//"/He_2.xg"
-    ! call output_single_mass(ion_fractions(He_number,2,:),filename)
-
-    ! filename = trim(adjustl(outdir))//"/He_3.xg"
-    ! call output_single_mass(ion_fractions(He_number,3,:),filename)
-
-    ! filename = trim(adjustl(outdir))//"/H_1.xg"
-    ! call output_single_mass(ion_fractions(H_number,1,:),filename)
-
-    ! filename = trim(adjustl(outdir))//"/H_2.xg"
-    ! call output_single_mass(ion_fractions(H_number,2,:),filename)
-
-    ! filename = trim(adjustl(outdir))//"/free_electron_frac.xg"
-    ! call output_single_mass(free_electron_frac,filename)
+!    filename = trim(adjustl(outdir))//"/Ni_deposit_function.xg"
+!    call output_single_mass(Ni_deposit_function,filename)
+!
+!    filename = trim(adjustl(outdir))//"/He_1.xg"
+!    call output_single_mass(ion_fractions(He_number,1,:),filename)
+!
+!    filename = trim(adjustl(outdir))//"/He_2.xg"
+!    call output_single_mass(ion_fractions(He_number,2,:),filename)
+!
+!    filename = trim(adjustl(outdir))//"/He_3.xg"
+!    call output_single_mass(ion_fractions(He_number,3,:),filename)
+!
+!    filename = trim(adjustl(outdir))//"/H_1.xg"
+!    call output_single_mass(ion_fractions(H_number,1,:),filename)
+!
+!    filename = trim(adjustl(outdir))//"/H_2.xg"
+!    call output_single_mass(ion_fractions(H_number,2,:),filename)
+!
+!    filename = trim(adjustl(outdir))//"/free_electron_frac.xg"
+!    call output_single_mass(free_electron_frac,filename)
 
     filename = trim(adjustl(outdir))//"/E_shell.xg"
     call output_single_mass(E_shell,filename)
@@ -101,16 +101,16 @@ subroutine output_all(modeflag)
     filename = trim(adjustl(outdir))//"/time_exp.xg"
     call output_single_mass(time_exp,filename)
 
-    ! filename = trim(adjustl(outdir))//"/photosphere_tracer.xg"
-    ! call output_single_mass(photosphere_tracer,filename)
+!    filename = trim(adjustl(outdir))//"/photosphere_tracer.xg"
+!    call output_single_mass(photosphere_tracer,filename)
 
   else if(modeflag.eq.2) then
      
      filename = trim(adjustl(outdir))//"/T_eff.dat"
      call output_scalar(T_eff,filename)
      
-     filename = trim(adjustl(outdir))//"/Ni_total_luminosity.dat"
-     call output_scalar(Ni_total_luminosity,filename)
+!     filename = trim(adjustl(outdir))//"/Ni_total_luminosity.dat"
+!     call output_scalar(Ni_total_luminosity,filename)
      
      filename = trim(adjustl(outdir))//"/lum_observed.dat"
      call output_scalar(lum_observed,filename)

@@ -15,7 +15,7 @@ subroutine problem
   integer :: i
   character(len=256) :: filename
 
-!for OPAL interpolation routine
+!for OPAL interpolation routine  ! UNUSED???
   real*4 :: opact,dopact,dopacr,dopactd
   common/e/ opact,dopact,dopacr,dopactd
 
@@ -38,16 +38,17 @@ subroutine problem
 
 !********************* Allocate and initialize variables **********************
 
+
+
   call get_ncomps_from_profile(composition_profile_name,ncomps)
 
   call allocate_vars
 
   call initialize_vars
 
+
 !***************************** Grid setup *************************************
-
   call get_inner_outer_mass_from_profile(profile_name,mass(1),mass(imax))
-
   if(mass_excision) then
       mass(1) = mass_excised*msun
   endif
@@ -55,6 +56,7 @@ subroutine problem
   call get_inner_outer_radius_from_profile(profile_name,mass(1),r(1),r(imax))
 
   Rstar=r(imax)
+
 
   open(unit=666,file=trim(adjustl(trim(adjustl(outdir))//"/info.dat")), &
       status="unknown",form='formatted',position="append")
@@ -65,16 +67,20 @@ subroutine problem
   ! set up the grid
   call grid
 
+
 !*************************** Read the profile *********************************
 
   write(*,*) "Profile file: ",trim(profile_name)
+
   call read_profile(profile_name)
 
   !set up radius coordinates based on mass and density
   call integrate_radius_initial
 
-!************************ Set up the opacity floor ****************************
 
+
+!************************ Set up the opacity floor ****************************
+  
   do i=1, imax
     opacity_floor(i) = (envelope_metallicity*of_core - of_env      &
                 + metallicity(i)*(of_env - of_core))/(envelope_metallicity - 1)
@@ -82,7 +88,6 @@ subroutine problem
 
   filename = trim(adjustl(outdir))//"/opacity_floor.dat"
   call output_screenshot(opacity_floor,filename,imax)
-
 
 !******************** Set up the energy of the thermal bomb *******************
 
@@ -135,18 +140,23 @@ subroutine problem
   endif
   write(6,"(A60)") "***************************************************************************"
 
+  call opacity_simple(kappa(:),kappa_table(:),dkappadt(:))
+  call optical_depth(rho(:), r(:), kappa_table(:), tau(:))
+  call luminosity(r(:),temp(:),kappa(:),lambda(:),inv_kappa(:),lum(:))
+  call read_BolCorr
 
 !****************** initialize some vairables *********************************
 
-  ! call compose_opacity_tables_OPAL
-
-  ! call opacity(rho(:),temp(:),kappa(:),kappa_table(:),dkappadt(:))
-
-  ! call optical_depth(rho(:), r(:), kappa_table(:), tau(:))
-
-  ! call luminosity(r(:),temp(:),kappa(:),lambda(:),inv_kappa(:),lum(:))
-
-  ! call read_BolCorr
+!  call compose_opacity_tables_OPAL
+!
+!  call opacity(rho(:),temp(:),kappa(:),kappa_table(:),dkappadt(:))
+!
+!  call optical_depth(rho(:), r(:), kappa_table(:), tau(:))
+!
+!  call luminosity(r(:),temp(:),kappa(:),lambda(:),inv_kappa(:),lum(:))
+!
+!
+!  call read_BolCorr
 
 !*********** output the initial values of some variables for analysis *********
 

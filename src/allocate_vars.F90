@@ -66,6 +66,11 @@ subroutine allocate_vars
   allocate(Ni_deposit_function(imax))
   allocate(Ni_heating(imax))
 
+!quantities related to r-process heating
+  allocate(heating_rate_fitting(imax))
+  allocate(heating_deposit_function(imax))
+  allocate(simple_heating(imax))
+
 !used for the calculations of the opacity (see opacity.F90)
   allocate(xxc(imax))
   allocate(xxo(imax))
@@ -132,6 +137,10 @@ subroutine initialize_vars
     Ni_deposit_function(:) = 0.0d0
     Ni_heating(:) = 0.0d0
 
+    heating_rate_fitting(:) = 0.0d0
+    heating_deposit_function(:) =0.0d0
+    simple_heating(:)=0.0d0
+
     xxc(:)     = 0.0d0
     xxo(:)     = 0.0d0
     logR_op(:) = 0.0d0
@@ -143,6 +152,7 @@ subroutine initialize_vars
     dtime_p     = 0.0d0
     nt          = 0
     time_Ni      = 0.0d0
+    time_heating = 0.0d0
 
     scratch_step = .false.
 

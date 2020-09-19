@@ -13,6 +13,7 @@ SOURCES=problem.F90\
 	blstep.F90\
 	artificial_viscosity.F90\
 	opacity.F90\
+  opacity_simple.F90\
 	bicubic_interpolator.F90\
 	hydro.F90\
 	hydro_rad.F90\
@@ -23,6 +24,7 @@ SOURCES=problem.F90\
 	read_BolCorr.F90\
 	opal_opacity.F90\
 	nickel.F90\
+  nuclear_heating_rate.F90\
 	simple_saha.F90\
 	saha_tables.F90\
 	luminosity.F90\

@@ -3,7 +3,7 @@ subroutine matrix_arrays(temp_x, lambda_x, inv_kappa_x, eps_x, p_x, lum_x, &
 
   use blmod, only: delta_mass, delta_cmass, dtime, theta, &
         eps_p, p_p, lum, dedt, dpdt, rho, rho_p, r, Qterm, &
-        bomb_heating, Ni_heating
+        bomb_heating, Ni_heating, simple_heating
   use parameters
   use physical_constants
   implicit none
@@ -93,7 +93,8 @@ subroutine matrix_arrays(temp_x, lambda_x, inv_kappa_x, eps_x, p_x, lum_x, &
             + theta*dtime*inv_delta_mass * ( lum_x(i+1)-lum_x(i) ) ) &
 
   !bomb heating, nickel heating
-            + bomb_heating(i)*dtime + Ni_heating(i)*dtime
+!            + bomb_heating(i)*dtime + Ni_heating(i)*dtime
+            + bomb_heating(i)*dtime + simple_heating(i)*dtime
      end if
   end do
 
@@ -134,7 +135,8 @@ subroutine matrix_arrays(temp_x, lambda_x, inv_kappa_x, eps_x, p_x, lum_x, &
 
     + theta*dtime/delta_mass(1) * lum_x(2) ) &
 
-    + bomb_heating(1)*dtime + Ni_heating(1)*dtime
+!    + bomb_heating(1)*dtime + Ni_heating(1)*dtime
+    + bomb_heating(1)*dtime + simple_heating(1)*dtime
 
   Darray_x(imax-1) = & !outer boundary condition L(imax) = L(imax-1)
 
@@ -146,7 +148,8 @@ subroutine matrix_arrays(temp_x, lambda_x, inv_kappa_x, eps_x, p_x, lum_x, &
        - (eps_x(imax-1)+0.5d0*p_x(imax-1)* &
        (1.0d0/rho(imax-1)-1.0d0/rho_p(imax-1)))&
 
-       + bomb_heating(imax-1)*dtime + Ni_heating(imax-1)*dtime
+!       + bomb_heating(imax-1)*dtime + Ni_heating(imax-1)*dtime
+       + bomb_heating(imax-1)*dtime + simple_heating(imax-1)*dtime
 
 
 end subroutine matrix_arrays

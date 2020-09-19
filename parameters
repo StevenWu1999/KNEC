@@ -4,7 +4,7 @@ outdir              = "Data"
 
 #___________PROFILE_____________
 
-profile_name 		= "profiles/Homologous_expansion.dat"
+profile_name       = "profiles/Homologous_expansion.dat"
 
 comp_profile_name	= "profiles/Homologous_expansion_composition.dat"
 
@@ -26,7 +26,6 @@ bomb_tend           = 0.0d0
 bomb_mass_spread    = 0.0d0 #(in solar mass)
 bomb_start_point    = 1
 bomb_mode           = 2
-
 #_____________GRID_______________
 
 imax         = 1000
@@ -62,6 +61,14 @@ boxcar_smoothing = 0
 
 opacity_floor_envelope = 0.01d0
 opacity_floor_core     = 0.24d0
+
+#nuclear heating rate
+heating_epsilon_0 = 2.0d18
+heating_epsilon_th = 0.5d0 #(thermalization efficiency)
+heating_sigma = 0.11
+heating_t_0 = 1.3
+heating_period = 1.0d4
+
 
 #___________TIMING_______________
 

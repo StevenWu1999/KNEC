@@ -104,11 +104,13 @@ subroutine hydro_rad
 
 !----------- update the temperature, pressure and internal energy -------------
 
-  !calculate heating term due to Ni
-  if(time.ge.time_Ni) then
-      time_Ni = time_Ni + Ni_period
-      call nickel_heating
-  endif
+!  !calculate heating term due to Ni
+!  if(time.ge.time_Ni) then
+!      time_Ni = time_Ni + Ni_period
+!      call nickel_heating
+!  endif
+  !calculate r-process heating
+  call nuclear_heating_rate
 
   !calculate heating term due to bomb
   if(do_bomb .and. time.ge.bomb_tstart .and. time.le.bomb_tend) then
@@ -205,8 +207,10 @@ subroutine hydro_rad
   p(imax) = 0.0d0
 
 
-  call opacity(rho(:),temp_temp(:),kappa(:),kappa_table(:),dkappadt(:))
+!  call opacity(rho(:),temp_temp(:),kappa(:),kappa_table(:),dkappadt(:))
     
+!  call luminosity(r(:),temp(:),kappa(:),lambda(:),inv_kappa(:),lum(:))
+  call opacity_simple(kappa(:),kappa_table(:),dkappadt(:))
   call luminosity(r(:),temp(:),kappa(:),lambda(:),inv_kappa(:),lum(:))
 
 
