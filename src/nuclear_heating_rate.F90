@@ -39,47 +39,50 @@ subroutine nuclear_heating_rate
     heating_rate_fitting = heating_epsilon_0 * ye_correction * (heating_epsilon_th / 0.5) &
             * (0.5 - 1.0 / pi * atan((time - heating_t_0) / heating_sigma))
 
-    ! radiation transfer
-    r_heating = r(imax)
+    simple_heating(1:imax) = heating_rate_fitting(1:imax)
+    ! Since the heat is not mainly carried by gamma rays, radiation transfer has been turned off.
+    
+    ! r_heating = r(imax)
 
-    th_min(1:imax - 1) = 0.0d0
-    th_min(imax) = pi * 0.5d0
+    ! th_min(1:imax - 1) = 0.0d0
+    ! th_min(imax) = pi * 0.5d0
 
-    do i = 1, imax
-        th = th_max
-        I_prime_av = 0
-        delta_th = (th_max - th_min(i)) / npoints_angular_integration
+    ! do i = 1, imax
+    !     th = th_max
+    !     I_prime_av = 0
+    !     delta_th = (th_max - th_min(i)) / npoints_angular_integration
 
-        do while(th.gt.(th_min(i) + 1.0d-14))
-            r_max = -r(i) * cos(th) + sqrt((r(i) * cos(th))**2 - (r(i)**2 - r_heating**2))
-            delta_r = r_max / npoints_radial_integration
-            I_prime = 0
-            r_x = r_max
+    !     do while(th.gt.(th_min(i) + 1.0d-14))
+    !         r_max = -r(i) * cos(th) + sqrt((r(i) * cos(th))**2 - (r(i)**2 - r_heating**2))
+    !         delta_r = r_max / npoints_radial_integration
+    !         I_prime = 0
+    !         r_x = r_max
 
-            do while(r_x.gt.0)
-                r_j = sqrt(r(i) * r(i) + r_x * r_x + 2.0d0 * r(i) * r_x * cos(th))
+    !         do while(r_x.gt.0)
+    !             r_j = sqrt(r(i) * r(i) + r_x * r_x + 2.0d0 * r(i) * r_x * cos(th))
 
-                if(r_j.le.r(1)) then !inside the excised region
-                    delta_tau_j = 0.0d0
-                else if(r_j.ge.r(imax - 1)) then
-                    delta_tau_j = delta_r * ye(imax - 1) * 0.06d0 * rho(imax - 1)
-                else
-                    call map_find_index(imax, r, r_j, ibuffer, index)
-                    delta_tau_j = delta_r * ye(index) * 0.06d0 * rho(index)
-                end if
+    !             if(r_j.le.r(1)) then !inside the excised region
+    !                 delta_tau_j = 0.0d0
+    !             else if(r_j.ge.r(imax - 1)) then
+    !                 delta_tau_j = delta_r * ye(imax - 1) * 0.06d0 * rho(imax - 1)
+    !             else
+    !                 call map_find_index(imax, r, r_j, ibuffer, index)
+    !                 delta_tau_j = delta_r * ye(index) * 0.06d0 * rho(index)
+    !             end if
 
-                I_prime = (I_prime - 1) * exp(-delta_tau_j) + 1
-                r_x = r_x - delta_r
-            end do
+    !             I_prime = (I_prime - 1) * exp(-delta_tau_j) + 1
+    !             r_x = r_x - delta_r
+    !         end do
 
-            I_prime_av = I_prime_av + I_prime * sin(th) * delta_th * 0.5d0
-            th = th - delta_th
-        end do
+    !         I_prime_av = I_prime_av + I_prime * sin(th) * delta_th * 0.5d0
+    !         th = th - delta_th
+    !     end do
 
-        heating_deposit_function(i) = I_prime_av
-    end do
+    !     heating_deposit_function(i) = I_prime_av
+    ! end do
 
-    simple_heating(1:imax)=heating_deposit_function(1:imax)*heating_rate_fitting(1:imax)
+    ! simple_heating(1:imax)=heating_deposit_function(1:imax)*heating_rate_fitting(1:imax)
+    
 
 end subroutine nuclear_heating_rate
 

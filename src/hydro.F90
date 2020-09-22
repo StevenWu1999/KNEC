@@ -182,7 +182,7 @@ subroutine hydro
     !  call opacity(rho(:),temp_temp(:),kappa(:),kappa_table(:),dkappadt(:))
     !
     !  call luminosity(r(:),temp(:),kappa(:),lambda(:),inv_kappa(:),lum(:))
-    call opacity_simple(kappa(:), kappa_table(:), dkappadt(:))
+    call opacity_simple(temp(:),kappa(:), kappa_table(:), dkappadt(:))
     call luminosity(r(:), temp(:), kappa(:), lambda(:), inv_kappa(:), lum(:))
 
 end subroutine hydro

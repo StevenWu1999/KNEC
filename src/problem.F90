@@ -140,7 +140,7 @@ subroutine problem
   endif
   write(6,"(A60)") "***************************************************************************"
 
-  call opacity_simple(kappa(:),kappa_table(:),dkappadt(:))
+  call opacity_simple(temp(:),kappa(:),kappa_table(:),dkappadt(:))
   call optical_depth(rho(:), r(:), kappa_table(:), tau(:))
   call luminosity(r(:),temp(:),kappa(:),lambda(:),inv_kappa(:),lum(:))
   call read_BolCorr

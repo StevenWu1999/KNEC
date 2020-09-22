@@ -1,12 +1,12 @@
-subroutine opacity_simple(kappa_x,kappa_table_x,dkappadt_x)
+subroutine opacity_simple(temp_x,kappa_x,kappa_table_x,dkappadt_x)
 
-    use blmod, only: ye
+    use blmod, only: ye,logT
     use parameters
     use physical_constants
     implicit none
 
     !input:
-
+    real*8 temp_x(imax)
 
     !output:
     real*8 kappa_x(imax)
@@ -20,6 +20,8 @@ subroutine opacity_simple(kappa_x,kappa_table_x,dkappadt_x)
 
 
     do i=1, imax - 1
+        logT(i)=log10(temp_x(i))
+
         if (ye(i) .gt. 0.25) then
             kappa_x(i)= kappa_min
         else
