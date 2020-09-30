@@ -202,6 +202,7 @@ module parameters
     logical :: radiation
 
     integer :: eoskey ! eos to use
+    logical :: continuous_boundary_switch
 
     integer :: Ni_switch
     integer :: Ni_by_hand
@@ -215,7 +216,6 @@ module parameters
     real*8 :: heating_sigma
     real*8 :: heating_t_0
     real*8 :: heating_alpha
-    
 
 
 

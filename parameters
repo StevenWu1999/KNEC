@@ -43,6 +43,7 @@ mass_excised = 1.4 #in solar mass, provided mass_excision = 1
 
 radiation = 1
 eoskey = 1
+continuous_boundary_switch = 1   #1: p(imax)=p(imax-1) 0:p(imax)=0
 
 #Options:
 #1 - ideal eos

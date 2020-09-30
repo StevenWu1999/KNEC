@@ -199,13 +199,20 @@ subroutine hydro_rad
   temp(1:imax-1)  = temp_temp(1:imax-1)
 
 
-  !passive boundary conditions, do not participate in the evolution
-  temp(imax) = 0.0d0
-  eps(imax) = 0.0d0
-
-  !active boundary condition, used in the velocity update
-  p(imax) = p(imax-1)
-
+  
+  if(continuous_boundary_switch) then
+    !passive boundary conditions, does not participate in the evolution
+    temp(imax) = temp(imax-1)
+    eps(imax) = eps(imax-1)
+    !active boundary condition, used in the velocity update
+    p(imax) = p(imax-1)
+  else
+    !passive boundary conditions, does not participate in the evolution
+    temp(imax) = 0.0d0
+    eps(imax) = 0.0d0
+    !active boundary condition, used in the velocity update
+    p(imax) = 0.0d0   
+  endif
 
 !  call opacity(rho(:),temp_temp(:),kappa(:),kappa_table(:),dkappadt(:))
     

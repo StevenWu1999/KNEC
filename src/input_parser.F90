@@ -62,6 +62,7 @@ subroutine input_parser
 
   call get_logical_parameter('radiation',radiation,opt)
   call get_integer_parameter('eoskey',eoskey,opt)
+  call get_logical_parameter('continuous_boundary_switch',continuous_boundary_switch,opt)
   call get_integer_parameter('Ni_switch',Ni_switch,opt)
   call get_double_parameter('Ni_mass',Ni_mass,opt)
   call get_double_parameter('Ni_boundary_mass',Ni_boundary_mass,opt)
