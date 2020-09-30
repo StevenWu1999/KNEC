@@ -9,7 +9,7 @@ if __name__ == "__main__":
     Msun=2e33 #g
     Mtotal=0.01*Msun
     rho=Mtotal/(4/3*pi*Rmax**3)
-    T=1e4 #K
+    T=1e9 #K
     n_slices=3000
     Mass_coordinates=np.linspace(0.0,Mtotal,n_slices)
     R_coordinates=(Mass_coordinates/Mtotal)**(1/3)*Rmax
@@ -30,7 +30,7 @@ if __name__ == "__main__":
             s3="     %.9e" %T
             s4="     %.9e" %rho
             s5="     %.9e" %V_of_R[i]
-            s6="     %.9e" %0.2
+            s6="     %.9e" %1.0
             s7="     %.9e" %0.0
             
             outputfile1.write(s0+s1+s2+s3+s4+s5+s6+s7+'\n')

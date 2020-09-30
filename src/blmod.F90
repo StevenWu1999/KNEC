@@ -214,7 +214,9 @@ module parameters
     real*8 :: heating_epsilon_th
     real*8 :: heating_sigma
     real*8 :: heating_t_0
-    real*8 :: heating_period
+    real*8 :: heating_alpha
+    
+
 
 
     integer :: saha_ncomps
@@ -888,7 +890,7 @@ module physical_constants
     real*8, parameter :: tau_Co = 9616320.0d0    !111.3 days in seconds
     real*8, parameter :: overtau_Ni = 1.0d0 / 760320.0d0
     real*8, parameter :: overtau_Co = 1.0d0 / 9616320.0d0
-    !relative solar mass fraction of C (G&N'93) 
+    !relative solar mass fraction of C (G&N'93)
     real*8, parameter :: C_frac_sol = 0.173285d0
     !relative solar mass fraction of O (G&N'93)
     real*8, parameter :: O_frac_sol = 0.482273d0

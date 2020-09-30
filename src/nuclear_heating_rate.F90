@@ -37,9 +37,11 @@ subroutine nuclear_heating_rate
     end do
 
     heating_rate_fitting = heating_epsilon_0 * ye_correction * (heating_epsilon_th / 0.5) &
-            * (0.5 - 1.0 / pi * atan((time - heating_t_0) / heating_sigma))
+            * (0.5 - 1.0 / pi * atan((time - heating_t_0) / heating_sigma))**heating_alpha
 
     simple_heating(1:imax) = heating_rate_fitting(1:imax)
+
+    
     ! Since the heat is not mainly carried by gamma rays, radiation transfer has been turned off.
     
     ! r_heating = r(imax)

@@ -101,11 +101,9 @@ subroutine hydro
 !
 !      endif
     !calculate r-process heating
-    if(time .ge. time_heating) then
-        time_heating = time_heating + heating_period
-        call nuclear_heating_rate
+    call nuclear_heating_rate
 
-    end if
+  
 
 
     !calculate heating term due to bomb
@@ -178,6 +176,7 @@ subroutine hydro
 
     !active boundary condition, used in the velocity update
     p(imax) = 0.0d0
+    !p(imax) = p(imax-1)
 
     !  call opacity(rho(:),temp_temp(:),kappa(:),kappa_table(:),dkappadt(:))
     !

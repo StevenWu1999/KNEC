@@ -71,6 +71,9 @@ subroutine output_all(modeflag)
     filename = trim(adjustl(outdir))//"/p_rad.xg"
     call output_single_mass(p_rad,filename)
 
+    filename = trim(adjustl(outdir))//"/heating_rate.xg"
+    call output_single_mass(simple_heating,filename)
+
 !    filename = trim(adjustl(outdir))//"/Ni_deposit_function.xg"
 !    call output_single_mass(Ni_deposit_function,filename)
 !

@@ -41,7 +41,7 @@ mass_excised = 1.4 #in solar mass, provided mass_excision = 1
 
 #___________EVOLUTION_____________
 
-radiation = 0
+radiation = 1
 eoskey = 1
 
 #Options:
@@ -67,19 +67,22 @@ heating_epsilon_0 = 2.0d18
 heating_epsilon_th = 0.5d0 #(thermalization efficiency)
 heating_sigma = 0.11d0
 heating_t_0 = 1.3d0
-heating_period = 1.0d4
+heating_alpha = 1.3d0
+
 
 
 #___________TIMING_______________
 
 ntmax               = 10000000000000
 
-tend                = 17000000.0d0
-
-dtout               = 1.7d4
-dtout_scalar        = 1.7d3
-dtout_check         = 1.7d3
-
+#tend                = 17000000.0d0
+tend                = 100.0d0
+#dtout               = 1.7d4
+dtout               = 1.0d0
+dtout_scalar         = 1.0d0
+dtout_check          = 1.0d0
+#dtout_scalar        = 1.7d3
+#dtout_check         = 1.7d3
 ntout               = -1
 ntout_scalar        = -1
 ntout_check         = -1

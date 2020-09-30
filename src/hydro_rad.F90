@@ -204,7 +204,7 @@ subroutine hydro_rad
   eps(imax) = 0.0d0
 
   !active boundary condition, used in the velocity update
-  p(imax) = 0.0d0
+  p(imax) = p(imax-1)
 
 
 !  call opacity(rho(:),temp_temp(:),kappa(:),kappa_table(:),dkappadt(:))

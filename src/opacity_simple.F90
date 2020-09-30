@@ -19,14 +19,17 @@ subroutine opacity_simple(temp_x,kappa_x,kappa_table_x,dkappadt_x)
     real*8 :: kappa_max = 10.0d0
 
 
-    do i=1, imax - 1
-        logT(i)=log10(temp_x(i))
 
-        if (ye(i) .gt. 0.25) then
-            kappa_x(i)= kappa_min
-        else
-            kappa_x(i) = kappa_max
-        end if
+
+    do i=1, imax - 1
+        logT(i) = log10(temp_x(i))
+
+        kappa_x(i) = 1.0d0 + 9.0d0/(1.0d0+(4.0d0*ye(i))**5)
+!        if (ye(i) .gt. 0.25) then
+!            kappa_x(i)= kappa_min
+!        else
+!            kappa_x(i) = kappa_max
+!        end if
 
 
         !derivative is not used in the current version of the code
