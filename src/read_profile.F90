@@ -24,13 +24,13 @@ subroutine get_inner_outer_mass_from_profile(prof_name,inner_mass,outer_mass)
   allocate(pmass(profile_zones))
   
   do i=1,profile_zones
-     read(666,*) ibuffer,pmass(i)
+    read(666,*) ibuffer,pmass(i)
   enddo
   close(666)
 
   outer_mass = pmass(profile_zones)
   inner_mass = pmass(1)
-  
+
   deallocate(pmass)
 
 end subroutine get_inner_outer_mass_from_profile
@@ -102,6 +102,7 @@ subroutine get_ncomps_from_profile(prof_name,xncomps)
   open(666,file=trim(prof_name),status='unknown',&
        form='formatted',action='read')
   read(666,*) profile_zones,xncomps
+
   close(666)
 
 end subroutine get_ncomps_from_profile
@@ -152,8 +153,15 @@ subroutine read_profile(prof_name)
      call map_map(rho(i), cmass(i),prho,   pmass,profile_zones)
      call map_map(temp(i),cmass(i),ptemp,  pmass,profile_zones)
   enddo
-  rho(imax) = 0.0d0 !passive boundary condition
-  temp(imax) = 0.0d0 !passive boundary condition
+
+  if(continuous_boundary_switch)then
+    rho(imax)=rho(imax-1)!passive boundary condition
+    temp(imax)=temp(imax-1)!passive boundary condition
+  else
+    rho(imax) = 0.0d0 !passive boundary condition
+    temp(imax) = 0.0d0 !passive boundary condition
+  end if
+
 
 
   deallocate(pmass)
@@ -162,16 +170,18 @@ subroutine read_profile(prof_name)
   deallocate(prho)
   deallocate(pvel)
 
-!------------------------- read composition profile ---------------------------
+!!!------------------------- read composition profile ---------------------------
   if(ncomps.gt.0) then
      call read_profile_compositions(composition_profile_name)
   endif
+
 
   if(eoskey.eq.2) then
      ! initialize some variables need in the
      ! saha solver -- need to have composition info at this point
      call init_ionpot
   endif
+
 
 !------------- find other hydrodynamical quantities from the EOS --------------
 
@@ -181,16 +191,24 @@ subroutine read_profile(prof_name)
         zav(l,i) = comp_details(l,2)
     end do
   end do
-
   !call equation of state
   keytemp = 1
   call eos(rho(1:imax-1),temp(1:imax-1),ye(1:imax-1), &
          abar(1:imax-1),p(1:imax-1),eps(1:imax-1), &
-         cs2(1:imax-1), dpdt(1:imax-1), dedt(1:imax-1), & 
+         cs2(1:imax-1), dpdt(1:imax-1), dedt(1:imax-1), &
          entropy(1:imax-1),p_rad(1:imax-1),keyerr,keytemp,eoskey)
 
-  eps(imax) = 0.0d0 !passive boundary condition
-  p(imax) = 0.0d0 !active boundary condition, used in the velocity update
+
+  if(continuous_boundary_switch) then
+    eps(imax)=eps(imax-1)!passive boundary condition
+    p(imax)=p(imax-1)!active boundary condition, used in the velocity update
+  else
+    eps(imax) = 0.0d0!passive boundary condition
+    p(imax) = 0.0d0!active boundary condition, used in the velocity update
+  end if
+
+
+
 
 end subroutine read_profile
 
