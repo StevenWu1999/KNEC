@@ -81,7 +81,7 @@ subroutine nickel_heating
         I_prime_av = 0
         delta_th = (th_max-th_min(i))/npoints_angular_integration
 
-        do while(th.gt.(th_min(i)+1.d-14))
+        do while(th.gt.(th_min(i)+1.0d-14))
            r_max = -r(i)*cos(th) + sqrt((r(i)*cos(th))**2-(r(i)**2-r_Ni**2))
            delta_r = r_max/npoints_radial_integration
            I_prime = 0

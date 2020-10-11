@@ -42,10 +42,10 @@ mass_excised = 1.4 #in solar mass, provided mass_excision = 1
 #___________EVOLUTION_____________
 
 radiation = 1
-eoskey = 1
+eoskey = 2
 continuous_boundary_switch = 1   #1: p(imax)=p(imax-1) 0:p(imax)=0
 
-#Options:
+#eoskey Options:
 #1 - ideal eos
 #2 - Paczynski
 
@@ -56,7 +56,7 @@ Ni_boundary_mass = 3.0d0    #(in solar mass, should be larger than excised mass)
 			    #(attention - smoothing is going to change it, if applied)
 Ni_period = 1.0d4
 
-saha_ncomps = 3
+saha_ncomps = 1
 
 boxcar_smoothing = 0
 
@@ -77,11 +77,11 @@ heating_alpha = 1.3d0
 ntmax               = 10000000000000
 
 #tend                = 17000000.0d0
-tend                = 100.0d0
+tend                = 10.0d0
 #dtout               = 1.7d4
-dtout               = 1.0d0
-dtout_scalar         = 1.0d0
-dtout_check          = 1.0d0
+dtout               = 0.1d0
+dtout_scalar         = 0.1d0
+dtout_check          = 0.1d0
 #dtout_scalar        = 1.7d3
 #dtout_check         = 1.7d3
 ntout               = -1
@@ -91,7 +91,7 @@ ntout_check         = -1
 ntinfo              = 1000
 
 dtmin               = 1.0d-10
-dtmax               = 1.0d2
+dtmax               = 5.0d2
 
 #____________TEST_________________
 

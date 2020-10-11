@@ -32,7 +32,7 @@ subroutine nuclear_heating_rate
         if (ye(i) .gt. 0.25) then
             ye_correction(i) = epsilon_min + epsilon_max * (1 + exp(4 * (time / t_eps - 1)))**(-1)
         else
-            ye_correction(i) = 1.0
+            ye_correction(i) = 1.0d0
         end if
     end do
 

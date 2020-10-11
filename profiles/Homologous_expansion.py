@@ -2,7 +2,7 @@ import numpy as np
 from math import pi
 if __name__ == "__main__":
     
-    Rmax=1e12 #cm, =1e7km ~ 0.1 AU  
+    Rmax=1e9 #cm, =1e4km 
     clight=3e10 #cm/s
     vmax=0.1*clight 
     #vmax=0.01*clight
