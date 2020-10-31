@@ -51,6 +51,8 @@ subroutine luminosity(r_x,temp_x,kappa_x,lambda_x,inv_kappa_x,lum_x)
 
   lum_x(imax) = lum_x(imax-1)
 
+  
+
 
 end subroutine luminosity
 

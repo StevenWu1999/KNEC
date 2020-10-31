@@ -880,7 +880,8 @@ module physical_constants
     real*8, parameter :: emev = 1.60219d-6  !MeV-->erg
     real*8, parameter :: avo_real = 6.0221415d23
     real*8, parameter :: h_cgs = 6.626058d-27
-    real*8, parameter :: a_rad = 7.5657d-15 !radiation pressure 1/3*a*T^4 = 1/3*U/V, a=4 sigma_SB/c
+    !real*8, parameter :: a_rad = 7.5657d-15 !radiation pressure 1/3*a*T^4 = 1/3*U/V, a=4 sigma_SB/c
+    real*8, parameter :: a_rad = 0.0d0
     real*8, parameter :: mproton = 1.67262178d-24
     real*8, parameter :: melectron = 9.1093897d-28
     real*8, parameter :: kdnr = 9.91d12  !degenerate electron gas(non-relativistic)

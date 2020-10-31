@@ -1,8 +1,9 @@
 program snec
 
   use blmod, only: dtime, dtime_p, time, nt, ntstart, tstart,   &
-     tdump, tdump_scalar, rho, tdump_check
+     tdump, tdump_scalar, rho, tdump_check,eps
   use parameters
+  use physical_constants
   use outinfomod, only: outinfo_count
   implicit none
 
@@ -41,6 +42,8 @@ program snec
   tdump = tstart+dtout
   time = tstart
   nt = ntstart
+
+  print*,"a_rad",a_rad
   
 
 ! *****************************************************
@@ -131,6 +134,7 @@ program snec
         call output_all(2)
         exit
      endif
+     
    
   enddo IntegrationLoop
 

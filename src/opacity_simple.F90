@@ -46,6 +46,8 @@ subroutine opacity_simple(temp_x,kappa_x,kappa_table_x,dkappadt_x)
     kappa_x(imax) = kappa_x(imax-1)
     kappa_table_x(imax) = kappa_table_x(imax-1)
     dkappadt_x(imax) = dkappadt_x(imax-1)
+    logT(imax)=logT(imax-1)
+
 
 end subroutine opacity_simple
 

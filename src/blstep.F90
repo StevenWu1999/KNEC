@@ -67,9 +67,9 @@ subroutine blstep
         call shock_capture
      endif
 
-   !   if(.not.sedov) then
-   !      call analysis
-   !   endif
+     if(.not.sedov) then
+        call analysis
+     endif
                
      if(time.gt.0.0d0) call conservation_compute_energies
 

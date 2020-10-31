@@ -4,7 +4,7 @@ outdir              = "Data"
 
 #___________PROFILE_____________
 
-profile_name       = "profiles/Homologous_expansion.dat"
+profile_name       = "profiles/Homologous_expansion_uniform.dat"
 
 comp_profile_name	= "profiles/Homologous_expansion_composition.dat"
 
@@ -77,11 +77,11 @@ heating_alpha = 1.3d0
 ntmax               = 10000000000000
 
 #tend                = 17000000.0d0
-tend                = 10.0d0
+tend                = 1.0d1
 #dtout               = 1.7d4
-dtout               = 0.1d0
-dtout_scalar         = 0.1d0
-dtout_check          = 0.1d0
+dtout               = 1.0d-1
+dtout_scalar         = 1.0d-1
+dtout_check          = 1.0d-1
 #dtout_scalar        = 1.7d3
 #dtout_check         = 1.7d3
 ntout               = -1
@@ -91,7 +91,7 @@ ntout_check         = -1
 ntinfo              = 1000
 
 dtmin               = 1.0d-10
-dtmax               = 5.0d2
+dtmax               = 1.0d2
 
 #____________TEST_________________
 
