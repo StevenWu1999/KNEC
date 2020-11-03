@@ -75,7 +75,8 @@ module blmod
     real*8, allocatable :: dedt(:)
     real*8, allocatable :: dpdt(:)
 
-    real*8, allocatable :: entropy(:)                      !entropy
+    real*8, allocatable :: entropy(:)                      !entropy calculated by EOS
+    real*8, allocatable :: entropy_frominput(:)            !entropy input
     real*8, allocatable :: tau(:)                          !optical depth
     real*8, allocatable :: p_rad(:)                        !radiation pressure
 
@@ -167,6 +168,7 @@ module parameters
     !-------------------- profile -------------------------------
 
     character(len = 256) :: profile_name
+    logical :: read_composition_switch
     character(len = 256) :: composition_profile_name
 
     !------------------- explosion ------------------------------
@@ -196,6 +198,10 @@ module parameters
 
     logical :: mass_excision
     real*8 :: mass_excised
+    integer :: mass_gravity_switch
+    real*8 :: mass_extragravity
+    logical :: read_inner_radius_switch
+    real*8 :: inner_radius
 
     !-------------------- evolution -------------------------------
 
@@ -880,8 +886,7 @@ module physical_constants
     real*8, parameter :: emev = 1.60219d-6  !MeV-->erg
     real*8, parameter :: avo_real = 6.0221415d23
     real*8, parameter :: h_cgs = 6.626058d-27
-    !real*8, parameter :: a_rad = 7.5657d-15 !radiation pressure 1/3*a*T^4 = 1/3*U/V, a=4 sigma_SB/c
-    real*8, parameter :: a_rad = 0.0d0
+    real*8, parameter :: a_rad = 7.5657d-15 !radiation pressure 1/3*a*T^4 = 1/3*U/V, a=4 sigma_SB/c
     real*8, parameter :: mproton = 1.67262178d-24
     real*8, parameter :: melectron = 9.1093897d-28
     real*8, parameter :: kdnr = 9.91d12  !degenerate electron gas(non-relativistic)

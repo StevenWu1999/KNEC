@@ -112,7 +112,7 @@ end subroutine get_ncomps_from_profile
 subroutine read_profile(prof_name)
 
   use blmod, only: mass, cmass, vel, rho, temp, ncomps, ye, abar, comp_details,&
-                    eps, p, cs2, dedt, dpdt, entropy, zav, p_rad
+                    eps, p, cs2, dedt, dpdt, entropy, zav, p_rad, entropy_frominput
   use parameters
   use physical_constants
   use eosmodule, only: init_ionpot
@@ -124,7 +124,7 @@ subroutine read_profile(prof_name)
   integer :: ibuffer
   integer :: keytemp, keyerr
 
-  real*8,allocatable :: pmass(:), pradius(:), ptemp(:), prho(:), pvel(:)
+  real*8,allocatable :: pmass(:), pradius(:), ptemp(:), prho(:), pvel(:),pye(:),pentropy(:)
 
 !------------------------------------------------------------------------------
 
@@ -134,15 +134,17 @@ subroutine read_profile(prof_name)
   profile_zones = profile_zones
   write(*,*) "We have ",profile_zones, "profile zones."
 
-!----------------- read the profile and map it on the grid --------------------
+  !----------------- read the profile and map it on the grid --------------------
   allocate(pmass(profile_zones))
   allocate(pradius(profile_zones))
   allocate(ptemp(profile_zones))
   allocate(prho(profile_zones))
   allocate(pvel(profile_zones))
+  allocate(pye(profile_zones))
+  allocate(pentropy(profile_zones))
 
   do i=1,profile_zones
-     read(666,*) ibuffer, pmass(i), pradius(i), ptemp(i), prho(i), pvel(i)
+     read(666,*) ibuffer, pmass(i), pradius(i), ptemp(i), prho(i), pvel(i), pye(i), pentropy(i)
   enddo
 
   do i=1,imax !velocity lives at the cell edges
@@ -152,7 +154,9 @@ subroutine read_profile(prof_name)
   do i=1,imax-1 !temperature and density live at the cell centers
      call map_map(rho(i), cmass(i),prho,   pmass,profile_zones)
      call map_map(temp(i),cmass(i),ptemp,  pmass,profile_zones)
+     call map_map(entropy_frominput(i),cmass(i),pentropy,  pmass,profile_zones)
   enddo
+  entropy_frominput(imax) = entropy_frominput(imax-1)
 
   if(continuous_boundary_switch)then
     rho(imax)=rho(imax-1)!passive boundary condition
@@ -162,35 +166,48 @@ subroutine read_profile(prof_name)
     temp(imax) = 0.0d0 !passive boundary condition
   end if
 
+  print*,'here169'
+!!!------------------------- read composition profile ---------------------------
+  if(ncomps.gt.0) then
+     call read_profile_compositions(composition_profile_name)
+     print*,'here173'
+     if(eoskey.eq.2) then
+       ! initialize some variables need in the
+       ! saha solver -- need to have composition info at this point
+       call init_ionpot
+     endif
 
+     !initialize zav (for the Saha solver, Paczynski EOS), assuming full ionization
+     do l=1, ncomps
+       do i=1, imax
+         zav(l,i) = comp_details(l,2)
+       end do
+     end do
+  endif
+
+  if(ncomps.eq.0) then
+    do i = 1,imax-1
+      !ye lives at the cell centers
+      call map_map(ye(i), cmass(i),pye,   pmass,profile_zones)
+    end do
+    ye(imax) = ye(imax-1)
+    abar(1:imax) = 150.0d0
+    print*,"Assume mean molecular weight = 150!"
+
+  end if
 
   deallocate(pmass)
   deallocate(pradius)
   deallocate(ptemp)
   deallocate(prho)
   deallocate(pvel)
-
-!!!------------------------- read composition profile ---------------------------
-  if(ncomps.gt.0) then
-     call read_profile_compositions(composition_profile_name)
-  endif
-
-
-  if(eoskey.eq.2) then
-     ! initialize some variables need in the
-     ! saha solver -- need to have composition info at this point
-     call init_ionpot
-  endif
+  deallocate(pye)
+  deallocate(pentropy)
 
 
 !------------- find other hydrodynamical quantities from the EOS --------------
 
-  !initialize zav (for the Saha solver, Paczynski EOS), assuming full ionization
-  do l=1, ncomps
-    do i=1, imax
-        zav(l,i) = comp_details(l,2)
-    end do
-  end do
+
   !call equation of state
   keytemp = 1
   call eos(rho(1:imax-1),temp(1:imax-1),ye(1:imax-1), &
@@ -316,6 +333,8 @@ subroutine integrate_radius_initial
   do i=1,imax-1
    r(i+1) = ( 3.0d0/(4.0d0*pi) * delta_mass(i)/rho(i) + r(i)**3 )**(1.0d0/3.0d0)
 
+
+
    if(rho(i).le.0.0d0) then
       stop "Negative density. Profile extends not to large enough radii."
    endif
@@ -329,6 +348,7 @@ subroutine integrate_radius_initial
   cr(imax) = r(imax) + (r(imax) - cr(imax-1))
   !passive boundary condition, used in the expression for the velocity update,
   !but multiplied by the artificial viscosity, which is zero at the last point
+
 
 
 end subroutine integrate_radius_initial

@@ -24,6 +24,7 @@ subroutine input_parser
 
 
   call get_string_parameter('profile_name',profile_name,opt)
+  call get_logical_parameter('read_composition_switch',read_composition_switch,opt)
   call get_string_parameter('comp_profile_name',composition_profile_name,opt)
 
 
@@ -57,6 +58,17 @@ subroutine input_parser
   if(mass_excision) then
      call get_double_parameter('mass_excised',mass_excised,opt)
   end if
+
+  call get_integer_parameter('mass_gravity_switch',mass_gravity_switch,opt)
+  if(mass_gravity_switch .eq. 1) then
+      call get_double_parameter('mass_extragravity',mass_extragravity,opt)
+  end if
+
+  call get_logical_parameter('read_inner_radius_switch',read_inner_radius_switch,opt)
+  if(read_inner_radius_switch) then
+      call get_double_parameter('inner_radius',inner_radius,opt)
+  end if
+
 
 !****************************** EVOLUTION *************************************
 
@@ -153,6 +165,7 @@ contains
         i = index(line_string,'=')
         j = index(line_string,'#')
 
+
         if (i.eq.0.or.j.eq.1) goto 10
         !   if the whole line is a comment or there is no
         !   equal sign, then go on to the next line    
@@ -162,8 +175,10 @@ contains
         !   then go on to the next line
 
         ! is this the right parameter? If not, cycle
+
         temp_string=trim(adjustl(line_string(1:i-1)))
         l=len(parname)
+
         if(parname.ne.temp_string(1:l)) goto 10
 
         !  If there is a comment in the line, exclude it!
@@ -218,6 +233,7 @@ contains
         real*8 par
 
         call get_string_parameter(parname,line_string,opt)
+
 
         if(index(line_string,'.').eq.0) then
             write(6,*) "Uh. Bad double parameter ",trim(parname)

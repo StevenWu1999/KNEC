@@ -78,7 +78,10 @@ subroutine simple_saha(ncomps_consider,k,tempx,rhox,ne)
 
             f(i) = stat_weight_p1_ratio(j,i) &
                                 * coef * exp(-xxip(izion,i)*ktinv + 10.0d0*rhox)
-            !print*,'10.0d0*rhox???'
+!
+!            f(i) = stat_weight_p1_ratio(j,i) &
+!                    * coef * exp(-xxip(izion,i)*ktinv)
+
 
             if( (f(i)*zavstar_x_nk_inv) .gt. zavtolinv ) then
                 y(i) = 0.0d0

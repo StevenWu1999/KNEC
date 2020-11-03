@@ -4,9 +4,9 @@ outdir              = "Data"
 
 #___________PROFILE_____________
 
-profile_name       = "profiles/Homologous_expansion_uniform.dat"
-
-comp_profile_name	= "profiles/Homologous_expansion_composition.dat"
+profile_name       = "profiles/modified_sfho_m140120_m0_ber.dat"
+read_composition_switch = 0
+comp_profile_name	= ""
 
 #__________EXPLOSION_____________
 
@@ -38,12 +38,16 @@ gridding = "from_file_by_mass"
 
 mass_excision = 0
 mass_excised = 1.4 #in solar mass, provided mass_excision = 1
+mass_gravity_switch = 1
+mass_extragravity = 3.0d0 #in solar mass,provided mass_gravity_switch = 1
+read_inner_radius_switch = 1
+inner_radius = 2.95d7
 
 #___________EVOLUTION_____________
 
 radiation = 1
 eoskey = 2
-continuous_boundary_switch = 1   #1: p(imax)=p(imax-1) 0:p(imax)=0
+continuous_boundary_switch = 0   #1: p(imax)=p(imax-1) 0:p(imax)=0
 
 #eoskey Options:
 #1 - ideal eos
@@ -65,7 +69,7 @@ opacity_floor_core     = 0.24d0
 
 #nuclear heating rate
 heating_epsilon_0 = 2.0d18
-heating_epsilon_th = 0.5d0 #(thermalization efficiency)
+heating_epsilon_th = 0.0d0 #(thermalization efficiency)
 heating_sigma = 0.11d0
 heating_t_0 = 1.3d0
 heating_alpha = 1.3d0
@@ -77,11 +81,11 @@ heating_alpha = 1.3d0
 ntmax               = 10000000000000
 
 #tend                = 17000000.0d0
-tend                = 1.0d1
+tend                = 1.0d7
 #dtout               = 1.7d4
-dtout               = 1.0d-1
-dtout_scalar         = 1.0d-1
-dtout_check          = 1.0d-1
+dtout               = 1.0d4
+dtout_scalar         = 1.0d3
+dtout_check          = 1.0d3
 #dtout_scalar        = 1.7d3
 #dtout_check         = 1.7d3
 ntout               = -1

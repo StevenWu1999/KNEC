@@ -86,72 +86,70 @@ subroutine paczynski_eos(rhox,tempx,yex,abarx,px,ex,cs2x,dpdtx,dedtx, &
 
   do i = 1, np
 
-    call simple_saha(saha_ncomps,k(i),tempx(i),rhox(i),ne)
+!    call simple_saha(saha_ncomps,k(i),tempx(i),rhox(i),ne)
 
-
+    ne = rhox(i)/(mproton*abarx(i)) !print*,A=150,first ionization
     N = 1.0d0 / (mproton * abarx(i))
-
     invrhox = 1.0d0/rhox(i)
     ybar = ne / N * invrhox
-
     sum1 = 0.0d0
     sum2 = 0.0d0
     sum3 = 0.0d0
     e_ioncorr = 0.0d0
 
-    do j=1, ncomps
-
-      zion = comp_details(j,2)
-
-      if(zion.lt.(1.0d0-1.0d-6)) cycle !don't consider neutrons
-
-      sum_pot = 0.0d0
-      sum_pot_frac = 0.0d0
-
-      ymax = 0.0d0
-      do l=1, int(zion) + 1
-        if(ion_fractions(j,l,k(i)).gt.ymax) then
-            ymax = ion_fractions(j,l,k(i))
-            lmax = l
-        end if
-        if(l.gt.1) then
-            sum_pot = sum_pot + xxip(int(zion),l-1)
-            sum_pot_frac = sum_pot_frac + ion_fractions(j,l,k(i)) * sum_pot
-        end if
-      enddo
-
-      !Here we look for the two most populated ionization states of
-      !each element. y_r is the fraction of atoms in the highest of
-      !these two states. chi_r is the ionization energy between these
-      !two states
-      if(lmax.eq.1) then
-        y_r = ion_fractions(j,lmax+1,k(i))
-        chi_r = xxip(int(zion),lmax)
-      else if(lmax.eq.(int(zion) + 1)) then
-        y_r = ion_fractions(j,lmax,k(i))
-        chi_r = xxip(int(zion),lmax-1)
-      else
-        if(ion_fractions(j,lmax+1,k(i)).gt.ion_fractions(j,lmax-1,k(i))) then
-            y_r = ion_fractions(j,lmax + 1,k(i))
-            chi_r = xxip(int(zion),lmax)
-        else
-            y_r = ion_fractions(j,lmax,k(i))
-            chi_r = xxip(int(zion),lmax-1)
-        end if
-      end if
-
-      !number abundance of the j-th element
-      nu_j = abarx(i) * comp(k(i),j) / comp_details(j,1)
-
-      sum1 = sum1 + nu_j * y_r * (1 - y_r)
-
-      sum2 = sum2 + nu_j * chi_r * y_r * (1 - y_r)
-
-      sum3 = sum3 + nu_j * chi_r * chi_r * y_r * (1 - y_r)
-
-      e_ioncorr = e_ioncorr + N * nu_j * sum_pot_frac
-
-    enddo
+!    do j=1, ncomps
+!
+!      zion = comp_details(j,2)
+!
+!      if(zion.lt.(1.0d0-1.0d-6)) cycle !don't consider neutrons
+!
+!      sum_pot = 0.0d0
+!      sum_pot_frac = 0.0d0
+!
+!      ymax = 0.0d0
+!      do l=1, int(zion) + 1
+!        if(ion_fractions(j,l,k(i)).gt.ymax) then
+!            ymax = ion_fractions(j,l,k(i))
+!            lmax = l
+!        end if
+!        if(l.gt.1) then
+!            sum_pot = sum_pot + xxip(int(zion),l-1)
+!            sum_pot_frac = sum_pot_frac + ion_fractions(j,l,k(i)) * sum_pot
+!        end if
+!      enddo
+!
+!      !Here we look for the two most populated ionization states of
+!      !each element. y_r is the fraction of atoms in the highest of
+!      !these two states. chi_r is the ionization energy between these
+!      !two states
+!      if(lmax.eq.1) then
+!        y_r = ion_fractions(j,lmax+1,k(i))
+!        chi_r = xxip(int(zion),lmax)
+!      else if(lmax.eq.(int(zion) + 1)) then
+!        y_r = ion_fractions(j,lmax,k(i))
+!        chi_r = xxip(int(zion),lmax-1)
+!      else
+!        if(ion_fractions(j,lmax+1,k(i)).gt.ion_fractions(j,lmax-1,k(i))) then
+!            y_r = ion_fractions(j,lmax + 1,k(i))
+!            chi_r = xxip(int(zion),lmax)
+!        else
+!            y_r = ion_fractions(j,lmax,k(i))
+!            chi_r = xxip(int(zion),lmax-1)
+!        end if
+!      end if
+!
+!      !number abundance of the j-th element
+!      nu_j = abarx(i) * comp(k(i),j) / comp_details(j,1)
+!
+!      sum1 = sum1 + nu_j * y_r * (1 - y_r)
+!
+!      sum2 = sum2 + nu_j * chi_r * y_r * (1 - y_r)
+!
+!      sum3 = sum3 + nu_j * chi_r * chi_r * y_r * (1 - y_r)
+!
+!      e_ioncorr = e_ioncorr + N * nu_j * sum_pot_frac
+!
+!    enddo
 
     !Ion pressure
     pion = N * rhox(i) * kboltz * tempx(i)
@@ -171,6 +169,7 @@ subroutine paczynski_eos(rhox,tempx,yex,abarx,px,ex,cs2x,dpdtx,dedtx, &
 
     !Total pressure
     px(i) = pion + pe + pradx(i)
+
 
 
     !Total specific internal energy
@@ -196,9 +195,11 @@ subroutine paczynski_eos(rhox,tempx,yex,abarx,px,ex,cs2x,dpdtx,dedtx, &
 
     Gamma1 = chi_T*chi_T * px(i) / (c_V * rhox(i) * tempx(i)) + chi_rho
 
+
     cs2x(i) = Gamma1 * px(i) * invrhox
 
     free_electron_frac(k(i)) = ne * mproton / (yex(i) * rhox(i))
+
 
   end do
 

@@ -137,7 +137,6 @@ subroutine read_profile_compositions(prof_name)
       abar(i) = 1.0d0/sum(comp(i,1:ncomps)/comp_details(1:ncomps,1))
   enddo
 
-
   !output the initial fractions of some elements
   do l=1,ncomps
   if(l.eq.H_number) then !hydrogen
@@ -158,7 +157,7 @@ subroutine read_profile_compositions(prof_name)
   end if
   enddo
 
-
+  
   !calculate metallicity as 1 - He_fraction - H_fraction, output initial value
   do i=1,imax
       if(H_number.ne.0 .and. He_number.ne.0) then

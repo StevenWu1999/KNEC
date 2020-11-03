@@ -44,7 +44,7 @@ subroutine hydro
         vel(i) = vel_p(i) &
 
                 ! gravity
-                - dtv * ggrav * mass(i) / r(i)**2 * gravity_switch   &
+                - dtv * ggrav * (mass(i)+mass_gravity_switch*mass_extragravity*msun) / r(i)**2 * gravity_switch   &
 
                 ! pressure
                 - dtv * 4.0d0 * pi * r(i)**2 * (p(i) - p(i - 1)) / delta_cmass(i - 1)   &
@@ -187,7 +187,13 @@ subroutine hydro
     !  call opacity(rho(:),temp_temp(:),kappa(:),kappa_table(:),dkappadt(:))
     !
     !  call luminosity(r(:),temp(:),kappa(:),lambda(:),inv_kappa(:),lum(:))
-    call opacity_simple(temp(:),kappa(:), kappa_table(:), dkappadt(:))
+!    print*,"opacity only depends on initial Ye
+!    call opacity_simple(temp(:),kappa(:), kappa_table(:), dkappadt(:))
+
+    do i = 1,imax-1
+        logT(i) = log10(temp(i))
+    end do
+    logT(imax) = logT(imax-1)
     call luminosity(r(:), temp(:), kappa(:), lambda(:), inv_kappa(:), lum(:))
 
 end subroutine hydro

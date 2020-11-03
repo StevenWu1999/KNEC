@@ -22,7 +22,6 @@ subroutine opacity_simple(temp_x,kappa_x,kappa_table_x,dkappadt_x)
 
 
     do i=1, imax - 1
-        logT(i) = log10(temp_x(i))
 
         kappa_x(i) = 1.0d0 + 9.0d0/(1.0d0+(4.0d0*ye(i))**5)
 !        if (ye(i) .gt. 0.25) then
@@ -36,7 +35,6 @@ subroutine opacity_simple(temp_x,kappa_x,kappa_table_x,dkappadt_x)
         dkappadt_x(i) = 0.0d0
 
     end do
-
     kappa_table_x(1:imax-1) = kappa_x(1:imax-1)
 
 
@@ -46,8 +44,6 @@ subroutine opacity_simple(temp_x,kappa_x,kappa_table_x,dkappadt_x)
     kappa_x(imax) = kappa_x(imax-1)
     kappa_table_x(imax) = kappa_table_x(imax-1)
     dkappadt_x(imax) = dkappadt_x(imax-1)
-    logT(imax)=logT(imax-1)
-
 
 end subroutine opacity_simple
 

@@ -36,8 +36,9 @@ subroutine luminosity(r_x,temp_x,kappa_x,lambda_x,inv_kappa_x,lum_x)
     bigr_x(i) = 8.0d0*pi*r_x(i)**2 * abs(temp_x(i)**4-(temp_x(i-1))**4) &
          * inv_kappa_x(i) / (delta_cmass(i-1)*(temp_x(i)**4+temp_x(i-1)**4))
         
-    lambda_x(i) = (6.0d0 + 3.0d0*bigr_x(i)) & 
+    lambda_x(i) = (6.0d0 + 3.0d0*bigr_x(i)) &
         /(6.0d0 + 3.0d0*bigr_x(i) + bigr_x(i)*bigr_x(i))
+  
 
   end do
     
@@ -46,12 +47,13 @@ subroutine luminosity(r_x,temp_x,kappa_x,lambda_x,inv_kappa_x,lum_x)
     lum_x(i) = -( 4.0d0*pi*r_x(i)**2 )**2  & 
         * a_rad*clite*lambda_x(i)*inv_kappa_x(i)/3.0d0  &
         * (temp_x(i)**4-temp_x(i-1)**4)/delta_cmass(i-1) 
-        
+
+
   end do
 
   lum_x(imax) = lum_x(imax-1)
 
-  
+
 
 
 end subroutine luminosity

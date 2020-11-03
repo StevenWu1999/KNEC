@@ -4,7 +4,7 @@ subroutine problem
             opacity_floor, metallicity, envelope_metallicity, do_piston, &
             do_bomb, total_initial_energy, bomb_total_energy, bomb_spread, &
             rho, kappa, kappa_table, dkappadt, tau, temp, p, delta_mass, &
-            lambda, inv_kappa, lum, eos_gamma1
+            lambda, inv_kappa, lum, eos_gamma1,logT
   use parameters
   use eosmodule
   use physical_constants
@@ -39,8 +39,11 @@ subroutine problem
 !********************* Allocate and initialize variables **********************
 
 
-
-  call get_ncomps_from_profile(composition_profile_name,ncomps)
+  if (read_composition_switch) then
+    call get_ncomps_from_profile(composition_profile_name,ncomps)
+  else
+    ncomps = 0
+  end if
 
   call allocate_vars
 
@@ -53,15 +56,20 @@ subroutine problem
       mass(1) = mass_excised*msun
   endif
 
-  call get_inner_outer_radius_from_profile(profile_name,mass(1),r(1),r(imax))
+  if(read_inner_radius_switch) then
+    r(1) = inner_radius
+  else
+    call get_inner_outer_radius_from_profile(profile_name,mass(1),r(1),r(imax))
+    Rstar=r(imax)
+  end if
 
-  Rstar=r(imax)
+
 
 
   open(unit=666,file=trim(adjustl(trim(adjustl(outdir))//"/info.dat")), &
       status="unknown",form='formatted',position="append")
   write(666,*) 'Mass of the model = ', mass(imax)/msun, 'solar masses'
-  write(666,*) 'Initial radius = ', Rstar/rsun, 'solar radii'
+!  write(666,*) 'Initial radius = ', Rstar/rsun, 'solar radii'
   close(666)
 
   ! set up the grid
@@ -76,18 +84,20 @@ subroutine problem
 
   !set up radius coordinates based on mass and density
   call integrate_radius_initial
-
+  print*,mass(1),mass(2),mass(imax)
+  print*,rho(1),rho(2),rho(imax-1)
+  print*,r(1),r(2),r(imax)
 
 
 !************************ Set up the opacity floor ****************************
-  
-  do i=1, imax
-    opacity_floor(i) = (envelope_metallicity*of_core - of_env      &
-                + metallicity(i)*(of_env - of_core))/(envelope_metallicity - 1)
-  end do
 
-  filename = trim(adjustl(outdir))//"/opacity_floor.dat"
-  call output_screenshot(opacity_floor,filename,imax)
+!  do i=1, imax
+!    opacity_floor(i) = (envelope_metallicity*of_core - of_env      &
+!                + metallicity(i)*(of_env - of_core))/(envelope_metallicity - 1)
+!  end do
+!
+!  filename = trim(adjustl(outdir))//"/opacity_floor.dat"
+!  call output_screenshot(opacity_floor,filename,imax)
 
 !******************** Set up the energy of the thermal bomb *******************
 
@@ -141,9 +151,15 @@ subroutine problem
   write(6,"(A60)") "***************************************************************************"
 
   call opacity_simple(temp(:),kappa(:),kappa_table(:),dkappadt(:))
+  do i = 1,imax-1
+    logT(i) = log10(temp(i))
+  end do
+  logT(imax) = logT(imax-1)
+
   call optical_depth(rho(:), r(:), kappa_table(:), tau(:))
   call luminosity(r(:),temp(:),kappa(:),lambda(:),inv_kappa(:),lum(:))
   call read_BolCorr
+
 
 !****************** initialize some vairables *********************************
 

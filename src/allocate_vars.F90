@@ -26,6 +26,7 @@ subroutine allocate_vars
   allocate(abar(imax))
   allocate(cs2(imax))
   allocate(entropy(imax))
+  allocate(entropy_frominput(imax))
   allocate(dedt(imax))
   allocate(dpdt(imax))
   allocate(tau(imax))
@@ -110,6 +111,7 @@ subroutine initialize_vars
     abar(:)     = 0.0d0
     cs2(:)      = 0.0d0
     entropy(:)  = 0.0d0
+    entropy_frominput = 0.0d0
     dedt(:)     = 0.0d0
     dpdt(:)     = 0.0d0
     tau(:)      = 0.0d0

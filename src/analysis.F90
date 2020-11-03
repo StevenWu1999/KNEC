@@ -95,14 +95,25 @@ subroutine analysis
 
 !------------------- Calculate the observed luminosity ------------------------
 
-  !observed luminosity is the sum of lum_photosphere and Ni contribution
+!  observed luminosity is the sum of lum_photosphere and Ni contribution
+!  if(photosphere_fell_on_the_center.eq.0) then
+!     lum_observed = lum_photo + sum(Ni_energy_rate* &
+!          Ni_deposit_function(index_photo:imax)*delta_mass(index_photo:imax))
+!  else
+!     lum_observed = lum(1) + &
+!          sum(Ni_energy_rate*Ni_deposit_function(1:imax)*delta_mass(1:imax))
+!  end if
+
+
   if(photosphere_fell_on_the_center.eq.0) then
-     lum_observed = lum_photo + sum(Ni_energy_rate* &
-          Ni_deposit_function(index_photo:imax)*delta_mass(index_photo:imax))
+      lum_observed = lum_photo + sum(simple_heating(index_photo:imax)*delta_mass(index_photo:imax))
   else
-     lum_observed = lum(1) + &
-          sum(Ni_energy_rate*Ni_deposit_function(1:imax)*delta_mass(1:imax))
+      lum_observed = lum(1) + &
+              sum(simple_heating(1:imax)*delta_mass(1:imax))
   end if
+
+
+
 
   !write down the time when the contribution of the Ni above the
   !photosphere to the luminosity is greater than 5%
