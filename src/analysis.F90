@@ -8,6 +8,7 @@ subroutine analysis
   character(len=1024) :: filename
 
   integer :: i
+  integer :: lum_observed_maxindex
 
   real*8 :: T_eff_for_BC
   real*8 :: bol_corr_used(11)
@@ -15,6 +16,7 @@ subroutine analysis
 
 !------------------------------------------------------------------------------
 !---------- Calculating optical depth and tracing the photosphere -------------
+
 
   !kappa_table (without the opacity floor) is used to trace the photosphere
   call optical_depth(rho(:), r(:), kappa_table(:), tau(:))
@@ -60,14 +62,15 @@ subroutine analysis
 
   !check if the photosphere moves through the regions with wrong opacity
   !log10(T) = 3.75 is the lower boundary of the OPAL opacity tables
-  if(metallicity(index_photo).gt.envelope_metallicity .and. &
-       log10(temp(index_photo)).lt.3.75d0 .and. &
-       kappa_table(index_photo).gt.kappa(index_photo) &
-       .and. index_photo.gt.1 ) then
-     opacity_corrupted = 1
-  else
-     opacity_corrupted = 0
-  end if
+!  if(metallicity(index_photo).gt.envelope_metallicity .and. &
+!       log10(temp(index_photo)).lt.3.75d0 .and. &
+!       kappa_table(index_photo).gt.kappa(index_photo) &
+!       .and. index_photo.gt.1 ) then
+!     opacity_corrupted = 1
+!  else
+!     opacity_corrupted = 0
+!  end if
+  
 
 !------------------------ Tracing the luminosity shell ------------------------
   index_lumshell = imax
@@ -93,6 +96,8 @@ subroutine analysis
      E_shell(i) = sum(eps(i:imax)*delta_mass(i:imax))
   end do
 
+
+
 !------------------- Calculate the observed luminosity ------------------------
 
 !  observed luminosity is the sum of lum_photosphere and Ni contribution
@@ -103,13 +108,28 @@ subroutine analysis
 !     lum_observed = lum(1) + &
 !          sum(Ni_energy_rate*Ni_deposit_function(1:imax)*delta_mass(1:imax))
 !  end if
+  
 
-
+  lum_observed_maxindex = imax
   if(photosphere_fell_on_the_center.eq.0) then
       lum_observed = lum_photo + sum(simple_heating(index_photo:imax)*delta_mass(index_photo:imax))
+      if(index_photo<lum_observed_maxindex) then
+          lum_observed_min = lum_photo &
+          + sum(simple_heating(index_photo:lum_observed_maxindex)*delta_mass(index_photo:lum_observed_maxindex))
+      else
+          lum_observed_min = lum_photo + sum(simple_heating(index_photo:imax)*delta_mass(index_photo:imax))
+      end if
+
   else
       lum_observed = lum(1) + &
               sum(simple_heating(1:imax)*delta_mass(1:imax))
+      if(index_photo<lum_observed_maxindex) then
+          lum_observed_min = lum(1) &
+          + sum(simple_heating(index_photo:lum_observed_maxindex)*delta_mass(index_photo:lum_observed_maxindex))
+      else
+          lum_observed_min = lum(1) + sum(simple_heating(index_photo:imax)*delta_mass(index_photo:imax))
+      end if
+
   end if
 
 
@@ -117,17 +137,17 @@ subroutine analysis
 
   !write down the time when the contribution of the Ni above the
   !photosphere to the luminosity is greater than 5%
-  if(shockpos_stop.eq.1 .and. &
-       abs((lum_observed - lum_photo)/lum_photo).gt.0.05 .and. &
-       Ni_contributes_five_percents.eq.0) then
-     
-     Ni_contributes_five_percents = 1
-     open(unit=666,file=trim(adjustl(trim(adjustl(outdir))//"/info.dat")), &
-          status="unknown",form='formatted',position="append")
-     write(666,*) 'Ni contribution to the luminosity is 5% at ', time, 'seconds'
-     close(666)
-
-  end if
+!  if(shockpos_stop.eq.1 .and. &
+!       abs((lum_observed - lum_photo)/lum_photo).gt.0.05 .and. &
+!       Ni_contributes_five_percents.eq.0) then
+!
+!     Ni_contributes_five_percents = 1
+!     open(unit=666,file=trim(adjustl(trim(adjustl(outdir))//"/info.dat")), &
+!          status="unknown",form='formatted',position="append")
+!     write(666,*) 'Ni contribution to the luminosity is 5% at ', time, 'seconds'
+!     close(666)
+!
+!  end if
 
 !-------- Calculation of color magnitudes using bolometric corrections --------
 

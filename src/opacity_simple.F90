@@ -1,6 +1,6 @@
 subroutine opacity_simple(temp_x,kappa_x,kappa_table_x,dkappadt_x)
 
-    use blmod, only: ye,logT
+    use blmod, only: ye_initial,logT
     use parameters
     use physical_constants
     implicit none
@@ -21,15 +21,8 @@ subroutine opacity_simple(temp_x,kappa_x,kappa_table_x,dkappadt_x)
 
 
 
-    do i=1, imax - 1
-
-        kappa_x(i) = 1.0d0 + 9.0d0/(1.0d0+(4.0d0*ye(i))**5)
-!        if (ye(i) .gt. 0.25) then
-!            kappa_x(i)= kappa_min
-!        else
-!            kappa_x(i) = kappa_max
-!        end if
-
+    do i=1, imax - 1  
+        kappa_x(i) = 1.0d0 + 9.0d0/(1.0d0+(4.0d0*ye_initial(i))**5)
 
         !derivative is not used in the current version of the code
         dkappadt_x(i) = 0.0d0

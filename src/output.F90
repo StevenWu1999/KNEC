@@ -117,6 +117,9 @@ subroutine output_all(modeflag)
      
      filename = trim(adjustl(outdir))//"/lum_observed.dat"
      call output_scalar(lum_observed,filename)
+
+     filename = trim(adjustl(outdir))//"/lum_observed_min.dat"
+     call output_scalar(lum_observed_min,filename)
          
      filename = trim(adjustl(outdir))//"/index_photo.dat"
      call output_integer(index_photo,filename)

@@ -111,7 +111,7 @@ end subroutine get_ncomps_from_profile
       
 subroutine read_profile(prof_name)
 
-  use blmod, only: mass, cmass, vel, rho, temp, ncomps, ye, abar, comp_details,&
+  use blmod, only: mass, cmass, vel, rho, temp, ncomps, ye,ye_initial,abar, comp_details,&
                     eps, p, cs2, dedt, dpdt, entropy, zav, p_rad, entropy_frominput
   use parameters
   use physical_constants
@@ -156,6 +156,7 @@ subroutine read_profile(prof_name)
      call map_map(temp(i),cmass(i),ptemp,  pmass,profile_zones)
      call map_map(entropy_frominput(i),cmass(i),pentropy,  pmass,profile_zones)
   enddo
+
   entropy_frominput(imax) = entropy_frominput(imax-1)
 
   if(continuous_boundary_switch)then
@@ -166,11 +167,11 @@ subroutine read_profile(prof_name)
     temp(imax) = 0.0d0 !passive boundary condition
   end if
 
-  print*,'here169'
+
 !!!------------------------- read composition profile ---------------------------
   if(ncomps.gt.0) then
      call read_profile_compositions(composition_profile_name)
-     print*,'here173'
+
      if(eoskey.eq.2) then
        ! initialize some variables need in the
        ! saha solver -- need to have composition info at this point
@@ -188,12 +189,13 @@ subroutine read_profile(prof_name)
   if(ncomps.eq.0) then
     do i = 1,imax-1
       !ye lives at the cell centers
-      call map_map(ye(i), cmass(i),pye,   pmass,profile_zones)
+      call map_map(ye_initial(i), cmass(i),pye,   pmass,profile_zones)
     end do
-    ye(imax) = ye(imax-1)
+    ye_initial(imax) = ye_initial(imax-1)
     abar(1:imax) = 150.0d0
     print*,"Assume mean molecular weight = 150!"
 
+    ye = ye_initial
   end if
 
   deallocate(pmass)

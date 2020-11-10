@@ -1,7 +1,7 @@
 program snec
 
   use blmod, only: dtime, dtime_p, time, nt, ntstart, tstart,   &
-     tdump, tdump_scalar, rho, tdump_check,lum_photo,eps,ye
+     tdump, tdump_scalar, rho, tdump_check,lum_photo,eps,ye,mass
   use parameters
   use outinfomod, only: outinfo_count
   implicit none
@@ -44,13 +44,13 @@ program snec
   nt = ntstart
 
   ye(:) = 62.0/150.0
-
+  print*,"ye is set to be 62/150!"
+  print*,mass(1000),mass(100)
 ! *****************************************************
 ! MAIN LOOP
 ! *****************************************************
 
   IntegrationLoop: do
-
 !      print*,'time:',time
 !     test_count = test_count +1
 !     if(test_count>test_maxcount) then

@@ -60,7 +60,8 @@ module blmod
     real*8, allocatable :: kappa_table(:)                  !tabular opacity
     real*8, allocatable :: kappa(:), kappa_p(:)             !opacity (floor applied)
     real*8, allocatable :: dkappadt(:)
-    real*8, allocatable :: ye(:)                           !electron fraction
+    real*8, allocatable :: ye(:)                           !current electron fraction(for hydrodynamics)
+    real*8, allocatable :: ye_initial(:)                   ! initial ye(pre nucleosynthesis, for opacity and heating rate)
     real*8, allocatable :: abar(:)
     real*8, allocatable :: cs2(:)                          !speed of sound squared
     real*8, allocatable :: comp(:, :)                       !mass fractions of elem-s
@@ -98,6 +99,7 @@ module blmod
     real*8 :: mass_lumshell   !mass coordinate of the luminosity shell
 
     real*8 :: lum_observed    !observed luminosity
+    real*8 :: lum_observed_min !observed luminosity(without the outermost layer)
 
     !numbers of some important elements in the composition profile
     integer :: H_number, He_number, C_number, O_number, Ni_number

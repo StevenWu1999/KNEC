@@ -23,6 +23,7 @@ subroutine allocate_vars
   allocate(Q(imax))
   allocate(Qterm(imax))
   allocate(ye(imax))
+  allocate(ye_initial(imax))
   allocate(abar(imax))
   allocate(cs2(imax))
   allocate(entropy(imax))
@@ -108,6 +109,7 @@ subroutine initialize_vars
     Q(:)        = 0.0d0
     Qterm(:)    = 0.0d0
     ye(:)       = 0.0d0
+    ye_initial(:) = 0.0d0
     abar(:)     = 0.0d0
     cs2(:)      = 0.0d0
     entropy(:)  = 0.0d0
