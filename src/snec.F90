@@ -44,8 +44,7 @@ program snec
   nt = ntstart
 
   ye(:) = 62.0/150.0
-  print*,"ye is set to be 62/150!"
-  print*,mass(1000),mass(100)
+  print*,"ye for EOS is set to be 62/150!"
 ! *****************************************************
 ! MAIN LOOP
 ! *****************************************************
