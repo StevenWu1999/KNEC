@@ -2,7 +2,7 @@ import numpy as np
 from math import pi
 if __name__ == "__main__":
     
-    Rmax=1e12 #cm 
+    Rmax=1e9 #cm 
     clight=3e10 #cm/s
     vmax=0.1*clight 
     #vmax=0.01*clight
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     print(V_of_R[n_slices-1])
     '''
     
-    with open("Homologous_expansion_"+density_profile+Temperature_smooth+".dat",'w') as outputfile1:
+    with open("Homologous_expansion_wind.dat",'w') as outputfile1:
         outputfile1.write(str(len(R_coordinates))+'\n')
         for i in range(len(R_coordinates)):
             s0=str(i+1).rjust(6," ")
@@ -57,11 +57,11 @@ if __name__ == "__main__":
             s3="     %.9e" %Temperature[i]
             s4="     %.9e" %Rho[i]
             s5="     %.9e" %V_of_R[i]
-            s6="     %.9e" %1.0
+            s6="     %.9e" %0.3
             s7="     %.9e" %0.0
             
             outputfile1.write(s0+s1+s2+s3+s4+s5+s6+s7+'\n')
-            
+    '''        
     with open("Homologous_expansion_composition"".dat",'w') as outputfile2:
         outputfile2.write(str(len(R_coordinates))+'  '+'1\n')
         outputfile2.write('1.0d0\n1.0d0\n')
@@ -71,7 +71,7 @@ if __name__ == "__main__":
             s3="     %.9e" %1.0
             outputfile2.write(s1+s2+s3+'\n')
         
-        
+    '''    
             
             
        
