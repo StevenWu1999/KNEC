@@ -84,9 +84,9 @@ subroutine problem
 
   !set up radius coordinates based on mass and density
   call integrate_radius_initial
-  print*,'mass(1) and mass(imax):',mass(1),mass(imax)
-  print*,'rho(1) and rho(imax):',rho(1),rho(imax-1)
-  print*,'r(1) and r(imax)',r(1),r(imax)
+  print*,mass(1),mass(2),mass(imax)
+  print*,rho(1),rho(2),rho(imax-1)
+  print*,r(1),r(2),r(imax)
 
 
 !************************ Set up the opacity floor ****************************
@@ -159,6 +159,9 @@ subroutine problem
   call optical_depth(rho(:), r(:), kappa_table(:), tau(:))
   call luminosity(r(:),temp(:),kappa(:),lambda(:),inv_kappa(:),lum(:))
   call read_BolCorr
+
+  call read_filter
+
 
 
 !****************** initialize some vairables *********************************

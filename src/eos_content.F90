@@ -88,7 +88,7 @@ subroutine paczynski_eos(rhox,tempx,yex,abarx,px,ex,cs2x,dpdtx,dedtx, &
 
 !    call simple_saha(saha_ncomps,k(i),tempx(i),rhox(i),ne)
 
-    ne = rhox(i)/(mproton*abarx(i)) !print*,A=150,first ionization
+    ne = 100*rhox(i)/(mproton*abarx(i)) !print*,A=150, ionization degree = 100
     N = 1.0d0 / (mproton * abarx(i))
     invrhox = 1.0d0/rhox(i)
     ybar = ne / N * invrhox

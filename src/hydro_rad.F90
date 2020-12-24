@@ -78,6 +78,7 @@ subroutine hydro_rad
    if(i.gt.1) then
        if (r(i).lt.r(i-1)) then
            write(*,*) 'radius of a gridpoint', i, 'is less than preceding'
+           print*,r(i),r(i-1)
            stop
        end if
    end if

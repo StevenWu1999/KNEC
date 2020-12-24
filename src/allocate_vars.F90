@@ -12,6 +12,7 @@ subroutine allocate_vars
   allocate(eps_p(imax))
   allocate(temp(imax))
   allocate(temp_p(imax))
+  allocate(temp_for_color(imax))
   allocate(r(imax))
   allocate(r_p(imax))
   allocate(cr(imax))
@@ -98,6 +99,7 @@ subroutine initialize_vars
     eps_p(:)    = 0.0d0
     temp(:)     = 0.0d0
     temp_p(:)   = 0.0d0
+    temp_for_color(:) = 0.0d0
     r(:)        = 0.0d0
     r_p(:)      = 0.0d0
     cr(:)       = 0.0d0

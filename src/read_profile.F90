@@ -212,6 +212,8 @@ subroutine read_profile(prof_name)
 
   !call equation of state
   keytemp = 1
+
+  print*, "Average degree of ionization = 100 (see eos_content.F90) !"
   call eos(rho(1:imax-1),temp(1:imax-1),ye(1:imax-1), &
          abar(1:imax-1),p(1:imax-1),eps(1:imax-1), &
          cs2(1:imax-1), dpdt(1:imax-1), dedt(1:imax-1), &

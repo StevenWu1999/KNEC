@@ -6,6 +6,7 @@ SOURCES=problem.F90\
 	eos_switch.F90\
 	eos_content.F90\
 	grid.F90\
+  read_filter.F90\
 	read_profile.F90\
 	read_profile_compositions.F90\
 	output.F90\

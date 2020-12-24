@@ -21,7 +21,8 @@ subroutine grid
       enddo
 
   else if(gridding.eq.'from_file_by_mass') then
-
+      
+      print*, "Using GridPattern.dat !"
       open(666,file=trim("tables/GridPattern.dat"),status='unknown', &
             form='formatted',action='read')
       number_lines_GridPattern = 0

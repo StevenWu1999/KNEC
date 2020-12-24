@@ -1,43 +1,62 @@
 import numpy as np
-from math import pi
+from math import pi,log
 if __name__ == "__main__":
     
-    Rmax=1e9 #cm 
-    clight=3e10 #cm/s
-    vmax=0.1*clight 
-    #vmax=0.01*clight
-    Msun=2e33 #g
-    Mtotal=0.01*Msun
-
-    
-    n_slices=3000
-    Mass_coordinates=np.linspace(Mtotal/1e5,Mtotal,n_slices)
-    R_coordinates=(Mass_coordinates/Mtotal)**(1/3)*Rmax
-    
-    V_of_R=R_coordinates*vmax/Rmax
+    density_profile = "wind-3"
     T = 1e9
-    density_profile = "wind"
-    Temperature_smooth = "nosmooth"
-    Temperature_smooth_length = 301
-    
+    Msun=2e33 #g
+    Mtotal=0.1*Msun
+    clight=3e10 #cm/s
+    ye = 0.3
     #density profile
     if density_profile == "uniform":
+        Rmax=1e9 #cm 
+        vmax=0.1*clight 
+        #vmax=0.01*clight       
+        n_slices=3000
+        Mass_coordinates=np.linspace(Mtotal/1e5,Mtotal,n_slices)
+        R_coordinates=(Mass_coordinates/Mtotal)**(1/3)*Rmax
+        
+        V_of_R=R_coordinates*vmax/Rmax
         rho=Mtotal/(4/3*pi*Rmax**3)
         Rho=np.ones(len(R_coordinates))*rho
-    elif density_profile == "wind":
+    elif density_profile == "wind-2":
         #rho = k / r^2
+        Rmax=1e9 #cm 
+        vmax=0.1*clight 
+        #vmax=0.01*clight
+        
+        n_slices=3000
+        Mass_coordinates=np.linspace(Mtotal/1e5,Mtotal,n_slices)
+        R_coordinates=(Mass_coordinates/Mtotal)**(1/3)*Rmax
+        
+        V_of_R=R_coordinates*vmax/Rmax
         k = Mtotal/(4*pi*Rmax)
         Rho = k/(R_coordinates**2)
 
-    #temperature smoothing
-    if Temperature_smooth == "smooth":     
-        Temperature = T*np.ones(len(R_coordinates))
-        for i in range(Temperature_smooth_length):
-            Temperature[n_slices-1-i] = T/(Temperature_smooth_length-1)*i
-        ratio = 1-Mass_coordinates[n_slices-1-Temperature_smooth_length]/Mass_coordinates[n_slices-1]
-        print('temperature is smoothed for '+str(ratio*100)+r'% of the mass')
-    else:
-        Temperature = T*np.ones(len(R_coordinates))
+    elif density_profile == "wind-3":
+        vmax = 0.2*clight
+        vmin = 0.05*clight
+        Rmax = 1e9 #cm
+        Rmin = Rmax*vmin/vmax
+
+        print("Using wind-3 density profile, Rmin = "+str(Rmin)+" cm")
+        #rho = k/r^3
+        k = Mtotal/(4*pi*log(Rmax/Rmin))
+
+        n_slices=3000
+        V_of_R = np.linspace(vmin,vmax,n_slices)
+        R_coordinates = V_of_R/vmax*Rmax
+        Mass_coordinates=np.zeros(n_slices)
+        for i in range(n_slices-1):
+            Mass_coordinates[i+1] = Mass_coordinates[i] + 4*pi*k*log(R_coordinates[i+1]/R_coordinates[i])
+        
+        Rho = k/(R_coordinates**3)
+
+    elif density_profile == "wind-4":
+        pass
+
+    Temperature = T*np.ones(len(R_coordinates))
     
 
     
@@ -48,7 +67,7 @@ if __name__ == "__main__":
     print(V_of_R[n_slices-1])
     '''
     
-    with open("Homologous_expansion_wind.dat",'w') as outputfile1:
+    with open("hewind3_ye0.3_0.05c_0.2c_0.1M.dat",'w') as outputfile1:
         outputfile1.write(str(len(R_coordinates))+'\n')
         for i in range(len(R_coordinates)):
             s0=str(i+1).rjust(6," ")
@@ -57,7 +76,7 @@ if __name__ == "__main__":
             s3="     %.9e" %Temperature[i]
             s4="     %.9e" %Rho[i]
             s5="     %.9e" %V_of_R[i]
-            s6="     %.9e" %0.3
+            s6="     %.9e" %ye
             s7="     %.9e" %0.0
             
             outputfile1.write(s0+s1+s2+s3+s4+s5+s6+s7+'\n')

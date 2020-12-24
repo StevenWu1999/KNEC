@@ -40,10 +40,15 @@ grid_pattern.append(0.0)
 for l in range(0,imax-1):
     grid_pattern.append(grid_pattern[l]+delta[l])
 
-print "grid pattern consists of", len(grid_pattern), "points"
+#increase resolution near outer boundary
+for l in range(imax-201,imax-1):
+    grid_pattern.append((grid_pattern[l]+grid_pattern[l+1])/2)
 
-outfile = open("GridPattern_new.dat","w")
-for l in range(0,imax):
+grid_pattern.sort()
+print ("grid pattern consists of", len(grid_pattern), "points")
+
+outfile = open("GridPattern1200.dat","w")
+for l in range(0,imax+200):
     outfile.write(str(grid_pattern[l]) + '\n')
 outfile.close()
 

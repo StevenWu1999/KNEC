@@ -43,8 +43,9 @@ program snec
   time = tstart
   nt = ntstart
 
-  ye(:) = 62.0/150.0
-  print*,"ye for EOS is set to be 62/150!"
+!   print*,"ye for EOS is set to be 62/150!"
+  ye(:) = 0.4
+  print*,"ye for EOS is set to be 0.4!"
 ! *****************************************************
 ! MAIN LOOP
 ! *****************************************************

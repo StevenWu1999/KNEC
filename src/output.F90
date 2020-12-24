@@ -44,6 +44,9 @@ subroutine output_all(modeflag)
     filename = trim(adjustl(outdir))//"/temp.xg"
     call output_single_mass(temp,filename)
 
+    filename = trim(adjustl(outdir))//"/temp_for_color.xg"
+    call output_single_mass(temp_for_color,filename)
+
     filename = trim(adjustl(outdir))//"/lum.xg"
     call output_single_mass(lum,filename)
 
@@ -135,6 +138,9 @@ subroutine output_all(modeflag)
  
      filename = trim(adjustl(outdir))//"/rad_photo.dat"
      call output_scalar(rad_photo,filename)
+
+     filename = trim(adjustl(outdir))//"/rad_max.dat"
+     call output_scalar(rad_max,filename)
      
      filename = trim(adjustl(outdir))//"/opacity_corrupted.dat"
      call output_integer(opacity_corrupted,filename)

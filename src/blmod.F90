@@ -56,6 +56,7 @@ module blmod
     real*8, allocatable :: p(:), p_p(:)                 !pressure
     real*8, allocatable :: eps(:), eps_p(:)               !specific internal energy
     real*8, allocatable :: temp(:), temp_p(:)              !temperature
+    real*8, allocatable :: temp_for_color(:)
     real*8, allocatable :: rho(:), rho_p(:)               !density
     real*8, allocatable :: kappa_table(:)                  !tabular opacity
     real*8, allocatable :: kappa(:), kappa_p(:)             !opacity (floor applied)
@@ -95,12 +96,15 @@ module blmod
     integer :: Ni_contributes_five_percents
     real*8, allocatable :: photosphere_tracer(:)
 
+    real*8 :: rad_max !maximum radius
     integer :: index_lumshell !index of the luminosity shell
     real*8 :: mass_lumshell   !mass coordinate of the luminosity shell
 
     real*8 :: lum_observed    !observed luminosity
     real*8 :: lum_observed_min !observed luminosity(without the outermost layer)
-
+    real*8 :: lum_color(5)
+    real*8 :: Magnitude_UBVRI(5)
+    real*8 :: lum_color_Gemini(4)
     !numbers of some important elements in the composition profile
     integer :: H_number, He_number, C_number, O_number, Ni_number
 
@@ -123,6 +127,32 @@ module blmod
     integer :: nlines_bol_corr
     real*8 :: magnitudes(11)
     real*8 :: T_eff
+    real*8, allocatable :: Freq_UBVRI(:)
+    real*8, allocatable :: Transmission_UBVRI(:,:)
+
+    real*8, allocatable :: Wavelength_Gemini_ugriz(:,:)
+    real*8, allocatable :: Trans_Gemini_ugriz(:,:)
+    real*8 :: Minmax_Gemini_ugriz(2,5)
+    real*8 :: ABzeropoint_Gemini_ugriz(5)
+    real*8 :: Magnitude_Gemini_ugriz(5)
+
+    real*8, allocatable :: Wavelength_Gemini_JHKs(:,:)
+    real*8, allocatable :: Trans_Gemini_JHKs(:,:)
+    real*8 :: Minmax_Gemini_JHKs(2,3)
+    real*8 :: ABzeropoint_Gemini_JHKs(3)
+    real*8 :: Magnitude_Gemini_JHKs(3)
+
+    real*8, allocatable :: Wavelength_CTIO_BVRIJHK(:,:)
+    real*8, allocatable :: Trans_CTIO_BVRIJHK(:,:)
+    real*8 :: Minmax_CTIO_BVRIJHK(2,7)
+    real*8 :: ABzeropoint_CTIO_BVRIJHK(7)
+    real*8 :: Magnitude_CTIO_BVRIJHK(7)
+
+    real*8, allocatable :: Wavelength_CTIO_ugrizY(:,:)
+    real*8, allocatable :: Trans_CTIO_ugrizY(:,:)
+    real*8 :: Minmax_CTIO_ugrizY(2,6)
+    real*8 :: ABzeropoint_CTIO_ugrizY(6)
+    real*8 :: Magnitude_CTIO_ugrizY(6)
 
     !quantities related to the heating by radioactive Ni
     real*8, allocatable :: Ni_deposit_function(:)
@@ -906,6 +936,10 @@ module physical_constants
     real*8, parameter :: sun_mag = 4.75d0
     !bolometric luminosity of sun in erg/s
     real*8, parameter :: sun_lum = 3.846d33
+    !Jansky in erg/(s cm^2 Hz)
+    real*8, parameter :: Jy = 1.0d-23
+    ! Mpc to cm
+    real*8, parameter :: Mpc = 3.08567758d24
 
     ! constants used in Saha solver
     real*8, parameter :: saha_coeff = 2.0d0 * (2.0d0 * pi * melectron * kboltz / (h_cgs**2))**(1.5d0)
