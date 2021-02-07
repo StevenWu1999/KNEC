@@ -25,6 +25,7 @@ subroutine allocate_vars
   allocate(Qterm(imax))
   allocate(ye(imax))
   allocate(ye_initial(imax))
+  allocate(expansion_timescale(imax))
   allocate(abar(imax))
   allocate(cs2(imax))
   allocate(entropy(imax))
@@ -73,6 +74,8 @@ subroutine allocate_vars
   allocate(heating_rate_fitting(imax))
   allocate(heating_deposit_function(imax))
   allocate(simple_heating(imax))
+  allocate(A_int_ricigliano(imax,2))
+
 
 !used for the calculations of the opacity (see opacity.F90)
   allocate(xxc(imax))
@@ -112,6 +115,7 @@ subroutine initialize_vars
     Qterm(:)    = 0.0d0
     ye(:)       = 0.0d0
     ye_initial(:) = 0.0d0
+    expansion_timescale(:) = 0.0d0
     abar(:)     = 0.0d0
     cs2(:)      = 0.0d0
     entropy(:)  = 0.0d0
@@ -158,7 +162,7 @@ subroutine initialize_vars
     dtime_p     = 0.0d0
     nt          = 0
     time_Ni      = 0.0d0
-    time_heating = 0.0d0
+
 
     scratch_step = .false.
 

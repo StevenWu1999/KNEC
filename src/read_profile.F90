@@ -19,7 +19,7 @@ subroutine get_inner_outer_mass_from_profile(prof_name,inner_mass,outer_mass)
 
   open(666,file=trim(prof_name),status='unknown',&
        form='formatted',action='read')
-
+  read(666,*)
   read(666,*) profile_zones
   allocate(pmass(profile_zones))
   
@@ -61,7 +61,7 @@ subroutine get_inner_outer_radius_from_profile(prof_name,inner_mass, &
 
   open(666,file=trim(prof_name),status='unknown',&
        form='formatted',action='read')
-
+  read(666,*)
   read(666,*) profile_zones
   allocate(pradius(profile_zones))
   allocate(pmass(profile_zones))
@@ -112,7 +112,7 @@ end subroutine get_ncomps_from_profile
 subroutine read_profile(prof_name)
 
   use blmod, only: mass, cmass, vel, rho, temp, ncomps, ye,ye_initial,abar, comp_details,&
-                    eps, p, cs2, dedt, dpdt, entropy, zav, p_rad, entropy_frominput
+                    eps, p, cs2, dedt, dpdt, entropy, zav, p_rad, entropy_frominput,expansion_timescale
   use parameters
   use physical_constants
   use eosmodule, only: init_ionpot
@@ -124,12 +124,12 @@ subroutine read_profile(prof_name)
   integer :: ibuffer
   integer :: keytemp, keyerr
 
-  real*8,allocatable :: pmass(:), pradius(:), ptemp(:), prho(:), pvel(:),pye(:),pentropy(:)
+  real*8,allocatable :: pmass(:), pradius(:), ptemp(:), prho(:), pvel(:),pye(:),pentropy(:),pexpansion_timescale(:)
 
 !------------------------------------------------------------------------------
 
   open(666,file=trim(prof_name),status='unknown',form='formatted',action='read')
-
+  read(666,*)
   read(666,*) profile_zones
   profile_zones = profile_zones
   write(*,*) "We have ",profile_zones, "profile zones."
@@ -142,9 +142,10 @@ subroutine read_profile(prof_name)
   allocate(pvel(profile_zones))
   allocate(pye(profile_zones))
   allocate(pentropy(profile_zones))
+  allocate(pexpansion_timescale(profile_zones))
 
   do i=1,profile_zones
-     read(666,*) ibuffer, pmass(i), pradius(i), ptemp(i), prho(i), pvel(i), pye(i), pentropy(i)
+     read(666,*) ibuffer, pmass(i), pradius(i), ptemp(i), prho(i), pvel(i), pye(i), pentropy(i), pexpansion_timescale(i)
   enddo
 
   do i=1,imax !velocity lives at the cell edges
@@ -155,9 +156,15 @@ subroutine read_profile(prof_name)
      call map_map(rho(i), cmass(i),prho,   pmass,profile_zones)
      call map_map(temp(i),cmass(i),ptemp,  pmass,profile_zones)
      call map_map(entropy_frominput(i),cmass(i),pentropy,  pmass,profile_zones)
+     call map_map(expansion_timescale(i),cmass(i),pexpansion_timescale, pmass,profile_zones)
   enddo
 
   entropy_frominput(imax) = entropy_frominput(imax-1)
+  expansion_timescale(imax) = expansion_timescale(imax-1)
+
+  do i=1,imax
+    expansion_timescale(i) = expansion_timescale(i)*1000.0d0 ! s to ms
+  enddo
 
   if(continuous_boundary_switch)then
     rho(imax)=rho(imax-1)!passive boundary condition
@@ -185,17 +192,17 @@ subroutine read_profile(prof_name)
        end do
      end do
   endif
-
+!  for kilonovae, no composition profile
   if(ncomps.eq.0) then
     do i = 1,imax-1
       !ye lives at the cell centers
-      call map_map(ye_initial(i), cmass(i),pye,   pmass,profile_zones)
+      call map_map(ye_initial(i), cmass(i),pye,pmass,profile_zones)
     end do
     ye_initial(imax) = ye_initial(imax-1)
-    abar(1:imax) = 150.0d0
-    print*,"Assume mean molecular weight = 150!"
 
-    ye = ye_initial
+    abar(:) = mu  !print*,"Assume mean molecular weight = 150!"
+    ye(:) = ye_afternucleosynthesis
+
   end if
 
   deallocate(pmass)
@@ -205,6 +212,7 @@ subroutine read_profile(prof_name)
   deallocate(pvel)
   deallocate(pye)
   deallocate(pentropy)
+  deallocate(pexpansion_timescale)
 
 
 !------------- find other hydrodynamical quantities from the EOS --------------
@@ -213,7 +221,6 @@ subroutine read_profile(prof_name)
   !call equation of state
   keytemp = 1
 
-  print*, "Average degree of ionization = 100 (see eos_content.F90) !"
   call eos(rho(1:imax-1),temp(1:imax-1),ye(1:imax-1), &
          abar(1:imax-1),p(1:imax-1),eps(1:imax-1), &
          cs2(1:imax-1), dpdt(1:imax-1), dedt(1:imax-1), &
@@ -227,8 +234,6 @@ subroutine read_profile(prof_name)
     eps(imax) = 0.0d0!passive boundary condition
     p(imax) = 0.0d0!active boundary condition, used in the velocity update
   end if
-
-
 
 
 end subroutine read_profile

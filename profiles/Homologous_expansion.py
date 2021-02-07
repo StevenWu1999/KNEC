@@ -5,9 +5,12 @@ if __name__ == "__main__":
     density_profile = "wind-3"
     T = 1e9
     Msun=2e33 #g
-    Mtotal=0.1*Msun
+    Mtotal=0.01*Msun
     clight=3e10 #cm/s
-    ye = 0.3
+    ye = 0.05
+    entropy = 10.0 #[kb/baryon]
+    tau = 10.0e-3 #[s] 
+
     #density profile
     if density_profile == "uniform":
         Rmax=1e9 #cm 
@@ -67,7 +70,8 @@ if __name__ == "__main__":
     print(V_of_R[n_slices-1])
     '''
     
-    with open("hewind3_ye0.3_0.05c_0.2c_0.1M.dat",'w') as outputfile1:
+    with open("wind3_0.01M_0.2c_ye0.05_s10_tau10.dat",'w') as outputfile1:
+        outputfile1.write('#      index      mass[g]      radius[cm]      temperature[K]      density[g/cm^3]      velocity[cm/s]      ye(initial)      entropy[kb/baryon]      expansion_timescale[s]\n')
         outputfile1.write(str(len(R_coordinates))+'\n')
         for i in range(len(R_coordinates)):
             s0=str(i+1).rjust(6," ")
@@ -77,9 +81,10 @@ if __name__ == "__main__":
             s4="     %.9e" %Rho[i]
             s5="     %.9e" %V_of_R[i]
             s6="     %.9e" %ye
-            s7="     %.9e" %0.0
+            s7="     %.9e" %entropy
+            s8="     %.9e" %tau
             
-            outputfile1.write(s0+s1+s2+s3+s4+s5+s6+s7+'\n')
+            outputfile1.write(s0+s1+s2+s3+s4+s5+s6+s7+s8+'\n')
     '''        
     with open("Homologous_expansion_composition"".dat",'w') as outputfile2:
         outputfile2.write(str(len(R_coordinates))+'  '+'1\n')

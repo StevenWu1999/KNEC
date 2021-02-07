@@ -4,16 +4,19 @@ subroutine problem
             opacity_floor, metallicity, envelope_metallicity, do_piston, &
             do_bomb, total_initial_energy, bomb_total_energy, bomb_spread, &
             rho, kappa, kappa_table, dkappadt, tau, temp, p, delta_mass, &
-            lambda, inv_kappa, lum, eos_gamma1,logT
+            lambda, inv_kappa, lum, eos_gamma1,logT, entropy_frominput, ye_initial,A_int_ricigliano,expansion_timescale
   use parameters
   use eosmodule
   use physical_constants
+  use heating_rate_LR15_module
+  use heating_rate_Ricigliano_module
   implicit none
 
   real*8 :: buffer(imax)
 
   integer :: i
   character(len=256) :: filename
+  character(80) :: heating_filename
 
 !for OPAL interpolation routine  ! UNUSED???
   real*4 :: opact,dopact,dopacr,dopactd
@@ -75,8 +78,7 @@ subroutine problem
   ! set up the grid
   call grid
 
-
-!*************************** Read the profile *********************************
+  !*************************** Read the profile *********************************
 
   write(*,*) "Profile file: ",trim(profile_name)
 
@@ -89,7 +91,27 @@ subroutine problem
   print*,r(1),r(2),r(imax)
 
 
-!************************ Set up the opacity floor ****************************
+
+  !*************************** Read heating rates table *********************************
+
+
+  if (trim(adjustl(heating_formula)) .eq. "LR15") then
+    heating_filename = 'tables/hires_sym0_heating_rate'
+    call read_heating_table_LR15(heating_filename)
+    write(6,*)'heating: LR15 hires_sym0_heating_rate table read!'
+
+  elseif (trim(adjustl(heating_formula)) .eq. "Ricigliano") then
+    heating_filename = "tables/epsdatafit.dat"
+    call read_heating_table(heating_filename)
+    write(6,*) "heating: Ricigliano epsdatafit.dat table read!"
+
+    do i = 1,imax
+      call interp_heating_coeff(expansion_timescale(i),entropy_frominput(i),ye_initial(i),A_int_ricigliano(i,:))
+    end do
+
+  end if
+
+  !************************ Set up the opacity floor ****************************
 
 !  do i=1, imax
 !    opacity_floor(i) = (envelope_metallicity*of_core - of_env      &
@@ -164,7 +186,7 @@ subroutine problem
 
 
 
-!****************** initialize some vairables *********************************
+!****************** initialize some vairables (supernova)*********************************
 
 !  call compose_opacity_tables_OPAL
 !

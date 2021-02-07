@@ -54,7 +54,7 @@ subroutine paczynski_eos(rhox,tempx,yex,abarx,px,ex,cs2x,dpdtx,dedtx, &
 
 !local:
   real*8 :: N     !Number of atoms and ions per unit mass
-  real*8 :: ybar  !Number of free electrons / Total number of atoms and ions
+!  real*8 :: ybar  !Number of free electrons / Total number of atoms and ions
   real*8 :: pion, pe, ped, pend, pednr, pedr   !pressure components
   real*8 :: ne                                 !free electron concentration
 
@@ -88,10 +88,10 @@ subroutine paczynski_eos(rhox,tempx,yex,abarx,px,ex,cs2x,dpdtx,dedtx, &
 
 !    call simple_saha(saha_ncomps,k(i),tempx(i),rhox(i),ne)
 
-    ne = 100*rhox(i)/(mproton*abarx(i)) !print*,A=150, ionization degree = 100
+    ne = ybar*rhox(i)/(mproton*abarx(i)) !print*,A=150, ionization degree = 2
     N = 1.0d0 / (mproton * abarx(i))
     invrhox = 1.0d0/rhox(i)
-    ybar = ne / N * invrhox
+!    ybar = ne / N * invrhox
     sum1 = 0.0d0
     sum2 = 0.0d0
     sum3 = 0.0d0

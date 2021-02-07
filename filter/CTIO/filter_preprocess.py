@@ -6,7 +6,6 @@ angstrom = 1.0e-8 #cm
 nm = 1.0e-7 #cm
 clight = 29979245800.0 #cm/s
 
-# https://www.aip.de/en/research/facilities/stella/instruments/data/johnson-ubvri-filter-curves
 
 
 def readdata(filename):

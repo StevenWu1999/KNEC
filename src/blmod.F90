@@ -68,6 +68,7 @@ module blmod
     real*8, allocatable :: comp(:, :)                       !mass fractions of elem-s
     real*8, allocatable :: comp_details(:, :)               !mass and atomic numbers
     real*8, allocatable :: metallicity(:)                  !metallicity
+    real*8, allocatable :: expansion_timescale(:)          !expansion timescale from input
 
     real*8, allocatable :: Q(:)                            !artificial viscosity
     !term in the energy equation with artificial viscosity
@@ -165,7 +166,8 @@ module blmod
     real*8, allocatable :: heating_rate_fitting(:)
     real*8, allocatable :: heating_deposit_function(:)
     real*8, allocatable :: simple_heating(:)
-    real*8, allocatable :: time_heating
+    real*8, allocatable :: A_int_ricigliano(:,:)
+
 
 
     !quantities used for the calculations of the opacity (see opacity.F90)
@@ -249,6 +251,8 @@ module parameters
     real*8 :: Ni_period
 
     !parameters related to r-process nuclear heating
+
+    character(len = 256) :: heating_formula
     real*8 :: heating_epsilon_0
     real*8 :: heating_epsilon_th
     real*8 :: heating_sigma
@@ -258,6 +262,10 @@ module parameters
 
 
     integer :: saha_ncomps
+    real*8 :: mu
+    real*8 :: ybar
+    real*8 :: ye_afternucleosynthesis
+
 
     logical :: boxcar_smoothing
 

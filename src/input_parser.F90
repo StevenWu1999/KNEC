@@ -82,14 +82,25 @@ subroutine input_parser
   call get_integer_parameter('Ni_by_hand',Ni_by_hand,.true.)
   if (Ni_by_hand.eq.-666) Ni_by_hand = 1 ! set to default value
 
-  call get_double_parameter('heating_epsilon_0',heating_epsilon_0,opt)
+
+  call get_string_parameter('heating_formula',heating_formula,opt)
+
+  print*,"Using ",trim(adjustl(heating_formula))," heating rates."
   call get_double_parameter('heating_epsilon_th',heating_epsilon_th,opt)
-  call get_double_parameter('heating_sigma',heating_sigma,opt)
-  call get_double_parameter('heating_t_0',heating_t_0,opt)
-  call get_double_parameter('heating_alpha',heating_alpha,opt)
+
+  if (trim(adjustl(heating_formula))=="Korobkin") then
+      call get_double_parameter('heating_epsilon_0',heating_epsilon_0,opt)
+      call get_double_parameter('heating_sigma',heating_sigma,opt)
+      call get_double_parameter('heating_t_0',heating_t_0,opt)
+      call get_double_parameter('heating_alpha',heating_alpha,opt)
+  end if
+
 
   call get_integer_parameter('saha_ncomps',saha_ncomps,opt)
-  
+  call get_double_parameter('mu',mu,opt)
+  call get_double_parameter('ybar',ybar,opt)
+  call get_double_parameter('ye_afternucleosynthesis',ye_afternucleosynthesis,opt)
+
   call get_logical_parameter('boxcar_smoothing',boxcar_smoothing,opt)
 
   call get_double_parameter('opacity_floor_envelope',of_env,opt)

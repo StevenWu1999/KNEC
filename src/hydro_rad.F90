@@ -75,8 +75,10 @@ subroutine hydro_rad
   do i=1,imax
    r(i) = r_p(i) + dtime * vel(i)
    
+   
    if(i.gt.1) then
        if (r(i).lt.r(i-1)) then
+           print*, time
            write(*,*) 'radius of a gridpoint', i, 'is less than preceding'
            print*,r(i),r(i-1)
            stop

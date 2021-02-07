@@ -4,13 +4,17 @@ program snec
      tdump, tdump_scalar, rho, tdump_check,lum_photo,eps,ye,mass
   use parameters
   use outinfomod, only: outinfo_count
-  implicit none
+  use heating_rate_LR15_module
 
+  implicit none
+  external :: Blackbody
   logical :: OutputFlag = .false.
   logical :: OutputFlagScalar = .false.
   logical :: OutputFlagCheck = .false.
   integer :: test_maxcount = 5
   integer :: test_count = 0
+
+
 !------------------------------------------------------------------------------
 
   write(*,*)
@@ -20,9 +24,12 @@ program snec
   write(*,*) "***********************************"
 
   write(*,*)
-! *****************************************************
+
+
+  ! *****************************************************
 ! INITIALIZATION
 ! *****************************************************        
+  
 
   call input_parser
 
@@ -43,9 +50,8 @@ program snec
   time = tstart
   nt = ntstart
 
-!   print*,"ye for EOS is set to be 62/150!"
-  ye(:) = 0.4
-  print*,"ye for EOS is set to be 0.4!"
+!  ye(:) = 62.0/150.0
+!  print*,"ye for EOS is set to be 62/150!"
 ! *****************************************************
 ! MAIN LOOP
 ! *****************************************************
