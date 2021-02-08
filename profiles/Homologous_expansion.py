@@ -7,7 +7,7 @@ if __name__ == "__main__":
     Msun=2e33 #g
     Mtotal=0.01*Msun
     clight=3e10 #cm/s
-    ye = 0.05
+    ye = 0.1
     entropy = 10.0 #[kb/baryon]
     tau = 10.0e-3 #[s] 
 
@@ -70,7 +70,7 @@ if __name__ == "__main__":
     print(V_of_R[n_slices-1])
     '''
     
-    with open("wind3_0.01M_0.2c_ye0.05_s10_tau10.dat",'w') as outputfile1:
+    with open("wind3_0.01M_0.2c_ye0.1_s10_tau10.dat",'w') as outputfile1:
         outputfile1.write('#      index      mass[g]      radius[cm]      temperature[K]      density[g/cm^3]      velocity[cm/s]      ye(initial)      entropy[kb/baryon]      expansion_timescale[s]\n')
         outputfile1.write(str(len(R_coordinates))+'\n')
         for i in range(len(R_coordinates)):
