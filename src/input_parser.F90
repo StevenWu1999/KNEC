@@ -113,6 +113,7 @@ subroutine input_parser
     call get_double_parameter('heating_alpha',heating_alpha,opt)
 
     call get_double_parameter('heating_t_cutoff',heating_t_cutoff,opt)
+    print*,"cutoff time:",heating_t_cutoff,"sec."
   end if
 
 

@@ -80,7 +80,7 @@ subroutine nuclear_heating_rate
                 t_day = time/(24.0*3600.0)
                 hybrid_R = heating_epsilon_th*A_int_ricigliano(i,1)*t_day**(-A_int_ricigliano(i,2))
 
-                R_fraction = (time-0.9d0*heating_t_cutoff)/0.2d0*heating_t_cutoff
+                R_fraction = (time-0.9d0*heating_t_cutoff)/(0.2d0*heating_t_cutoff)
                 K_fraction = 1.0d0 - R_fraction
                 simple_heating(i) = K_fraction*hybrid_K + R_fraction * hybrid_R
 
