@@ -17,16 +17,14 @@ program snec
   integer :: system_time(8)
 
 
-!------------------------------------------------------------------------------
+
+  !------------------------------------------------------------------------------
 
   call date_and_time(values=system_time)
   print '(i4, 5(a, i2.2), " UTC")', system_time(1), '/', system_time(2), '/', system_time(3), ' ', &
           system_time(5), ':', system_time(6), ':', system_time(7)
 
 
-
-  write(*,*)
-  
   write(*,*) "***********************************"
   write(*,*) "* Supernova Explosion Code (SNEC) *"
   write(*,*) "***********************************"
@@ -157,10 +155,10 @@ program snec
 
   enddo IntegrationLoop
 
+
   call date_and_time(values=system_time)
   print '(i4, 5(a, i2.2), " UTC")', system_time(1), '/', system_time(2), '/', system_time(3), ' ', &
           system_time(5), ':', system_time(6), ':', system_time(7)
-
 
 
 end program snec

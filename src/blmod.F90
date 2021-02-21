@@ -258,6 +258,7 @@ module parameters
     real*8 :: heating_sigma
     real*8 :: heating_t_0
     real*8 :: heating_alpha
+    real*8 :: heating_t_cutoff
 
 
 

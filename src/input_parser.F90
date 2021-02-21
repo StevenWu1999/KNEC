@@ -106,6 +106,15 @@ subroutine input_parser
       call get_double_parameter('heating_alpha',heating_alpha,opt)
   end if
 
+  if (trim(adjustl(heating_formula))=="Hybrid") then
+    call get_double_parameter('heating_epsilon_0',heating_epsilon_0,opt)
+    call get_double_parameter('heating_sigma',heating_sigma,opt)
+    call get_double_parameter('heating_t_0',heating_t_0,opt)
+    call get_double_parameter('heating_alpha',heating_alpha,opt)
+
+    call get_double_parameter('heating_t_cutoff',heating_t_cutoff,opt)
+  end if
+
 
   call get_integer_parameter('saha_ncomps',saha_ncomps,opt)
   call get_double_parameter('mu',mu,opt)
