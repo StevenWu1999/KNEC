@@ -100,7 +100,7 @@ subroutine problem
     call read_heating_table_LR15(heating_filename)
     write(6,*)'heating: LR15 hires_sym0_heating_rate table read!'
 
-  elseif (trim(adjustl(heating_formula)) .eq. "Ricigliano") then
+  elseif ((trim(adjustl(heating_formula)) .eq. "Ricigliano") .or. (trim(adjustl(heating_formula)) .eq. "Hybrid") ) then
     heating_filename = "tables/epsdatafit.dat"
     call read_heating_table(heating_filename)
     write(6,*) "heating: Ricigliano epsdatafit.dat table read!"
