@@ -1,9 +1,10 @@
 subroutine nuclear_heating_rate
     use blmod, only : ye_initial ,entropy_frominput, heating_rate_fitting, heating_deposit_function, simple_heating,&
-            r, rho, time, delta_mass, A_int_ricigliano, expansion_timescale
+            r, rho, time, delta_mass, A_int_ricigliano, expansion_timescale, A_int_arctan, B_int_arctan
     use parameters
     use physical_constants
     use heating_rate_LR15_module
+    use heating_rate_arctan_module
     implicit none
 
     !local:
@@ -91,6 +92,17 @@ subroutine nuclear_heating_rate
 
 
         end if
+
+    elseif (trim(adjustl(heating_formula)) .eq. "arctan") then
+        t_day = time/(24.0*3600.0)
+        do i = 1,imax
+
+            if (t_day.ge.arctan_t2) then
+                simple_heating(i) = A_int_arctan(i,1)*t_day**(-A_int_arctan(i,2))
+            else
+                simple_heating(i) = B_int_arctan(i,1)*(0.5-oneoverpi*datan((time-arctan_t0)/arctan_sigma0))**B_int_arctan(i,2)
+            end if
+        end do
 
     end if
 

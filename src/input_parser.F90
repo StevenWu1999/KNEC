@@ -104,6 +104,16 @@ subroutine input_parser
       call get_double_parameter('heating_t_cutoff',heating_t_cutoff,opt)
   end if
 
+  if (trim(adjustl(heating_formula))=="arctan") then
+      call get_double_parameter('arctan_t2',arctan_t2,opt)
+      call get_double_parameter('arctan_eps0',arctan_eps0,opt)
+      call get_double_parameter('arctan_t0',arctan_t0,opt)
+      call get_double_parameter('arctan_sigma0',arctan_sigma0,opt)
+
+  end if
+
+
+
 
 
 

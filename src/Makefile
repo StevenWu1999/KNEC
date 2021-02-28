@@ -28,6 +28,7 @@ SOURCES=problem.F90\
   nuclear_heating_rate.F90\
   heating_rate_LR15_module.F90\
 	heating_rate_Ricigliano_module.F90\
+	heating_rate_arctan_module.F90\
 	simple_saha.F90\
 	saha_tables.F90\
 	luminosity.F90\
@@ -42,7 +43,7 @@ CLEANSTUFF=rm -rf *.o *.mod
 
 OBJECTS=$(SOURCES:.F90=.o)
 
-all: blmod.o outinfo.o heating_rate_LR15_module.o heating_rate_Ricigliano_module.o snec
+all: blmod.o outinfo.o heating_rate_LR15_module.o heating_rate_Ricigliano_module.o heating_rate_arctan_module.o snec
 
 blmod.o: blmod.F90
 	$(F90) $(F90FLAGS) $(DEFS) $(MODINC) -c blmod.F90	

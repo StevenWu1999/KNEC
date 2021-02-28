@@ -75,9 +75,11 @@ subroutine allocate_vars
   allocate(heating_deposit_function(imax))
   allocate(simple_heating(imax))
   allocate(A_int_ricigliano(imax,2))
+  allocate(A_int_arctan(imax,2))
+  allocate(B_int_arctan(imax,2))
 
 
-!used for the calculations of the opacity (see opacity.F90)
+  !used for the calculations of the opacity (see opacity.F90)
   allocate(xxc(imax))
   allocate(xxo(imax))
   allocate(logR_op(imax))
