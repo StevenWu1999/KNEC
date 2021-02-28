@@ -167,6 +167,9 @@ module blmod
     real*8, allocatable :: heating_deposit_function(:)
     real*8, allocatable :: simple_heating(:)
     real*8, allocatable :: A_int_ricigliano(:,:)
+    real*8, allocatable :: A_int_arctan(:,:)
+    real*8, allocatable :: B_int_arctan(:,:)
+
 
 
 
@@ -260,6 +263,10 @@ module parameters
     real*8 :: heating_alpha
     real*8 :: heating_t_cutoff
 
+    real*8 :: arctan_t2
+    real*8 :: arctan_eps0
+    real*8 :: arctan_sigma0
+    real*8 :: arctan_t0
 
 
     integer :: saha_ncomps
@@ -282,7 +289,7 @@ module parameters
     real*8 :: dtout, dtout_scalar, dtout_check
     logical :: read_nt
     integer :: ntout, ntout_scalar, ntout_check
-    
+
     integer :: ntinfo
 
     real*8 :: dtmin
@@ -925,6 +932,7 @@ module physical_constants
     real*8, parameter :: kboltz = 1.380662d-16
     real*8, parameter :: mev_to_erg = 1.6022d-6
     real*8, parameter :: pi = 3.14159265358979d0
+    real*8, parameter :: oneoverpi = 1.0d0/pi
     real*8, parameter :: emev = 1.60219d-6  !MeV-->erg
     real*8, parameter :: avo_real = 6.0221415d23
     real*8, parameter :: h_cgs = 6.626058d-27

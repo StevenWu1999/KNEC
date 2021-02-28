@@ -78,17 +78,26 @@ opacity_floor_core     = 0.24d0
 
 #nuclear heating rates
 
-heating_formula = "Hybrid"
-# options: (1)"Korobkin" (2)"LR15" (3)"Ricigliano" (4)"Hybrid"
+heating_formula = "arctan"
+# options: (1)"Korobkin" (2)"LR15" (3)"Ricigliano" (4)"Hybrid"(5)"arctan" 
 heating_epsilon_th = 0.5d0 #(thermalization efficiency)
 
-# The following parameters are for option(1) "Korobkin"
+# The following parameters are for option(1) "Korobkin" and (4)
 heating_epsilon_0 = 2.0d18
 heating_sigma = 0.11d0
 heating_t_0 = 1.3d0
 heating_alpha = 1.3d0
 
 heating_t_cutoff = 10.0d0
+
+#(5) "arctan"
+arctan_t2 = 0.1d0 # day
+arctan_eps0 = 2.0d18
+arctan_sigma0 = 0.11d0   
+arctan_t0 = 1.3d0 
+
+
+
 
 
 

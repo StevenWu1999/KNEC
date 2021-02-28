@@ -4,12 +4,14 @@ subroutine problem
             opacity_floor, metallicity, envelope_metallicity, do_piston, &
             do_bomb, total_initial_energy, bomb_total_energy, bomb_spread, &
             rho, kappa, kappa_table, dkappadt, tau, temp, p, delta_mass, &
-            lambda, inv_kappa, lum, eos_gamma1,logT, entropy_frominput, ye_initial,A_int_ricigliano,expansion_timescale
+            lambda, inv_kappa, lum, eos_gamma1,logT, entropy_frominput, ye_initial, &
+            A_int_ricigliano, expansion_timescale, A_int_arctan, B_int_arctan
   use parameters
   use eosmodule
   use physical_constants
   use heating_rate_LR15_module
   use heating_rate_Ricigliano_module
+  use heating_rate_arctan_module
   implicit none
 
   real*8 :: buffer(imax)
@@ -108,6 +110,17 @@ subroutine problem
     do i = 1,imax
       call interp_heating_coeff(expansion_timescale(i),entropy_frominput(i),ye_initial(i),A_int_ricigliano(i,:))
     end do
+
+  elseif (trim(adjustl(heating_formula)) .eq. "arctan") then
+    heating_filename = "tables/epsdatafit.dat"
+    call read_heating_table_arctan(heating_filename)
+    write(6,*) "heating: arctan epsdatafit.dat table read!"
+
+    do i = 1,imax
+      call interp_heating_coeff_arctan(expansion_timescale(i),entropy_frominput(i), &
+              ye_initial(i),A_int_arctan(i,:),B_int_arctan(i,:))
+    end do
+
 
   end if
 
