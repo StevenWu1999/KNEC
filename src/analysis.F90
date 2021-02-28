@@ -6,7 +6,8 @@ subroutine analysis
   implicit none
 
   character(len=1024) :: filename
-
+  
+  logical :: outputflag
   integer :: i,j
   integer :: lum_observed_maxindex
   real*8 :: ratio,flux
@@ -194,9 +195,19 @@ subroutine analysis
 !  endif
 
 
+  outputflag = .false.
 
+  if (read_nt) then
+    if(mod(nt,10000) .eq. 0) then
+      outputflag = .true.
+    endif
+  else
+    if(time.eq.0.0d0.or.time.gt.tdump_scalar) then
+      outputflag = .true.
+    endif  
+  endif
 
-  if(time.eq.0.0d0.or.time.gt.tdump_scalar) then
+  if(outputflag) then
 
       ! color light curves
     !   lum_color(:) = 0.0d0

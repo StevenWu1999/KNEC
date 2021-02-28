@@ -83,7 +83,7 @@ heating_formula = "Hybrid"
 heating_epsilon_th = 0.5d0 #(thermalization efficiency)
 
 # The following parameters are for option(1) "Korobkin"
-heating_epsilon_0 = 4.0d18
+heating_epsilon_0 = 2.0d18
 heating_sigma = 0.11d0
 heating_t_0 = 1.3d0
 heating_alpha = 1.3d0
@@ -99,14 +99,16 @@ ntmax               = 10000000000000
 #tend                = 17000000.0d0
 tend                = 3.0d6
 #dtout               = 1.7d4
-dtout               = 1.0d4
-dtout_scalar         = 1.0d3
-dtout_check          = 1.0d3
+dtout               = 1.0d10
+dtout_scalar         = 1.0d10
+dtout_check          = 1.0d10
 #dtout_scalar        = 1.7d3
 #dtout_check         = 1.7d3
-ntout               = -1
-ntout_scalar        = -1
-ntout_check         = -1
+
+read_nt = 1
+ntout               = 10000
+ntout_scalar        = 10000
+ntout_check         = 10000
 
 ntinfo              = 1000
 

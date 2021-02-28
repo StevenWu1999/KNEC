@@ -124,6 +124,7 @@ subroutine input_parser
   call get_double_parameter('dtout',dtout,opt)
   call get_double_parameter('dtout_scalar',dtout_scalar,opt)
   call get_double_parameter('dtout_check',dtout_check,opt)
+  call get_logical_parameter('read_nt',read_nt,opt)
   call get_integer_parameter('ntout',ntout,opt)
   call get_integer_parameter('ntout_scalar',ntout_scalar,opt)
   call get_integer_parameter('ntout_check',ntout_check,opt)

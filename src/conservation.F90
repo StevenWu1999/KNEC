@@ -33,20 +33,38 @@ subroutine conservation_compute_energies
       total_initial_energy = egrav+eint+ekin
   endif
 
-#if 0
+
   if(mod(nt,1000).eq.0.or.force) then
      write(6,"(A18,A18,A18,A18)") "egrav","eint","ekin","etot"
      write(6,"(1P10E18.9)") egrav,eint,ekin,egrav+eint+ekin
   endif
-#endif
+  
+   if (read_nt) then
+      if(mod(nt,10000).eq.0.or.force) then
+         open(666,file=trim(adjustl(outdir))//"/conservation.dat",&
+               status='unknown',position='append')
+         write(666,"(1P10E18.9)") time,egrav,eint,ekin,egrav+eint+ekin, & 
+            egrav+eint+ekin-total_initial_energy
+         close(666)
+         
+      endif
 
-  if(time.eq.0.0d0.or.time.gt.tdump_scalar) then
-     open(666,file=trim(adjustl(outdir))//"/conservation.dat",&
-          status='unknown',position='append')
-     write(666,"(1P10E18.9)") time,egrav,eint,ekin,egrav+eint+ekin, & 
-         egrav+eint+ekin-total_initial_energy
-     close(666)
-  endif
+   else
+      if(time.eq.0.0d0.or.time.gt.tdump_scalar) then
+         open(666,file=trim(adjustl(outdir))//"/conservation.dat",&
+              status='unknown',position='append')
+         write(666,"(1P10E18.9)") time,egrav,eint,ekin,egrav+eint+ekin, & 
+             egrav+eint+ekin-total_initial_energy
+         close(666)
+      endif
+    
+
+   endif 
+
+
+
+  
+
 
 end subroutine conservation_compute_energies
 
