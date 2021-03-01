@@ -98,9 +98,10 @@ subroutine nuclear_heating_rate
         do i = 1,imax
 
             if (t_day.ge.arctan_t2) then
-                simple_heating(i) = A_int_arctan(i,1)*t_day**(-A_int_arctan(i,2))
+                simple_heating(i) = heating_epsilon_th*A_int_arctan(i,1)*t_day**(-A_int_arctan(i,2))
             else
-                simple_heating(i) = B_int_arctan(i,1)*(0.5-oneoverpi*datan((time-arctan_t0)/arctan_sigma0))**B_int_arctan(i,2)
+                simple_heating(i) = heating_epsilon_th*B_int_arctan(i,1)* &
+                 (0.5-oneoverpi*datan((time-arctan_t0)/arctan_sigma0))**B_int_arctan(i,2)
             end if
         end do
 

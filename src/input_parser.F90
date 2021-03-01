@@ -9,6 +9,7 @@ subroutine input_parser
 
   character(len=128) :: cpstring
   character(len=500) :: rmstring
+  character(len=500) :: parameterfile_string
   logical :: opt
   logical :: outdirthere
 
@@ -17,6 +18,16 @@ subroutine input_parser
   opt = .false.
 
 !****************************** LAUNCH ****************************************
+
+  
+
+  call getarg(1,parameterfile_string)
+  write(*,*) "parameter file: ",trim(adjustl(parameterfile_string))
+  if (trim(adjustl(parameterfile_string)) == "") then
+    write(*,*) "please provide parameter file name!"
+    write(*,*) "(./snec parameters_filename)"
+    stop
+  end if
 
   call get_string_parameter('outdir',outdir,opt)
 
@@ -173,7 +184,7 @@ subroutine input_parser
   endif
   
 ! copy parameter file
-  cpstring="cp parameters "//trim(adjustl(outdir))
+  cpstring="cp "//trim(adjustl(parameterfile_string))//" "//trim(adjustl(outdir))
   call system(cpstring)
 
 
@@ -190,8 +201,7 @@ contains
         integer i,j,l,ll
         character*(200) temp_string
 
-        open(unit=27,file='parameters',status='unknown')
-
+        open(unit=27,file=trim(adjustl(parameterfile_string)),status='unknown')
         10 continue
         read(27,'(a)',end=19,err=10) line_string
         ! separator is an equal sign '=', # is comment
