@@ -5,9 +5,9 @@ outdir              = "Data"
 #___________PROFILE_____________
 #profile_name = "profiles/modified_sfho.dat"
 #profile_name       = "profiles/modified_sfho_m140120_m0_ber.dat"
-profile_name = "profiles/wind3_0.01M_0.2c_ye0.05_s10_tau10.dat"
+#profile_name = "profiles/wind3_0.01M_0.2c_ye0.05_s10_tau10.dat"
 #profile_name =  "profiles/modified_BLH_m140120_m0_SR.dat"
-#profile_name = "profiles/modified_blh.dat"
+profile_name = "profiles/modified_blh.dat"
 read_composition_switch = 0
 comp_profile_name	= ""
 
@@ -43,8 +43,8 @@ mass_excised = 1.4 #in solar mass, provided mass_excision = 1
 mass_gravity_switch = 1
 mass_extragravity = 3.0d0 #in solar mass,provided mass_gravity_switch = 1
 read_inner_radius_switch = 1
-#inner_radius = 2.95d7
-inner_radius = 0.25d9
+inner_radius = 2.95d7
+#inner_radius = 0.25d9
 
 #___________EVOLUTION_____________
 

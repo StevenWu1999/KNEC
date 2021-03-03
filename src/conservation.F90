@@ -3,7 +3,8 @@ subroutine conservation_compute_energies
 ! for energy conservation
   
   use blmod, only: nt, delta_mass, cmass, cr, gravity_switch, eps, vel, &
-                    total_initial_energy, time, tdump_scalar
+                    total_initial_energy, time, tdump_scalar, lum_observed, &
+                    dtime, energy_from_heating, radiated_energy, simple_heating
   use parameters
   use physical_constants
   implicit none
@@ -28,6 +29,9 @@ subroutine conservation_compute_energies
      ekin = ekin + 0.5d0*(0.50d0*(vel(i+1)+vel(i)))**2 * delta_mass(i)
   enddo
   ekin = ekin + 0.5d0*(vel(imax))**2 * delta_mass(imax)
+
+  radiated_energy = radiated_energy + dtime*lum_observed
+  energy_from_heating = energy_from_heating + dtime*sum(simple_heating(1:imax-1)*delta_mass(1:imax-1))
   
   if(time.eq.0.0d0) then
       total_initial_energy = egrav+eint+ekin
@@ -48,7 +52,7 @@ subroutine conservation_compute_energies
             open(666,file=trim(adjustl(outdir))//"/conservation.dat",&
                     status='unknown',position='append')
             write(666,"(1P10E18.9)") time,egrav,eint,ekin,egrav+eint+ekin, &
-                    egrav+eint+ekin-total_initial_energy
+                    egrav+eint+ekin-total_initial_energy, radiated_energy, energy_from_heating
             close(666)
 
         endif
@@ -58,7 +62,7 @@ subroutine conservation_compute_energies
             open(666,file=trim(adjustl(outdir))//"/conservation.dat",&
                     status='unknown',position='append')
             write(666,"(1P10E18.9)") time,egrav,eint,ekin,egrav+eint+ekin, &
-                    egrav+eint+ekin-total_initial_energy
+                    egrav+eint+ekin-total_initial_energy, radiated_energy, energy_from_heating
             close(666)
         endif
 
