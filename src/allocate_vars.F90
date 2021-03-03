@@ -165,6 +165,9 @@ subroutine initialize_vars
     nt          = 0
     time_Ni      = 0.0d0
 
+    radiated_energy = 0.0d0
+    energy_from_heating = 0.0d0
+
 
     scratch_step = .false.
 
