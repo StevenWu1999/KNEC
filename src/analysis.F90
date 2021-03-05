@@ -207,6 +207,7 @@ subroutine analysis
     endif  
   endif
 
+
   if(outputflag) then
 
       ! color light curves

@@ -1,6 +1,6 @@
 #____________LAUNCH_____________
 
-outdir              = "Data"
+outdir              = "Data_blh_a_nt"
 
 #___________PROFILE_____________
 #profile_name = "profiles/modified_sfho.dat"
@@ -108,9 +108,9 @@ ntmax               = 10000000000000
 #tend                = 17000000.0d0
 tend                = 3.0d6
 #dtout               = 1.7d4
-dtout               = 1.0d10
-dtout_scalar         = 1.0d10
-dtout_check          = 1.0d10
+dtout               = 1.0d4
+dtout_scalar         = 1.0d3
+dtout_check          = 1.0d3
 #dtout_scalar        = 1.7d3
 #dtout_check         = 1.7d3
 
