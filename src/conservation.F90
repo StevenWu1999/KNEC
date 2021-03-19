@@ -2,9 +2,10 @@ subroutine conservation_compute_energies
 ! this routine computes the various energies to check
 ! for energy conservation
   
-  use blmod, only: nt, delta_mass, cmass, cr, gravity_switch, eps, vel, &
+  use blmod, only: nt, delta_mass, cmass, cr, gravity_switch, eps, vel, r, p, &
                     total_initial_energy, time, tdump_scalar, lum_observed, &
-                    dtime, energy_from_heating, radiated_energy, simple_heating
+                    dtime, energy_from_heating, radiated_energy, simple_heating,&
+                    pdVwork
   use parameters
   use physical_constants
   implicit none
@@ -22,9 +23,11 @@ subroutine conservation_compute_energies
   ekin = 0.0d0
 
   do i=1,imax
-     egrav = egrav - ggrav*delta_mass(i)*cmass(i)/cr(i) *gravity_switch
+     egrav = egrav - ggrav*delta_mass(i)*(cmass(i)+mass_gravity_switch*mass_extragravity*msun)/cr(i) *gravity_switch
      eint = eint + eps(i)*delta_mass(i)
   enddo
+
+
   
   do i=1,imax-1
      ekin = ekin + 0.5d0*(0.50d0*(vel(i+1)+vel(i)))**2 * delta_mass(i)
@@ -33,7 +36,8 @@ subroutine conservation_compute_energies
 
   radiated_energy = radiated_energy + dtime*lum_observed
   energy_from_heating = energy_from_heating + dtime*sum(simple_heating(1:imax-1)*delta_mass(1:imax-1))
-  
+  pdVwork = pdVwork + p(imax)*4*pi*r(imax)**2*vel(imax)*dtime
+
   if(time.eq.0.0d0) then
       total_initial_energy = egrav+eint+ekin
   endif
@@ -57,10 +61,20 @@ subroutine conservation_compute_energies
       endif
     endif
 
+
+    if(time .eq. 0.0d0) then
+      open(666,file=trim(adjustl(outdir))//"/conservation.dat",&
+              status='unknown',position='append')
+      write(666,*) 'time,egrav,eint,ekin,egrav+eint+ekin,pdVwork, &
+              egrav+eint+ekin-total_initial_energy, radiated_energy, energy_from_heating'
+      close(666)
+
+    end if
+
     if (outputflag) then
         open(666,file=trim(adjustl(outdir))//"/conservation.dat",&
                 status='unknown',position='append')
-        write(666,"(1P10E18.9)") time,egrav,eint,ekin,egrav+eint+ekin, &
+        write(666,"(1P10E18.9)") time,egrav,eint,ekin,egrav+eint+ekin,pdVwork, &
                 egrav+eint+ekin-total_initial_energy, radiated_energy, energy_from_heating
         close(666)
     end if
