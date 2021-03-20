@@ -51,15 +51,15 @@ subroutine conservation_compute_energies
 
 
     outputflag = .false.
-    if (read_nt) then
-      if(mod(nt,10000) .eq. 0) then
-          outputflag = .true.
-      endif
-    else
-      if(time.eq.0.0d0.or.time.gt.tdump_scalar) then
-          outputflag = .true.
-      endif
+
+    if(mod(nt,10000) .eq. 0) then
+       outputflag = .true.
     endif
+
+    if(time.eq.0.0d0.or.time.gt.tdump_scalar) then
+       outputflag = .true.
+    endif
+
 
 
     if(time .eq. 0.0d0) then

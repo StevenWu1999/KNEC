@@ -44,8 +44,8 @@ subroutine output_all(modeflag)
     filename = trim(adjustl(outdir))//"/temp.xg"
     call output_single_mass(temp,filename)
 
-    filename = trim(adjustl(outdir))//"/temp_for_color.xg"
-    call output_single_mass(temp_for_color,filename)
+!    filename = trim(adjustl(outdir))//"/temp_for_color.xg"
+!    call output_single_mass(temp_for_color,filename)
 
     filename = trim(adjustl(outdir))//"/lum.xg"
     call output_single_mass(lum,filename)
@@ -121,8 +121,8 @@ subroutine output_all(modeflag)
      filename = trim(adjustl(outdir))//"/lum_observed.dat"
      call output_scalar(lum_observed,filename)
 
-     filename = trim(adjustl(outdir))//"/lum_observed_min.dat"
-     call output_scalar(lum_observed_min,filename)
+!     filename = trim(adjustl(outdir))//"/lum_observed_min.dat"
+!     call output_scalar(lum_observed_min,filename)
          
      filename = trim(adjustl(outdir))//"/index_photo.dat"
      call output_integer(index_photo,filename)

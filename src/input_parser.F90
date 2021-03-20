@@ -20,7 +20,7 @@ subroutine input_parser
 !****************************** LAUNCH ****************************************
 
   
-  !parameterfile_string = "parameters"
+!  parameterfile_string = "parameters"
   call getarg(1,parameterfile_string)
   write(*,*) "parameter file: ",trim(adjustl(parameterfile_string))
   if (trim(adjustl(parameterfile_string)) == "") then
@@ -145,7 +145,6 @@ subroutine input_parser
   call get_double_parameter('dtout',dtout,opt)
   call get_double_parameter('dtout_scalar',dtout_scalar,opt)
   call get_double_parameter('dtout_check',dtout_check,opt)
-  call get_logical_parameter('read_nt',read_nt,opt)
   call get_integer_parameter('ntout',ntout,opt)
   call get_integer_parameter('ntout_scalar',ntout_scalar,opt)
   call get_integer_parameter('ntout_check',ntout_check,opt)

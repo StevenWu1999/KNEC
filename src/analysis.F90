@@ -9,7 +9,7 @@ subroutine analysis
   
   logical :: outputflag
   integer :: i,j
-  integer :: lum_observed_maxindex
+!  integer :: lum_observed_maxindex
   real*8 :: ratio,flux
   real*8 :: ratio_color(5)
   real*8 :: ratio_color_mag(5)
@@ -122,25 +122,25 @@ subroutine analysis
 !  end if
 
 
-  lum_observed_maxindex = 1000
+!  lum_observed_maxindex = 900
   if(photosphere_fell_on_the_center.eq.0) then
       lum_observed = lum_photo + sum(simple_heating(index_photo:imax)*delta_mass(index_photo:imax))
-      if(index_photo<lum_observed_maxindex) then
-          lum_observed_min = lum_photo + &
-                  sum(simple_heating(index_photo:lum_observed_maxindex)*delta_mass(index_photo:lum_observed_maxindex))
-      else
-          lum_observed_min = lum_photo + sum(simple_heating(index_photo:imax)*delta_mass(index_photo:imax))
-      end if
+!      if(index_photo<lum_observed_maxindex) then
+!          lum_observed_min = lum_photo + &
+!                  sum(simple_heating(index_photo:lum_observed_maxindex)*delta_mass(index_photo:lum_observed_maxindex))
+!      else
+!          lum_observed_min = lum_photo + sum(simple_heating(index_photo:imax)*delta_mass(index_photo:imax))
+!      end if
 
   else
       lum_observed = lum(1) + &
               sum(simple_heating(1:imax)*delta_mass(1:imax))
-      if(index_photo<lum_observed_maxindex) then
-          lum_observed_min = lum(1) + &
-                  sum(simple_heating(index_photo:lum_observed_maxindex)*delta_mass(index_photo:lum_observed_maxindex))
-      else
-          lum_observed_min = lum(1) + sum(simple_heating(index_photo:imax)*delta_mass(index_photo:imax))
-      end if
+!      if(index_photo<lum_observed_maxindex) then
+!          lum_observed_min = lum(1) + &
+!                  sum(simple_heating(index_photo:lum_observed_maxindex)*delta_mass(index_photo:lum_observed_maxindex))
+!      else
+!          lum_observed_min = lum(1) + sum(simple_heating(index_photo:imax)*delta_mass(index_photo:imax))
+!      end if
 
   end if
 
@@ -168,13 +168,13 @@ subroutine analysis
   !see Eq.(3) of Swartz et al., ApJ 374:266 (1991) and explanation there
 !  T_eff_for_BC = MAX(T_eff,T_eff_min)
 
-  do i=1,index_photo-1
-      Temp_for_color(i) = T_eff
-  end do
+!  do i=1,index_photo-1
+!      Temp_for_color(i) = T_eff
+!  end do
 
   do i=index_photo,imax-1
       lum_i = delta_mass(i)*simple_heating(i)
-      Temp_for_color(i) = (lum_i/(4.0d0*pi*sigma_SB*r(i)**2))**0.25d0
+!      Temp_for_color(i) = (lum_i/(4.0d0*pi*sigma_SB*r(i)**2))**0.25d0
   end do
 
 
@@ -197,15 +197,10 @@ subroutine analysis
 
   outputflag = .false.
 
-  ! if (read_nt) then
-  !   if(mod(nt,10000) .eq. 0) then
-  !     outputflag = .true.
-  !   endif
-  ! else
   if(time.eq.0.0d0.or.time.gt.tdump_scalar) then
       outputflag = .true.
   endif  
-  !endif
+
 
 
   if(outputflag) then

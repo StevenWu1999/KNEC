@@ -290,7 +290,6 @@ module parameters
     real*8 :: tend
 
     real*8 :: dtout, dtout_scalar, dtout_check
-    logical :: read_nt
     integer :: ntout, ntout_scalar, ntout_check
 
     integer :: ntinfo
