@@ -1,6 +1,6 @@
 #____________LAUNCH_____________
 
-outdir              = "Data_blh_a_nt"
+outdir              = "Data"
 
 #___________PROFILE_____________
 #profile_name = "profiles/modified_sfho.dat"
