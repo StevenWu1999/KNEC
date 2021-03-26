@@ -15,6 +15,8 @@ program snec
   integer :: test_count = 0
 
   integer :: system_time(8)
+  real*8 :: extra_output_points(51)
+  integer :: i
 
 
 
@@ -31,11 +33,16 @@ program snec
 
   write(*,*)
 
+  do i =1,51
+      extra_output_points(i) = 24*3600*10**(-7.0d0+(i-1)*0.1d0)
+  end do
+
+  i = 1
 
   ! *****************************************************
 ! INITIALIZATION
 ! *****************************************************        
-  
+
 
   call input_parser
 
@@ -116,6 +123,14 @@ program snec
         tdump_check=tdump_check+dtout_check
         OutputFlagCheck = .true.
      endif
+
+     if (i .le. 51) then
+         if (time .ge. extra_output_points(i))  then
+             OutputFlagScalar = .true.
+             i = i + 1
+         end if
+     end if
+
 
      ! increment time
      time = time+dtime
