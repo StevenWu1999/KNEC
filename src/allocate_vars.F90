@@ -77,7 +77,7 @@ subroutine allocate_vars
   allocate(A_int_ricigliano(imax,2))
   allocate(A_int_arctan(imax,2))
   allocate(B_int_arctan(imax,2))
-
+  allocate(A_int_Apr2(imax,6))
 
   !used for the calculations of the opacity (see opacity.F90)
   allocate(xxc(imax))

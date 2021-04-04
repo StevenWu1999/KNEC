@@ -5,13 +5,14 @@ subroutine problem
             do_bomb, total_initial_energy, bomb_total_energy, bomb_spread, &
             rho, kappa, kappa_table, dkappadt, tau, temp, p, delta_mass, &
             lambda, inv_kappa, lum, eos_gamma1,logT, entropy_frominput, ye_initial, &
-            A_int_ricigliano, expansion_timescale, A_int_arctan, B_int_arctan
+            A_int_ricigliano, expansion_timescale, A_int_arctan, B_int_arctan,A_int_Apr2
   use parameters
   use eosmodule
   use physical_constants
   use heating_rate_LR15_module
   use heating_rate_Ricigliano_module
   use heating_rate_arctan_module
+  use heating_Apr2_module
   implicit none
 
   real*8 :: buffer(imax)
@@ -19,6 +20,7 @@ subroutine problem
   integer :: i
   character(len=256) :: filename
   character(80) :: heating_filename
+  character(80) :: heating_filename_early
 
 !for OPAL interpolation routine  ! UNUSED???
   real*4 :: opact,dopact,dopacr,dopactd
@@ -119,6 +121,16 @@ subroutine problem
     do i = 1,imax
       call interp_heating_coeff_arctan(expansion_timescale(i),entropy_frominput(i), &
               ye_initial(i),A_int_arctan(i,:),B_int_arctan(i,:))
+    end do
+
+  elseif (trim(adjustl(heating_formula)) .eq. "Apr2") then
+    heating_filename = "tables/epsdatafit_Apr2.dat"
+    heating_filename_early = "tables/epsdatafitearly_Apr2.dat"
+    call read_heating_table_Apr2(heating_filename,heating_filename_early)
+    write(6,*) "heating: Apr2(arctan+powerlaw with transition) epsdatafit_Apr2 and epsdatafitearly_Apr2 read!"
+    do i = 1,imax
+      call interp_heating_coeff_Apr2(expansion_timescale(i),entropy_frominput(i), &
+              ye_initial(i),A_int_Apr2(i,:))
     end do
 
 
