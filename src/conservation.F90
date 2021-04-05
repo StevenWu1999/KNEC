@@ -36,7 +36,8 @@ subroutine conservation_compute_energies
 
   radiated_energy = radiated_energy + dtime*lum_observed
   energy_from_heating = energy_from_heating + dtime*sum(simple_heating(1:imax-1)*delta_mass(1:imax-1))
-  pdVwork = pdVwork + p(imax)*4*pi*r(imax)**2*vel(imax)*dtime
+  !pdVwork = pdVwork + p(imax)*4*pi*r(imax)**2*vel(imax)*dtime
+  pdVwork = pdVwork + p(1)*4*pi*r(1)**2*vel(1)*dtime
 
   if(time.eq.0.0d0) then
       total_initial_energy = egrav+eint+ekin
