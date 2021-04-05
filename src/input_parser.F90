@@ -20,6 +20,7 @@ subroutine input_parser
 !****************************** LAUNCH ****************************************
 
   
+
   parameterfile_string = "parameters"
   !call getarg(1,parameterfile_string)
   write(*,*) "parameter file: ",trim(adjustl(parameterfile_string))

@@ -172,6 +172,7 @@ module blmod
     real*8, allocatable :: A_int_ricigliano(:,:)
     real*8, allocatable :: A_int_arctan(:,:)
     real*8, allocatable :: B_int_arctan(:,:)
+    real*8, allocatable :: A_int_Apr2(:,:)
 
 
 

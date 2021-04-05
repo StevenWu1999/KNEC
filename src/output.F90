@@ -151,6 +151,9 @@ subroutine output_all(modeflag)
      filename = trim(adjustl(outdir))//"/mass_lumshell.dat"
      call output_scalar(mass_lumshell,filename)
 
+     filename = trim(adjustl(outdir))//"/heating_rate_1.dat"
+     call output_scalar(simple_heating(1),filename)
+
   endif
 
 

@@ -5,6 +5,7 @@ subroutine nuclear_heating_rate
     use physical_constants
     use heating_rate_LR15_module
     use heating_rate_arctan_module
+    use heating_Apr2_module
     implicit none
 
     !local:
@@ -105,6 +106,13 @@ subroutine nuclear_heating_rate
                  (0.5-oneoverpi*datan((time-arctan_t0)/arctan_sigma0))**B_int_arctan(i,2)
             end if
         end do
+
+    elseif (trim(adjustl(heating_formula)) .eq. "Apr2") then
+        do i = 1,imax
+            call calc_heating_rate_Apr2(expansion_timescale(i),entropy_frominput(i),&
+            ye_initial(i),time,simple_heating(i))
+        end do
+        simple_heating(:) = heating_epsilon_th*simple_heating(:)
 
     end if
 

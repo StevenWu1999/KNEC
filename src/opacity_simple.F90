@@ -23,7 +23,7 @@ subroutine opacity_simple(temp_x,kappa_x,kappa_table_x,dkappadt_x)
     ! sharp
     do i=1, imax - 1  
         kappa_x(i) = 1.0d0 + 9.0d0/(1.0d0+(4.0d0*ye_initial(i))**12)
-
+        !kappa_x(i) = 0.5d0
         !derivative is not used in the current version of the code
         dkappadt_x(i) = 0.0d0
 
