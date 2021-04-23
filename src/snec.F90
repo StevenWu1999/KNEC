@@ -1,7 +1,7 @@
 program snec
 
   use blmod, only: dtime, dtime_p, time, nt, ntstart, tstart,   &
-     tdump, tdump_scalar, rho, tdump_check,lum_photo,eps,ye,mass
+     tdump, tdump_scalar, rho, tdump_check,lum_photo,eps,ye,mass,index_photo
   use parameters
   use outinfomod, only: outinfo_count
   use heating_rate_LR15_module
@@ -11,8 +11,8 @@ program snec
   logical :: OutputFlag = .false.
   logical :: OutputFlagScalar = .false.
   logical :: OutputFlagCheck = .false.
-  integer :: test_maxcount = 5
-  integer :: test_count = 0
+!  integer :: test_maxcount = 5
+!  integer :: test_count = 0
 
   integer :: system_time(8)
   real*8 :: extra_output_points(51)
@@ -124,12 +124,17 @@ program snec
         OutputFlagCheck = .true.
      endif
 
+      !The following is used to add output at very early times, extra_output_points are
+      ! spaced between 10^(-7) day to 10^(-2) day on a log scale. Besides, we need to ensure
+      ! the location of photosphere is resolved so that the light curves can be trusted. So
+      ! we add another condition: index_photo < imax
      if (i .le. 51) then
-         if (time .ge. extra_output_points(i))  then
+         if (time .ge. extra_output_points(i) .and. (index_photo<imax))  then
              OutputFlagScalar = .true.
              i = i + 1
          end if
      end if
+
 
 
      ! increment time

@@ -5,9 +5,9 @@ if __name__ == "__main__":
     density_profile = "wind-3"
     T = 1e9 
     Msun=2e33 #g
-    Mtotal=0.047*Msun
+    Mtotal=0.01*Msun
     clight=3e10 #cm/s
-    ye = 0.2775
+    ye = 0.4
     entropy = 10.0 #[kb/baryon]
     tau = 10.0e-3 #[s] 
     
@@ -28,7 +28,7 @@ if __name__ == "__main__":
     elif density_profile == "wind-2":
         #rho = k / r^2
         Rmax=1e9 #cm 
-        vmax=0.1*clight 
+        vmax=0.2*clight 
         #vmax=0.01*clight
         
         n_slices=3000
@@ -40,7 +40,7 @@ if __name__ == "__main__":
         Rho = k/(R_coordinates**2)
 
     elif density_profile == "wind-3":
-        vmax = 0.15*clight
+        vmax = 0.1*clight
         vmin = 0.05*clight
         Rmax = 1e9 #cm
         Rmin = Rmax*vmin/vmax
@@ -72,7 +72,7 @@ if __name__ == "__main__":
     print(V_of_R[n_slices-1])
     '''
     
-    with open("wind3_purple_0.047M_0.15c_ye0.2775_s10_tau10.dat",'w') as outputfile1:
+    with open("wind3_0.01M_0.1c_ye0.4_s10_tau10.dat",'w') as outputfile1:
         outputfile1.write('#      index      mass[g]      radius[cm]      temperature[K]      density[g/cm^3]      velocity[cm/s]      ye(initial)      entropy[kb/baryon]      expansion_timescale[s]\n')
         outputfile1.write(str(len(R_coordinates))+'\n')
         for i in range(len(R_coordinates)):

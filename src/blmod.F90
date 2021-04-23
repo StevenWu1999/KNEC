@@ -105,7 +105,8 @@ module blmod
     real*8 :: lum_observed_min !observed luminosity(without the outermost layer)
     real*8 :: radiated_energy ! \int lum_observed dt, used for checking energy conservation
     real*8 :: energy_from_heating !\int heating*dt, used for checking energy conservation
-    real*8 :: pdVwork ! \int p(imax) dV, used for checking energy conservation
+    real*8 :: pdVwork_outer ! \int p(imax) dV, used for checking energy conservation
+    real*8 :: pdVwork_inner ! \int p(1) dV, used for checking energy conservation
     real*8 :: lum_color(5)
     real*8 :: Magnitude_UBVRI(5)
     real*8 :: lum_color_Gemini(4)
