@@ -125,14 +125,18 @@ program snec
      endif
 
       !The following is used to add output at very early times, extra_output_points are
-      ! spaced between 10^(-7) day to 10^(-2) day on a log scale. Besides, we need to ensure
-      ! the location of photosphere is resolved so that the light curves can be trusted. So
-      ! we add another condition: index_photo < imax
+      ! spaced between 10^(-7) day to 10^(-2) day on a log scale.
      if (i .le. 51) then
-         if (time .ge. extra_output_points(i) .and. (index_photo<imax))  then
+         if (time .ge. extra_output_points(i))  then
              OutputFlagScalar = .true.
              i = i + 1
          end if
+     end if
+     ! Besides, we need to ensure the location of photosphere is fully resolved
+     !so that the light curves can be trusted.
+     !So we add another threshold for output: index_photo < imax - 5
+     if(index_photo .ge. imax-5) then
+         OutputFlagScalar = .false.
      end if
 
 

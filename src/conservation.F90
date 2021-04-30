@@ -39,8 +39,10 @@ subroutine conservation_compute_energies
   pdVwork_outer = pdVwork_outer + p(imax)*4*pi*r(imax)**2*vel(imax)*dtime
   pdVwork_inner = pdVwork_inner + p(1)*4*pi*r(1)**2*vel(1)*dtime
   pdVterm = pdVwork_inner - pdVwork_outer !energy put into the ejecta due to pressure work at boundaries
+  
+  !pdVterm = 0.0 !homologous expansion, but what if vmin = 0 ?
   E1 = egrav+eint+ekin  !total energy of the ejecta
-
+  
   if(time.eq.0.0d0) then
       total_initial_energy = E1
   endif
@@ -75,7 +77,7 @@ subroutine conservation_compute_energies
     if (outputflag) then
         open(666,file=trim(adjustl(outdir))//"/conservation.dat",&
                 status='unknown',position='append')
-        write(666,"(1P10E18.9)") time,egrav,eint,ekin,E1,pdVwork_outer, &
+        write(666,"(1P15E18.9)") time,egrav,eint,ekin,E1,pdVwork_outer, &
                 pdVwork_inner, pdVterm, energy_from_heating, radiated_energy, E2, E1-E2
         close(666)
     end if
