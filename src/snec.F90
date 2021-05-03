@@ -135,9 +135,10 @@ program snec
      ! Besides, we need to ensure the location of photosphere is fully resolved
      !so that the light curves can be trusted.
      !So we add another threshold for output: index_photo < imax - 5
-     if(index_photo .ge. imax-5) then
-         OutputFlagScalar = .false.
-     end if
+
+   !   if(index_photo .ge. imax-5) then
+   !       OutputFlagScalar = .false.
+   !   end if
 
 
 

@@ -76,6 +76,10 @@ subroutine shock_capture
     close(666)
     
     breakoutflag = 1
+
+    call output_all(0)
+    call output_all(1)
+    call output_all(2)
     
   end if
 

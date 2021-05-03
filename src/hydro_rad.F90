@@ -66,9 +66,9 @@ subroutine hydro_rad
   enddo
 
   if(do_piston.and.time.ge.piston_tend) then
-    vel(1) = 0.0d0
+    vel(1) = 0.05*3.0d10
   else if(do_bomb) then
-!    vel(1) = 0.0d0
+    vel(1) = 0.05*3.0d10
   endif
 
 !----------------------- update the radial coordinates-------------------------
