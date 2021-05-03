@@ -4,7 +4,6 @@ program snec
      tdump, tdump_scalar, rho, tdump_check,lum_photo,eps,ye,mass,index_photo
   use parameters
   use outinfomod, only: outinfo_count
-  use heating_rate_LR15_module
 
   implicit none
   external :: Blackbody
