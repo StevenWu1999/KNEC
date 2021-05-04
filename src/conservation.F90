@@ -5,7 +5,7 @@ subroutine conservation_compute_energies
   use blmod, only: nt, delta_mass, cmass, cr, gravity_switch, eps, vel, r, p, &
                     total_initial_energy, time, tdump_scalar, lum_observed, &
                     dtime, energy_from_heating, radiated_energy, simple_heating,&
-                    pdVwork
+                    pdVwork_inner,pdVwork_outer
   use parameters
   use physical_constants
   implicit none
@@ -14,7 +14,7 @@ subroutine conservation_compute_energies
   logical :: force
   logical :: outputflag
 
-  real*8 :: egrav, eint, ekin
+  real*8 :: egrav, eint, ekin, pdVterm, E1, E2
 
 !------------------------------------------------------------------------------
   
@@ -36,20 +36,20 @@ subroutine conservation_compute_energies
 
   radiated_energy = radiated_energy + dtime*lum_observed
   energy_from_heating = energy_from_heating + dtime*sum(simple_heating(1:imax-1)*delta_mass(1:imax-1))
-  !pdVwork = pdVwork + p(imax)*4*pi*r(imax)**2*vel(imax)*dtime
-  pdVwork = pdVwork + p(1)*4*pi*r(1)**2*vel(1)*dtime
-
+  pdVwork_outer = pdVwork_outer + p(imax)*4*pi*r(imax)**2*vel(imax)*dtime
+  pdVwork_inner = pdVwork_inner + p(1)*4*pi*r(1)**2*vel(1)*dtime
+  pdVterm = pdVwork_inner - pdVwork_outer !energy put into the ejecta due to pressure work at boundaries
+  
+  !pdVterm = 0.0 !homologous expansion, but what if vmin = 0 ?
+  E1 = egrav+eint+ekin  !total energy of the ejecta
+  
   if(time.eq.0.0d0) then
-      total_initial_energy = egrav+eint+ekin
+      total_initial_energy = E1
   endif
 
-!#if 0
-!  if(mod(nt,1000).eq.0.or.force) then
-!     write(6,"(A18,A18,A18,A18)") "egrav","eint","ekin","etot"
-!     write(6,"(1P10E18.9)") egrav,eint,ekin,egrav+eint+ekin
-!  endif
-!#endif
-
+  E2 = total_initial_energy + pdVterm + energy_from_heating - radiated_energy
+  !the initial ejecta energy plus energy input and output up to t=time,
+  !theoretically E2 = E1 if energy is conserved.
 
     outputflag = .false.
 
@@ -66,8 +66,10 @@ subroutine conservation_compute_energies
     if(time .eq. 0.0d0) then
       open(666,file=trim(adjustl(outdir))//"/conservation.dat",&
               status='unknown',position='append')
-      write(666,*) 'time,egrav,eint,ekin,egrav+eint+ekin,pdVwork, &
-              egrav+eint+ekin-total_initial_energy, radiated_energy, energy_from_heating'
+      write(666,*) 'time,egrav,eint,ekin,E1,pdVwork_outer,pdVwork_inner, &
+              pdVterm,energy_from_heating,radiated_energy,E2,E1-E2'
+      write(666,*) 'E1 = egrav+eint+ekin is the total ejecta energy, E2 = initial total ejecta energy &
+              + pdVterm + energy_from_heating - radiated_energy, E1=E2 if energy is conserved.'
       close(666)
 
     end if
@@ -75,8 +77,8 @@ subroutine conservation_compute_energies
     if (outputflag) then
         open(666,file=trim(adjustl(outdir))//"/conservation.dat",&
                 status='unknown',position='append')
-        write(666,"(1P10E18.9)") time,egrav,eint,ekin,egrav+eint+ekin,pdVwork, &
-                egrav+eint+ekin-total_initial_energy, radiated_energy, energy_from_heating
+        write(666,"(1P15E18.9)") time,egrav,eint,ekin,E1,pdVwork_outer, &
+                pdVwork_inner, pdVterm, energy_from_heating, radiated_energy, E2, E1-E2
         close(666)
     end if
 

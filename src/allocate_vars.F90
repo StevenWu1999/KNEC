@@ -167,7 +167,8 @@ subroutine initialize_vars
 
     radiated_energy = 0.0d0
     energy_from_heating = 0.0d0
-    pdVwork = 0.0d0
+    pdVwork_outer = 0.0d0
+    pdVwork_inner = 0.0d0
 
 
     scratch_step = .false.

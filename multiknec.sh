@@ -22,8 +22,8 @@ do
     screenfile='screen_output_'$file'.txt'
     :> $screenfile
 
-    ./snec 'parameter_list/'$file > $screenfile 
-    mv $screenfile $outdir
+    ./snec 'parameter_list/'$file > $screenfile && mv $screenfile $outdir & 
+  
 
 done
 
