@@ -40,7 +40,6 @@ subroutine conservation_compute_energies
   pdVwork_inner = pdVwork_inner + p(1)*4*pi*r(1)**2*vel(1)*dtime
   pdVterm = pdVwork_inner - pdVwork_outer !energy put into the ejecta due to pressure work at boundaries
   
-  !pdVterm = 0.0 !homologous expansion, but what if vmin = 0 ?
   E1 = egrav+eint+ekin  !total energy of the ejecta
   
   if(time.eq.0.0d0) then

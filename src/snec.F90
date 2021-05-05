@@ -131,13 +131,16 @@ program snec
              i = i + 1
          end if
      end if
-     ! Besides, we need to ensure the location of photosphere is fully resolved
-     !so that the light curves can be trusted.
-     !So we add another threshold for output: index_photo < imax - 5
 
-   !   if(index_photo .ge. imax-5) then
-   !       OutputFlagScalar = .false.
-   !   end if
+     ! However, in most cases, we don't need the very early output because the photosphere
+     ! is not fully resolved, which leads to wrong bolometric luminosities (often very large 
+     ! luminosity, look like heating rates). The following 3 lines are used to ensure that 
+     ! KNEC starts to output after photosphere is resolved. If you still want to output very 
+     ! early results, please comment the following 3 lines.
+
+     if(index_photo .ge. imax-5) then
+         OutputFlagScalar = .false.
+     end if
 
 
 

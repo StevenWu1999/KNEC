@@ -7,7 +7,7 @@ subroutine input_parser
   use parameters
   implicit none
 
-  character(len=128) :: cpstring
+  character(len=500) :: cpstring
   character(len=500) :: rmstring
   character(len=500) :: parameterfile_string
   logical :: opt
