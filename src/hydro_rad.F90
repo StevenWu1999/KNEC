@@ -52,7 +52,6 @@ subroutine hydro_rad
   endif
 
   do i=2,imax
-
     vel(i) = vel_p(i) &
       
      ! gravity
