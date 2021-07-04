@@ -5,7 +5,7 @@ subroutine conservation_compute_energies
   use blmod, only: nt, delta_mass, cmass, cr, gravity_switch, eps, vel, r, p, &
                     total_initial_energy, time, tdump_scalar, lum_observed, &
                     dtime, energy_from_heating, radiated_energy, simple_heating,&
-                    pdVwork_inner,pdVwork_outer
+                    pdVwork_inner,pdVwork_outer,extra_output_points,time_extra_output
   use parameters
   use physical_constants
   implicit none
@@ -52,12 +52,16 @@ subroutine conservation_compute_energies
 
     outputflag = .false.
 
-    if(mod(nt,10000) .eq. 0) then
-       outputflag = .true.
-    endif
+!     if(mod(nt,10000) .eq. 0) then
+!        outputflag = .true.
+!     endif
 
     if(time.eq.0.0d0.or.time.gt.tdump_scalar) then
        outputflag = .true.
+    endif
+    
+    if (time .ge. time_extra_output) then
+        outputflag = .true.
     endif
 
 
