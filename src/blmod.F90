@@ -20,6 +20,7 @@ module blmod
     logical :: do_bomb
     real*8 :: bomb_total_energy
     integer :: bomb_spread
+    real*8 :: vel_inner !initial velocity at inner boundary
     real*8, allocatable :: bomb_heating(:)
 
     ! Time centering term for radiative transfer
@@ -35,6 +36,8 @@ module blmod
     real*8 :: tstart
     real*8 :: tdump_check
     real*8 :: tdump, tdump_scalar
+    real*8 :: extra_output_points(61)
+    real*8 :: time_extra_output
 
     integer :: nt !timestep
     integer :: ntstart
@@ -125,6 +128,7 @@ module blmod
     integer :: breakoutflag
     real*8 :: radshock
     real*8 :: radshock_prev, time_prev
+    logical :: piston_begin_flag  !used to reduce dtime to avoid EOS problem when piston begins
 
     !quantities needed for the color magnitude calculations (analysis.F90)
     real*8, allocatable :: bol_corr(:, :)

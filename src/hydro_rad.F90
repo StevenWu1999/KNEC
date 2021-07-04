@@ -49,9 +49,15 @@ subroutine hydro_rad
   if(do_piston .and. time.ge.piston_tstart .and. time.le.piston_tend) then
         vel(1) = piston_vel
         vel(2) = piston_vel
+        if (.not. piston_begin_flag) then
+            dtime = dtmin
+            print*,'piston begins; dtime reset to dtmin = ',dtmin
+            piston_begin_flag = .true.
+        end if
   endif
 
   do i=2,imax
+    !vel(i) = vel_p(i)
     vel(i) = vel_p(i) &
       
      ! gravity
@@ -64,10 +70,10 @@ subroutine hydro_rad
      - dtv * 4.0d0*pi * (cr(i)**2 * Q(i) - cr(i-1)**2 * Q(i-1))/delta_cmass(i-1)
   enddo
 
-  if(do_piston.and.time.ge.piston_tend) then
-    vel(1) = 0.05*3.0d10
+  if(do_piston.and. time.ge.piston_tend) then
+    vel(1) = vel_inner
   else if(do_bomb) then
-    vel(1) = 0.05*3.0d10
+    vel(1) = vel_inner
   endif
 
 !----------------------- update the radial coordinates-------------------------
@@ -77,9 +83,11 @@ subroutine hydro_rad
    
    if(i.gt.1) then
        if (r(i).lt.r(i-1)) then
-           print*, time
+           print*, "time = ", time
+           print*, "timestep = ", dtime
            write(*,*) 'radius of a gridpoint', i, 'is less than preceding'
-           print*,r(i),r(i-1)
+           print*,"r(i) and r(i-1): ",r(i),r(i-1)
+           print*,"vel(i) and vel(i-1): ",vel(i)/3.0d10,vel(i-1)/3.0d10
            stop
        end if
    end if
