@@ -112,7 +112,8 @@ end subroutine get_ncomps_from_profile
 subroutine read_profile(prof_name)
 
   use blmod, only: mass, cmass, vel, rho, temp, ncomps, ye,ye_initial,abar, comp_details,&
-                    eps, p, cs2, dedt, dpdt, entropy, zav, p_rad, entropy_frominput,expansion_timescale
+                    eps, p, cs2, dedt, dpdt, entropy, zav, p_rad, entropy_frominput,&
+                    expansion_timescale, vel_inner
   use parameters
   use physical_constants
   use eosmodule, only: init_ionpot
@@ -151,6 +152,7 @@ subroutine read_profile(prof_name)
   do i=1,imax !velocity lives at the cell edges
       call map_map(vel(i), mass(i),pvel,   pmass,profile_zones)
   enddo
+  vel_inner = vel(1)
 
   do i=1,imax-1 !temperature and density live at the cell centers
      call map_map(rho(i), cmass(i),prho,   pmass,profile_zones)

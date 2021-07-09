@@ -46,9 +46,11 @@ subroutine output_all(modeflag)
 
 !    filename = trim(adjustl(outdir))//"/temp_for_color.xg"
 !    call output_single_mass(temp_for_color,filename)
+    if(index_photo < imax-5) then
+      filename = trim(adjustl(outdir))//"/lum.xg"
+      call output_single_mass(lum,filename)
+    end if 
 
-    filename = trim(adjustl(outdir))//"/lum.xg"
-    call output_single_mass(lum,filename)
 
     filename = trim(adjustl(outdir))//"/tau.xg"
     call output_single_mass(tau,filename)
@@ -62,11 +64,11 @@ subroutine output_all(modeflag)
     filename = trim(adjustl(outdir))//"/kappa.xg"
     call output_single_mass(kappa,filename)
 
-    filename = trim(adjustl(outdir))//"/kappa_table.xg"
-    call output_single_mass(kappa_table,filename)
+    ! filename = trim(adjustl(outdir))//"/kappa_table.xg"
+    ! call output_single_mass(kappa_table,filename)
 
-    filename = trim(adjustl(outdir))//"/logR_op.xg"
-    call output_single_mass(logR_op,filename)
+    ! filename = trim(adjustl(outdir))//"/logR_op.xg"
+    ! call output_single_mass(logR_op,filename)
 
     filename = trim(adjustl(outdir))//"/logT.xg"
     call output_single_mass(logT,filename)
@@ -98,14 +100,14 @@ subroutine output_all(modeflag)
 !    filename = trim(adjustl(outdir))//"/free_electron_frac.xg"
 !    call output_single_mass(free_electron_frac,filename)
 
-    filename = trim(adjustl(outdir))//"/E_shell.xg"
-    call output_single_mass(E_shell,filename)
+    ! filename = trim(adjustl(outdir))//"/E_shell.xg"
+    ! call output_single_mass(E_shell,filename)
 
-    filename = trim(adjustl(outdir))//"/time_diff.xg"
-    call output_single_mass(time_diff,filename)
+    ! filename = trim(adjustl(outdir))//"/time_diff.xg"
+    ! call output_single_mass(time_diff,filename)
 
-    filename = trim(adjustl(outdir))//"/time_exp.xg"
-    call output_single_mass(time_exp,filename)
+    ! filename = trim(adjustl(outdir))//"/time_exp.xg"
+    ! call output_single_mass(time_exp,filename)
 
 !    filename = trim(adjustl(outdir))//"/photosphere_tracer.xg"
 !    call output_single_mass(photosphere_tracer,filename)
@@ -118,8 +120,13 @@ subroutine output_all(modeflag)
 !     filename = trim(adjustl(outdir))//"/Ni_total_luminosity.dat"
 !     call output_scalar(Ni_total_luminosity,filename)
      
-     filename = trim(adjustl(outdir))//"/lum_observed.dat"
-     call output_scalar(lum_observed,filename)
+
+    if(index_photo < imax-5) then
+      filename = trim(adjustl(outdir))//"/lum_observed.dat"
+      call output_scalar(lum_observed,filename)
+      filename = trim(adjustl(outdir))//"/lum_photo.dat"
+      call output_scalar(lum_photo,filename)
+    end if 
 
 !     filename = trim(adjustl(outdir))//"/lum_observed_min.dat"
 !     call output_scalar(lum_observed_min,filename)
@@ -127,9 +134,6 @@ subroutine output_all(modeflag)
      filename = trim(adjustl(outdir))//"/index_photo.dat"
      call output_integer(index_photo,filename)
      
-     filename = trim(adjustl(outdir))//"/lum_photo.dat"
-     call output_scalar(lum_photo,filename)
- 
      filename = trim(adjustl(outdir))//"/mass_photo.dat"
      call output_scalar(mass_photo,filename)
  

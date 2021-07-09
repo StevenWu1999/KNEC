@@ -1,7 +1,8 @@
 program snec
 
   use blmod, only: dtime, dtime_p, time, nt, ntstart, tstart,   &
-     tdump, tdump_scalar, rho, tdump_check,lum_photo,eps,ye,mass,index_photo
+     tdump, tdump_scalar, rho, tdump_check,lum_photo,eps,ye,mass,&
+     index_photo,extra_output_points,time_extra_output
   use parameters
   use outinfomod, only: outinfo_count
 
@@ -14,7 +15,6 @@ program snec
 !  integer :: test_count = 0
 
   integer :: system_time(8)
-  real*8 :: extra_output_points(51)
   integer :: i
 
 
@@ -32,11 +32,13 @@ program snec
 
   write(*,*)
 
-  do i =1,51
-      extra_output_points(i) = 24*3600*10**(-7.0d0+(i-1)*0.1d0)
+  do i =1,size(extra_output_points)  !1,61
+      extra_output_points(i) = 24*3600*10**(-8.0d0+(i-1)*0.1d0)
   end do
-
   i = 1
+  time_extra_output = extra_output_points(i)
+
+
 
   ! *****************************************************
 ! INITIALIZATION
@@ -95,6 +97,23 @@ program snec
      ! increment timestep
      nt = nt + 1
 
+     !The following is used to add output at very early times, extra_output_points are
+     ! spaced between 10^(-8) day to 10^(-2) day on a log scale.
+     
+     if (time .ge. time_extra_output) then
+      OutputFlagScalar = .true.
+      OutputFlag = .true.
+      if (i .lt. size(extra_output_points)) then
+         i = i + 1
+         time_extra_output = extra_output_points(i)
+      endif
+
+      if (i .eq. size(extra_output_points)) then
+         time_extra_output = tend + 1.0d0
+      endif 
+
+     end if
+
      ! various output related things
      if (ntout.gt.0) then
         if ( mod(nt,ntout) .eq. 0) OutputFlag = .true.
@@ -122,26 +141,6 @@ program snec
         tdump_check=tdump_check+dtout_check
         OutputFlagCheck = .true.
      endif
-
-      !The following is used to add output at very early times, extra_output_points are
-      ! spaced between 10^(-7) day to 10^(-2) day on a log scale.
-     if (i .le. 51) then
-         if (time .ge. extra_output_points(i))  then
-             OutputFlagScalar = .true.
-             i = i + 1
-         end if
-     end if
-
-     ! However, in most cases, we don't need the very early output because the photosphere
-     ! is not fully resolved, which leads to wrong bolometric luminosities (often very large 
-     ! luminosity, look like heating rates). The following 3 lines are used to ensure that 
-     ! KNEC starts to output after photosphere is resolved. If you still want to output very 
-     ! early results, please comment the following 3 lines.
-
-     if(index_photo .ge. imax-5) then
-         OutputFlagScalar = .false.
-     end if
-
 
 
      ! increment time

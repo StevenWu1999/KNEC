@@ -1,7 +1,7 @@
 subroutine blstep
 
   use blmod, only: rho, temp, ye, abar, eps, p, cs2, vel, r, cr, scratch_step, &
-                    time, dtime, shockpos_stop, nt
+                    time, dtime, shockpos_stop, nt, shockpos_prev, breakoutflag, do_bomb, do_piston
   use parameters
   use physical_constants
   implicit none
@@ -63,9 +63,20 @@ subroutine blstep
         call hydro
      end if
 
-     if (time.ge.bomb_tend .and. shockpos_stop.eq.0) then
-        call shock_capture
-     endif
+!     if (time .ge. piston_tstart .and. time .le. piston_tend) then
+!         shockpos_stop = 0
+!         shockpos_prev = 1
+!         breakoutflag = 0
+!     end if
+!     if (time.ge.bomb_tend .and. shockpos_stop.eq.0) then
+!         call shock_capture
+!     endif
+
+     if (do_bomb .and. time.ge.bomb_tend .and. shockpos_stop.eq.0) then
+         call shock_capture
+     elseif (do_piston .and. time.ge.piston_tend .and. shockpos_stop.eq.0) then
+         call shock_capture
+     end if
 
      if(.not.sedov) then
         call analysis

@@ -18,7 +18,7 @@ subroutine nuclear_heating_rate
     real*8 :: t_day
     real*8 :: hybrid_K, hybrid_R, K_fraction, R_fraction
 
-
+    
     if (trim(adjustl(heating_formula)) .eq. "Korobkin") then
 
         ! correction for Ye>0.25:

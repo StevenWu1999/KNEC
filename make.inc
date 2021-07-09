@@ -7,6 +7,8 @@ export LDFLAGS=$(F90FLAGS)
 #export LAPACKLIBS=-llapack  #-lg2c
 #use the following line when compiling on mac
 export LAPACKLIBS=-framework Accelerate
+
+#both on mac and unix:
 export LIBS+=$(LAPACKLIBS)
 
 #don't use lapack for the moment
