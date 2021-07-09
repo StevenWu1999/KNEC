@@ -48,6 +48,11 @@ subroutine shock_capture
   !velshock is not the velocity of matter at the shock, but the shock itself
   if(shockpos.ne.shockpos_prev) then
 
+    if (abs(shockpos_prev - shockpos) .gt. 50) then
+      print*, "Warning: large gap between current and previous shock position!"
+      print*, "time, shockpos_prev, shockpos = ", time,shockpos_prev,shockpos
+    end if
+
     velshock = (radshock - radshock_prev)/(time-time_prev)
     time_prev = time
     radshock_prev = radshock
@@ -56,8 +61,8 @@ subroutine shock_capture
         filename = trim(adjustl(outdir))//"/velshock_index.dat"
         open(unit=666,file=trim(adjustl(filename)),status="unknown", &
                                             form='formatted',position="append")
-        write(666,"(I5.4, 5E15.6)") shockpos,time,radshock,velshock, &
-                                            velshock_analyt,taushock
+        write(666,"(I5.4, 6E15.6)") shockpos,time,radshock,velshock, &
+                                            velshock_analyt,taushock,veldiffmin
         close(666)
     endif
 
@@ -68,11 +73,13 @@ subroutine shock_capture
                                             .and. shockpos.gt.(imax/2)) then
     
     write(*,*) "Time of breakout is", time
-
+    
     open(unit=666,file=trim(adjustl(trim(adjustl(outdir))//"/info.dat")), &
         status="unknown",form='formatted',position="append")
     write(666,*) 'Time of breakout = ', time, 'seconds'
     write(666,*) 'Gridpoint of breakout = ', shockpos
+    write(666,*) 'Radius of breakout = ', radshock
+
     close(666)
     
     breakoutflag = 1

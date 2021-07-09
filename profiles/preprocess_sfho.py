@@ -2,7 +2,7 @@ import numpy as np
 from math import pi
 from matplotlib import pyplot as plt
 #filename = "sfho.dat"
-filename = "blh.dat"
+filename = "DD2_M13641364_M0_LK_SR_R04.dat"
 
 with open(filename) as original_file:
     quantity_info = original_file.readline()
@@ -47,7 +47,7 @@ for i in range(1,len(data)):
     
 
 #with open("modified_sfho.dat",'w') as outfile:
-with open("modified_blh.dat",'w') as outfile:
+with open("DD2.dat",'w') as outfile:
     outfile.write("Mass[g] Radius[cm] Temperature[K] Rho[g/cm^3] Velocity[cm/s] Ye[-] Entropy[kb/baryon] Tau[s]\n")
     outfile.write(str(len(Mass))+'\n')
     for i in range(len(Mass)):
@@ -61,6 +61,8 @@ with open("modified_blh.dat",'w') as outfile:
         s7="     %.9e" %Entropy[i]
         s8="     %.9e" %Tau[i]        
         outfile.write(s0+s1+s2+s3+s4+s5+s6+s7+s8+'\n')
+plt.plot(Mass,Velocity)
+plt.show()
 
 
 
