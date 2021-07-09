@@ -91,29 +91,28 @@ program snec
 
      if((time+dtime).gt.tend) dtime = tend-time
 
-
-     !The following is used to add output at very early times, extra_output_points are
-     ! spaced between 10^(-8) day to 10^(-2) day on a log scale.
-     
-     if (time .ge. time_extra_output) then
-         OutputFlagScalar = .true.
-         OutputFlag = .true.
-         if (i .lt. size(extra_output_points)) then
-            i = i + 1
-            time_extra_output = extra_output_points(i)
-         endif
-
-         if (i .eq. size(extra_output_points)) then
-            time_extra_output = tend + 1.0d0
-         endif 
-
-     end if
-
      ! actual integration step
      call blstep
 
      ! increment timestep
      nt = nt + 1
+
+     !The following is used to add output at very early times, extra_output_points are
+     ! spaced between 10^(-8) day to 10^(-2) day on a log scale.
+     
+     if (time .ge. time_extra_output) then
+      OutputFlagScalar = .true.
+      OutputFlag = .true.
+      if (i .lt. size(extra_output_points)) then
+         i = i + 1
+         time_extra_output = extra_output_points(i)
+      endif
+
+      if (i .eq. size(extra_output_points)) then
+         time_extra_output = tend + 1.0d0
+      endif 
+
+     end if
 
      ! various output related things
      if (ntout.gt.0) then
