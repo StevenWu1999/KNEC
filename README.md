@@ -31,7 +31,7 @@ gfortran  LAPACK
 
 * change make.inc according to your machine
 
-* mkdir parameter_list,  put all the parameters files in it. Parameters files should be named in accordance with outdir. For example, if there are two parameters files in parameter_list: blh_Apr2_zb, sfho_Apr2_zb, then in blh_Apr2_zb outdir should be "Data_blh_Apr2_zb", and in sfho_Apr2_zb outdir should be "Data_sfho_Apr2_zb"
+* mkdir parameter_list,  put all the parameters files in it. Parameters files should be named in accordance with outdir. For example, if there are two parameters files in parameter_list: blh_Apr2_zb, sfho_Apr2_zb, then in blh_Apr2_zb outdir should be "Data_blh_Apr2_zb", and in sfho_Apr2_zb outdir should be "Data_sfho_Apr2_zb". There are some examples in the folder parameter_examples
 
 * sh multiknec.sh. When the program is finished, the screen_output files will be placed in the Data_ folders.
 
