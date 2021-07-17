@@ -120,6 +120,7 @@ subroutine read_profile(prof_name)
   implicit none
 
   character(*) :: prof_name
+  character(200) :: filename
   integer :: profile_zones
   integer :: i,l
   integer :: ibuffer
@@ -202,10 +203,18 @@ subroutine read_profile(prof_name)
     end do
     ye_initial(imax) = ye_initial(imax-1)
 
-    abar(:) = mu  !print*,"Assume mean molecular weight = 150!"
+    abar(:) = mu  
     ye(:) = ye_afternucleosynthesis
 
   end if
+  
+  filename = trim(adjustl(outdir))//"/initial_Ye.dat"
+  open(unit=666,file=trim(adjustl(filename)),status="unknown", &
+  form='formatted',position="append")
+  do i = 1,imax 
+      write(666,"(1P20E19.10E3)") mass(i), ye_initial(i) 
+  end do 
+  close(666)
 
   deallocate(pmass)
   deallocate(pradius)
