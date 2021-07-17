@@ -1,0 +1,132 @@
+#____________LAUNCH_____________
+
+outdir              = "Data_DD2_Apr2_zb"
+
+#___________PROFILE_____________
+#profile_name = "profiles/modified_sfho.dat"
+#profile_name = "profiles/wind310T6_0.01M_0.2c_ye0.1_s10_tau10.dat"
+profile_name = "profiles/DD2.dat"
+read_composition_switch = 0
+comp_profile_name	= ""
+
+#__________EXPLOSION_____________
+
+initial_data 		= "Thermal_Bomb"
+
+#Options:
+#"Piston_Explosion"
+#"Thermal_Bomb"
+
+piston_vel          = 0.6d10
+piston_tstart       = 0.0d0
+piston_tend         = 1.0d-2
+final_energy        = 0.0d0
+bomb_tstart         = 0.0d0
+bomb_tend           = 0.0d0
+bomb_mass_spread    = 0.0d0 #(in solar mass)
+bomb_start_point    = 1
+bomb_mode           = 2
+#_____________GRID_______________
+
+imax         = 1000
+
+gridding = "from_file_by_mass"
+
+#Options:
+#"uniform_by_mass"
+#"from_file_by_mass"
+
+mass_excision = 0  #ignore this in KNEC
+mass_excised = 1.4 #in solar mass, provided mass_excision = 1
+mass_gravity_switch = 1
+mass_extragravity = 3.0d0 #in solar mass,provided mass_gravity_switch = 1
+read_inner_radius_switch = 1
+inner_radius = 2.95d7
+#inner_radius = 0.25d9
+
+#___________EVOLUTION_____________
+
+radiation = 1
+eoskey = 2
+continuous_boundary_switch = 0 #1: p(imax)=p(imax-1) (cb,continuous at boundary) 0:p(imax)=0 (zb,boundary=zero)
+# Different boundary conditions lead to very different light curves, we recommend p(imax)=0
+
+
+
+#eoskey Options:
+#1 - ideal eos
+#2 - Paczynski
+
+Ni_switch = 0    #ignore Ni heating in KNEC
+Ni_by_hand = 0
+Ni_mass = 0.05 			#(in solar mass)
+Ni_boundary_mass = 3.0d0    #(in solar mass, should be larger than excised mass)
+			    #(attention - smoothing is going to change it, if applied)
+Ni_period = 1.0d4
+
+saha_ncomps = 0
+mu = 100.0d0 # mean molecular weight after nucleosynthesis
+ybar = 2.0d0 # average number of ionized electrons per atom
+ye_afternucleosynthesis = 0.4d0
+#notice: this ye is ye after nucleosynthesis, used for hydrodynamics; ye pre nucleosynthesis
+# is provided by ejecta profile and used for heating rates, opacities.
+
+
+boxcar_smoothing = 0    
+
+opacity_floor_envelope = 0.01d0   #ignore this in KNEC
+opacity_floor_core     = 0.24d0
+
+#nuclear heating rates
+
+heating_formula = "Apr2"   # We recommend (5) and (6)
+# options: (1)"Korobkin" (2)"LR15" (3)"Ricigliano" (4)"Hybrid"(5)"arctan"(6)"Apr2"
+heating_epsilon_th = 0.5d0 #(thermalization efficiency)
+
+# The following parameters are for option(1) "Korobkin" and (4)
+heating_epsilon_0 = 2.0d18
+heating_sigma = 0.11d0
+heating_t_0 = 1.3d0
+heating_alpha = 1.3d0
+
+heating_t_cutoff = 10.0d0
+
+#(5) "arctan"
+#atan + powerlaw without transition
+arctan_t2 = 0.1d0 # day
+arctan_eps0 = 2.0d18   #2.0d19
+arctan_sigma0 = 0.11d0   #0.03
+arctan_t0 = 1.3d0 
+
+#(6)"Apr2"
+#atan+powerlaw with transition 
+
+
+
+
+
+#___________TIMING_______________
+
+ntmax               = 10000000000000
+
+#tend                = 17000000.0d0
+tend                = 3.0d6
+#dtout               = 1.7d4
+dtout               = 1.0d4
+dtout_scalar         = 1.0d3
+dtout_check          = 1.0d3
+#dtout_scalar        = 1.7d3
+#dtout_check         = 1.7d3
+
+ntout               = 10000
+ntout_scalar        = 10000
+ntout_check         = 10000
+
+ntinfo              = 1000
+
+dtmin               = 1.0d-10
+dtmax               = 1.0d2
+
+#____________TEST_________________
+
+sedov 		    = 0

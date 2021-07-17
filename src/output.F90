@@ -23,8 +23,8 @@ subroutine output_all(modeflag)
     filename = trim(adjustl(outdir))//"/rho.xg"
     call output_single_mass(rho,filename)
 
-    filename = trim(adjustl(outdir))//"/ye.xg"
-    call output_single_mass(ye,filename)
+    ! filename = trim(adjustl(outdir))//"/ye.xg"
+    ! call output_single_mass(ye,filename)
 
     filename = trim(adjustl(outdir))//"/press.xg"
     call output_single_mass(p,filename)
