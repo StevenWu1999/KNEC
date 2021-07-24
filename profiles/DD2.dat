@@ -1,4 +1,4 @@
-Mass[g] Radius[cm] Temperature[K] Rho[g/cm^3] Velocity[cm/s] Ye[-] Entropy[kb/baryon] Tau[s]
+index Mass[g] Radius[cm] Temperature[K] Rho[g/cm^3] Velocity[cm/s] Ye[-] Entropy[kb/baryon] Tau[s]
 4811
      1     2.229770000e+27     2.950000000e+07     1.064970000e+10     4.349580000e+07     1.686480000e+09     3.426770000e-01     1.948370000e+01     5.266820000e-02
      2     6.656660000e+27     2.950933598e+07     1.063490000e+10     4.319690000e+07     1.684880000e+09     3.427440000e-01     1.949160000e+01     5.263800000e-02
