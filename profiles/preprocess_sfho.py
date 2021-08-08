@@ -30,12 +30,12 @@ for i in range(len(data)):
     Velocity[len(data)-1-i] = float(line[5])
     Tau[len(data)-1-i] = float(line[6])
 
-r_inner = 2.95e7 
+r_inner = 2.95e7  #inner radius = 295 km, the point to generate ejecta profiles in whiskyTHC simulations
 
 Radius[0] = r_inner
 
-print("max entropy: ", max(Entropy))
-print("min entropy: ", min(Entropy))
+#print("max entropy: ", max(Entropy))
+#print("min entropy: ", min(Entropy))
 
 
 
@@ -48,7 +48,7 @@ for i in range(1,len(data)):
 
 #with open("modified_sfho.dat",'w') as outfile:
 with open("DD2.dat",'w') as outfile:
-    outfile.write("Mass[g] Radius[cm] Temperature[K] Rho[g/cm^3] Velocity[cm/s] Ye[-] Entropy[kb/baryon] Tau[s]\n")
+    outfile.write("index Mass[g] Radius[cm] Temperature[K] Rho[g/cm^3] Velocity[cm/s] Ye[-] Entropy[kb/baryon] Tau[s]\n")
     outfile.write(str(len(Mass))+'\n')
     for i in range(len(Mass)):
         s0=str(i+1).rjust(6," ")
@@ -61,8 +61,9 @@ with open("DD2.dat",'w') as outfile:
         s7="     %.9e" %Entropy[i]
         s8="     %.9e" %Tau[i]        
         outfile.write(s0+s1+s2+s3+s4+s5+s6+s7+s8+'\n')
-plt.plot(Mass,Velocity)
-plt.show()
+
+#plt.plot(Mass,Velocity)
+#plt.show()
 
 
 

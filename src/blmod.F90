@@ -110,6 +110,7 @@ module blmod
     real*8 :: energy_from_heating !\int heating*dt, used for checking energy conservation
     real*8 :: pdVwork_outer ! \int p(imax) dV, used for checking energy conservation
     real*8 :: pdVwork_inner ! \int p(1) dV, used for checking energy conservation
+    real*8 :: Ethermal_bomb ! energy from thermal bomb
     real*8 :: lum_color(5)
     real*8 :: Magnitude_UBVRI(5)
     real*8 :: lum_color_Gemini(4)

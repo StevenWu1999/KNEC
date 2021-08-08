@@ -169,6 +169,7 @@ subroutine initialize_vars
     energy_from_heating = 0.0d0
     pdVwork_outer = 0.0d0
     pdVwork_inner = 0.0d0
+    Ethermal_bomb = 0.0d0
 
 
     scratch_step = .false.

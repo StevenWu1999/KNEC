@@ -148,8 +148,6 @@ subroutine problem
 
 !******************** Set up the energy of the thermal bomb *******************
 
-  call conservation_compute_energies
-
   if(initial_data.eq."Piston_Explosion") then
 
     do_piston = .true.
@@ -196,7 +194,9 @@ subroutine problem
     stop "Wrong type of explosion, check the parameter 'initial_data'"
   endif
   write(6,"(A60)") "***************************************************************************"
-
+  
+  call conservation_compute_energies
+  
   call opacity_simple(temp(:),kappa(:),kappa_table(:),dkappadt(:))
   do i = 1,imax-1
     logT(i) = log10(temp(i))
