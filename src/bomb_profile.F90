@@ -1,7 +1,7 @@
 subroutine bomb_pattern
   
   use blmod, only: bomb_heating, bomb_total_energy, time, mass, delta_mass, &
-                    bomb_spread
+                    bomb_spread, Ethermal_bomb, dtime
   use parameters
   use physical_constants
   implicit none
@@ -37,6 +37,11 @@ subroutine bomb_pattern
 !mass = mass(bomb_start_point) and the bomb heating at mass(bomb_end_point)
 
   bomb_heating(:) = 0.0d0
+  
+  if (bomb_total_energy .eq. 0.0d0) then
+      Ethermal_bomb = 0.0d0
+      return
+  endif
 
   coef_C = log(ratio_time)/(bomb_tend - bomb_tstart)
 
@@ -52,20 +57,26 @@ subroutine bomb_pattern
       coef_A = log(ratio_mass)/(mass(bomb_end_point) - mass(bomb_start_point))
 
       do i=bomb_start_point, bomb_end_point
-        exponent_array(i) = delta_mass(i) * exp( - coef_A * mass(i) )
+        !exponent_array(i) = delta_mass(i) * exp( - coef_A * mass(i) )
+        exponent_array(i) = delta_mass(i) * ratio_mass**(mass(i)/(mass(bomb_start_point) - mass(bomb_end_point)))
+        print*,"line62",i,bomb_end_point,mass(i),exponent_array(i)
       end do
 
-      coef_B = current_luminosity/sum(exponent_array(1:bomb_spread))
-
+      coef_B = current_luminosity/sum(exponent_array(bomb_start_point:bomb_end_point))
+      print*,"line67",coef_B
       do i=bomb_start_point, bomb_end_point
         bomb_heating(i) = coef_B * exp( - coef_A * mass(i) )
-      end do
+        print*,"line69",i,bomb_end_point,mass(i),bomb_heating(i)
 
+      end do
+      print*,"line70"
   else
 
       bomb_heating(bomb_start_point) = current_luminosity &
                                             /delta_mass(bomb_start_point)
 
   end if
-
+  
+  Ethermal_bomb = Ethermal_bomb + current_luminosity*dtime
+  print*,"line79"
 end subroutine bomb_pattern

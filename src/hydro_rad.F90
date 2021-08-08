@@ -125,7 +125,10 @@ subroutine hydro_rad
 
   !calculate heating term due to bomb
   if(do_bomb .and. time.ge.bomb_tstart .and. time.le.bomb_tend) then
+      print*,"start calling bomb_pattern"
       call bomb_pattern
+      print*,"end calling bomb_pattern"
+
   else
       bomb_heating(:) = 0.0d0
   endif
