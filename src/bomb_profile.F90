@@ -10,7 +10,7 @@ subroutine bomb_pattern
   real*8 :: coef_A
   real*8 :: coef_B
   real*8 :: coef_C
-  real*8 :: coef_D
+  real*8 :: coef_D 
   real*8 :: current_luminosity
 
   integer :: bomb_end_point
@@ -57,19 +57,14 @@ subroutine bomb_pattern
       coef_A = log(ratio_mass)/(mass(bomb_end_point) - mass(bomb_start_point))
 
       do i=bomb_start_point, bomb_end_point
-        !exponent_array(i) = delta_mass(i) * exp( - coef_A * mass(i) )
-        exponent_array(i) = delta_mass(i) * ratio_mass**(mass(i)/(mass(bomb_start_point) - mass(bomb_end_point)))
-        print*,"line62",i,bomb_end_point,mass(i),exponent_array(i)
+        exponent_array(i+1-bomb_start_point) = delta_mass(i) * exp( - coef_A * mass(i) )
+        !exponent_array(i+1-bomb_start_point) = delta_mass(i) * ratio_mass**(mass(i)/(mass(bomb_start_point) - mass(bomb_end_point)))
       end do
 
-      coef_B = current_luminosity/sum(exponent_array(bomb_start_point:bomb_end_point))
-      print*,"line67",coef_B
+      coef_B = current_luminosity/sum(exponent_array(1:bomb_spread))
       do i=bomb_start_point, bomb_end_point
         bomb_heating(i) = coef_B * exp( - coef_A * mass(i) )
-        print*,"line69",i,bomb_end_point,mass(i),bomb_heating(i)
-
       end do
-      print*,"line70"
   else
 
       bomb_heating(bomb_start_point) = current_luminosity &
@@ -78,5 +73,4 @@ subroutine bomb_pattern
   end if
   
   Ethermal_bomb = Ethermal_bomb + current_luminosity*dtime
-  print*,"line79"
 end subroutine bomb_pattern

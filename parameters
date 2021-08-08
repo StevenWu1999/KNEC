@@ -1,7 +1,6 @@
 #____________LAUNCH_____________
 
 outdir              = "Data"
-
 #___________PROFILE_____________
 #profile_name = "profiles/modified_sfho.dat"
 #profile_name = "profiles/wind310T6_0.01M_0.2c_ye0.1_s10_tau10.dat"
@@ -20,11 +19,12 @@ initial_data 		= "Thermal_Bomb"
 piston_vel          = 0.6d10
 piston_tstart       = 0.0d0
 piston_tend         = 1.0d-2
-final_energy        = 0.0d0
+
+final_energy        = 1.0d49
 bomb_tstart         = 0.0d0
-bomb_tend           = 0.0d0
-bomb_mass_spread    = 0.0d0 #(in solar mass)
-bomb_start_point    = 1
+bomb_tend           = 1.0d0
+bomb_mass_spread    = 0.01d0 #(in solar mass)
+bomb_start_point    = 99  #index 99 ~ 0.0051 Msun
 bomb_mode           = 2
 #_____________GRID_______________
 
