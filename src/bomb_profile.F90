@@ -58,7 +58,6 @@ subroutine bomb_pattern
 
       do i=bomb_start_point, bomb_end_point
         exponent_array(i+1-bomb_start_point) = delta_mass(i) * exp( - coef_A * mass(i) )
-        !exponent_array(i+1-bomb_start_point) = delta_mass(i) * ratio_mass**(mass(i)/(mass(bomb_start_point) - mass(bomb_end_point)))
       end do
 
       coef_B = current_luminosity/sum(exponent_array(1:bomb_spread))

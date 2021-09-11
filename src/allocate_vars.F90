@@ -183,6 +183,8 @@ subroutine initialize_vars
     shockpos_stop = 0
     breakoutflag = 0
     piston_begin_flag = .false.
+    bomb_begin_flag = .false.
+
 
     !reset counter for screen output
     outinfo_count = 0

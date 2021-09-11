@@ -54,7 +54,12 @@ subroutine hydro_rad
             print*,'piston begins; dtime reset to dtmin = ',dtmin
             piston_begin_flag = .true.
         end if
+  else if (do_bomb .and. time .ge. bomb_tstart .and. (.not. bomb_begin_flag)) then
+        dtime = dtmin
+        print*,'thermal bomb begins; dtime reset to dtmin = ',dtmin
+        bomb_begin_flag = .true.        
   endif
+
 
   do i=2,imax
     !vel(i) = vel_p(i)
