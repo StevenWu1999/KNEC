@@ -130,6 +130,7 @@ module blmod
     real*8 :: radshock
     real*8 :: radshock_prev, time_prev
     logical :: piston_begin_flag  !used to reduce dtime to avoid EOS problem when piston begins
+    logical :: bomb_begin_flag  !used to reduce dtime to avoid EOS problem when bomb begins
 
     !quantities needed for the color magnitude calculations (analysis.F90)
     real*8, allocatable :: bol_corr(:, :)
