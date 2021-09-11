@@ -4,12 +4,16 @@ Zhenyu Wu
 
 171840687@smail.nju.edu.cn  or  zhenyuwu99@gmail.com
 
+Link to the kNEC paper in preparation: 
+https://www.overleaf.com/project/604ebc5546f3cbe68dd006f9
+
 
 kNEC (KiloNova Explosion Code) is a fortran code that simulates hydrodynamical evolution of BNS merger ejecta and the corresponding kilonova emission. It is based on the SNEC code by Morozova et al., which is a Lagrangian radiation-hydrodynamics code for core-collapse supernova explosion. The current KNEC code is stable and contains the physical processes necessary for kilonova simulation. However, it's not ready for publication because there are some experimental features. Moreover, I keep some features for supernovae now, although they are useless to kilonovae.
 
 If you are not familiar with SNEC, I recommend you to study SNEC first, especially the snec notes.
 https://stellarcollapse.org/SNEC.html
 https://stellarcollapse.org/codes/snec_notes-1.00.pdf
+It is also useful to read SNEC_structure.png
 
 kNEC code has 2 branches: master and knec-parallel. The master branch, like the original SNEC code, processes only one parameters file at a time, and output part of the information to the screen when running. The knec-parallel branch has a shell script multiknec.sh in it, and src/input_parser.F90 is changed a little bit. With multiknec.sh, this version of the code batches multiple parameters files. Note that kNEC does not involve parallel computing.
 
@@ -306,6 +310,14 @@ We assume black body radiation at the photosphere and black body radiation at ea
 We get filters' data from http://svo2.cab.inta-csic.es/svo/theory/fps/index.php?mode=browse&gname=SLOAN&asttype=   The distance between kilonova event and observer is 40 Mpc, the same as GW170817 event.
 
 The very early light curves (<0.01day) may be unreliable because of lack of resolution at the outer boundary. Late time light curves (>10day) may also be unreliable due to deviation from black body models.
+
+### 5. Data analysis
+
+plot.ipynb provides an example to read some of the data. One of the confusing file is the multicolor light curves, i.e. Magnitude_KNEC.dat. At each output time I split the data into two lines. The first line is time and Gemini band magnitudes, and the second line is the CTIO band magnitudes:
+
+ time[s]  Gemini_u_g_r_i_z  Gemini_J_H_Ks                                                                                                                                                                 CTIO_B_V_R_I_J_H_K  CTIO_u_g_r_i_z_Y 
+
+The multicolor light curves turned out to be related to initial Ye at luminosity shell, so in some cases I plot them together. 
 
 
 
