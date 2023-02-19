@@ -280,7 +280,7 @@ subroutine problem
   call output_screenshot(dedt,filename,imax)
 
   filename = trim(adjustl(outdir))//"/eps_initial.dat"
-  call output_screenshot(dedt,filename,imax)
+  call output_screenshot(eps,filename,imax)
   
   
 end subroutine problem
