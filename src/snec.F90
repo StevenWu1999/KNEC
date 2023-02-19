@@ -2,7 +2,7 @@ program snec
 
   use blmod, only: dtime, dtime_p, time, nt, ntstart, tstart,   &
      tdump, tdump_scalar, rho, tdump_check,lum_photo,eps,ye,mass,&
-     index_photo,extra_output_points,time_extra_output
+     index_photo,extra_output_points,time_extra_output, Q
   use parameters
   use outinfomod, only: outinfo_count
 
@@ -16,7 +16,8 @@ program snec
 
   integer :: system_time(8)
   integer :: i
-
+  
+  character(len=256) :: filename
 
 
   !------------------------------------------------------------------------------
@@ -50,6 +51,10 @@ program snec
   call problem
 
   call artificial_viscosity
+
+  filename = trim(adjustl(outdir))//"/Q_initial.dat"
+  call output_screenshot(Q,filename,imax)
+
   
 ! output before first timestep
   call output_all(0)
