@@ -346,10 +346,10 @@
 !.....take the log10 of the entropy
       tmp = log10(s)
 
-      if (tmp.le.ltau_grid(1)) then
+      if (tmp.le.ls_grid(1)) then
         is  = 1
         d_s = 0.d0
-      else if (tmp.ge.ltau_grid(n_tau)) then
+      else if (tmp.ge.ls_grid(n_s)) then
         is  = n_s-1
         d_s = 1.d0
       else
