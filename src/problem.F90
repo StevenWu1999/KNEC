@@ -5,7 +5,8 @@ subroutine problem
             do_bomb, total_initial_energy, bomb_total_energy, bomb_spread, &
             rho, kappa, kappa_table, dkappadt, tau, temp, p, delta_mass, &
             lambda, inv_kappa, lum, eos_gamma1,logT, entropy_frominput, ye_initial, &
-            A_int_ricigliano, expansion_timescale, A_int_arctan, B_int_arctan,A_int_Apr2
+            A_int_ricigliano, expansion_timescale, A_int_arctan, B_int_arctan,A_int_Apr2, &
+            vel, cs2,  dpdt, dedt, eps
   use parameters
   use eosmodule
   use physical_constants
@@ -228,7 +229,7 @@ subroutine problem
 
   filename = trim(adjustl(outdir))//"/rho_initial.dat"
   call output_screenshot(rho,filename,imax)
-
+  
   filename = trim(adjustl(outdir))//"/rad_initial.dat"
   call output_screenshot(r,filename,imax)
 
@@ -251,6 +252,37 @@ subroutine problem
   enddo
   close(666)
 
+  filename = trim(adjustl(outdir))//"/vel_initial.dat"
+  call output_screenshot(vel,filename,imax)
+
+  filename = trim(adjustl(outdir))//"/luminosity_initial.dat"
+  call output_screenshot(lum,filename,imax)
+
+  filename = trim(adjustl(outdir))//"/temp_initial.dat"
+  call output_screenshot(temp,filename,imax)
+
+  filename = trim(adjustl(outdir))//"/kappa_initial.dat"
+  call output_screenshot(kappa,filename,imax)
+
+  filename = trim(adjustl(outdir))//"/inv_kappa_initial.dat"
+  call output_screenshot(inv_kappa,filename,imax)
+
+  filename = trim(adjustl(outdir))//"/lambda_initial.dat"
+  call output_screenshot(lambda,filename,imax)
+    
+  filename = trim(adjustl(outdir))//"/cs2_initial.dat"
+  call output_screenshot(cs2,filename,imax)
+
+  filename = trim(adjustl(outdir))//"/dpdt_initial.dat"
+  call output_screenshot(dpdt,filename,imax)
+  
+  filename = trim(adjustl(outdir))//"/dedt_initial.dat"
+  call output_screenshot(dedt,filename,imax)
+
+  filename = trim(adjustl(outdir))//"/eps_initial.dat"
+  call output_screenshot(dedt,filename,imax)
+  
+  
 end subroutine problem
 
 
