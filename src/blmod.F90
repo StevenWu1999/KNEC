@@ -939,13 +939,15 @@ module physical_constants
     real*8, parameter :: rsun = 6.96d10                 !solar radius
     real*8, parameter :: clite = 2.99792458d10          !speed of light
     real*8, parameter :: ggrav = 6.6742d-8              !gravitational constant
-    real*8, parameter :: kboltz = 1.380662d-16
+    real*8, parameter :: kboltz = 1.380649d-16
     real*8, parameter :: mev_to_erg = 1.6022d-6
     real*8, parameter :: pi = 3.14159265358979d0
     real*8, parameter :: oneoverpi = 1.0d0/pi
     real*8, parameter :: emev = 1.60219d-6  !MeV-->erg
+    real*8, parameter :: qe = 4.8032047d-10
     real*8, parameter :: avo_real = 6.0221415d23
-    real*8, parameter :: h_cgs = 6.626058d-27
+    real*8, parameter :: amu = 1.66053906660d-24 ! atomic unit mass
+    real*8, parameter :: h_cgs = 6.62607015d-27
     real*8, parameter :: a_rad = 7.5657d-15 !radiation pressure 1/3*a*T^4 = 1/3*U/V, a=4 sigma_SB/c
     real*8, parameter :: mproton = 1.67262178d-24
     real*8, parameter :: melectron = 9.1093897d-28

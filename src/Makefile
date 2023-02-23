@@ -5,6 +5,7 @@ SOURCES=problem.F90\
 	allocate_vars.F90\
 	eos_switch.F90\
 	eos_content.F90\
+    eos_helmholtz.F90\
 	grid.F90\
   read_filter.F90\
 	read_profile.F90\
@@ -58,6 +59,8 @@ $(OBJECTS): %.o: %.F90 $(EXTRADEPS)
 snec.o: blmod.o  
 
 input_parser.o: blmod.o 
+
+eos_switch.o: eos_helmholtz.o
 
 
 clean: 

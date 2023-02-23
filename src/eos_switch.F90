@@ -1,9 +1,10 @@
-subroutine eos(rhox, t, y, abar, &
+recursive subroutine eos(rhox, t, y, abar, &
                 px, ex, cs2x, dpdtx, dedtx, sx, pradx,&
                 keyerr, keytemp, eoskeyx)
 
   use parameters
   use physical_constants
+  use helmholtz
   implicit none
 
 ! external vars
@@ -40,6 +41,21 @@ subroutine eos(rhox, t, y, abar, &
 
     !WARNING: this EOS does not calculate entropy
     sx = 0.0d0
+
+
+!***************************** HELMHOLTZ EOS *********************************
+  else if(eoskeyx.eq.3) then
+
+    if (if_table_read .eqv. .false.) then
+        call read_helm_table()
+    end if
+
+    call helmholtz_eos(rhox,t,y,abar,px,ex,sx,cs2x,dpdtx,dedtx,pradx,imax-1)
+    if (eosfail) then
+        ! write(*,*) "   Warning! eosfail from hemholtz_eos! Will use paczynski_eos here"
+        call eos(rhox, t, y, abar, px, ex, cs2x, dpdtx, dedtx, sx, pradx, &
+                 keyerr, keytemp, 2)
+    end if
 
  else
     stop "eos choice not implemented, check parameter eoskey"

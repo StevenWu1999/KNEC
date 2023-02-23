@@ -38,10 +38,10 @@ end subroutine ideal_eos
 subroutine paczynski_eos(rhox,tempx,yex,abarx,px,ex,cs2x,dpdtx,dedtx, &
     pradx,k,np)
 
-  use blmod, only: free_electron_frac, ion_fractions, comp_details, comp, ncomps
-  use parameters
+!  use blmod, only: free_electron_frac, ion_fractions, comp_details, comp, ncomps
+  use parameters, only: ybar
   use physical_constants
-  use eosmodule, only: xxip
+!  use eosmodule, only: xxip
   implicit none
 
 !input:
@@ -74,6 +74,8 @@ subroutine paczynski_eos(rhox,tempx,yex,abarx,px,ex,cs2x,dpdtx,dedtx, &
   integer :: i,j
   integer :: l,lmax
 
+  logical :: rise_warning = .false.
+
 
 !------------------------------------------------------------------------------
 !variables ybar, N, y_r, chi_r, chi_T, chi_rho, c_V, nu_j, Gamma1 are named as 
@@ -85,6 +87,17 @@ subroutine paczynski_eos(rhox,tempx,yex,abarx,px,ex,cs2x,dpdtx,dedtx, &
 !in Paczynski B., ApJ, 267:315 (1983).
 
   do i = 1, np
+
+    if(ybar .le. 0.) then
+      if(rise_warning .eqv. .false.) then
+        ! write(*,*) "Warning! ybar probably not initialized, ybar = ", ybar
+        ! write(*,*) "Will always set its value to ybar = 2"
+        rise_warning = .true.
+      end if
+    end if
+    if(rise_warning) then
+      ybar = 2.0d0
+    end if
 
 !    call simple_saha(saha_ncomps,k(i),tempx(i),rhox(i),ne)
 

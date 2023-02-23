@@ -40,6 +40,8 @@ subroutine problem
       eos_gamma1 = 1.4d0 !for Sedov
   else if(eoskey.eq.2) then
       write(6,*) "Using the Paczynski EOS!"
+  else if(eoskey.eq.3) then
+      write(6,*) "Using the Helhmoltz EOS!"
   else
      stop "Choice of EOS not available, check the parameter eoskey."
   endif
@@ -229,7 +231,7 @@ subroutine problem
 
   filename = trim(adjustl(outdir))//"/rho_initial.dat"
   call output_screenshot(rho,filename,imax)
-  
+
   filename = trim(adjustl(outdir))//"/rad_initial.dat"
   call output_screenshot(r,filename,imax)
 
